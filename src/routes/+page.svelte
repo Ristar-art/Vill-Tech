@@ -10,6 +10,7 @@
 	import { onMount } from "svelte";
 	import { writable } from "svelte/store";
     import { page } from "$app/stores";
+	import { goto } from "$app/navigation";
 
 
 	const id = $page.params.subjects;
@@ -245,7 +246,12 @@
 		{/if}
 	</section>
 	<div class="max-w-7xl mx-auto p-8">
-		<h2 class="text-3xl font-bold mb-4">Featured Courses</h2>
+		<div class="flex justify-between items-center">
+    <h2 class="text-3xl font-bold mb-4">Featured Courses</h2>
+    <Button on:click={() => goto("/Courses")} class="mb-4">View All Courses</Button>
+</div>
+
+		
 
 		<!-- Category Tabs -->
 		<div class="flex space-x-6 mb-6 border-b">
