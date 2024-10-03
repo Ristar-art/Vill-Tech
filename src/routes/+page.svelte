@@ -9,7 +9,10 @@
 	import Carousel from 'svelte-carousel'
 	import { onMount } from "svelte";
 	import { writable } from "svelte/store";
+    import { page } from "$app/stores";
 
+
+	const id = $page.params.subjects;
 	let carousel;
 	let browser = false;
 
@@ -40,42 +43,43 @@
   });
 	const topics = [
 		{
+			id:1,
 			name: "Artificial intelligence",
 			icon: "https://cdn-icons-png.flaticon.com/512/865/865974.png",
 		},
-		{
+		{   id:2,
 			name: "Leadership",
 			icon: "https://cdn-icons-png.flaticon.com/512/3037/3037189.png",
 		},
-		{
+		{   id:3,
 			name: "Supply chain",
 			icon: "https://cdn-icons-png.flaticon.com/512/3659/3659670.png",
 		},
-		{
+		{   id:4,
 			name: "Computer programming",
 			icon: "https://cdn-icons-png.flaticon.com/512/2829/2829826.png",
 		},
-		{
+		{   id:5,
 			name: "Probability",
 			icon: "https://cdn-icons-png.flaticon.com/512/2627/2627150.png",
 		},
-		{
+		{   id:6,
 			name: "Python",
 			icon: "https://cdn-icons-png.flaticon.com/512/3079/3079028.png",
 		},
-		{
+		{   id:7,
 			name: "Machine learning",
 			icon: "https://cdn-icons-png.flaticon.com/512/897/897200.png",
 		},
-		{
+		{   id:8,
 			name: "Computer science",
 			icon: "https://cdn-icons-png.flaticon.com/512/3050/3050148.png",
 		},
-		{
+		{   id:9,
 			name: "Writing",
 			icon: "https://cdn-icons-png.flaticon.com/512/1742/1742585.png",
 		},
-		{
+		{   id:10,
 			name: "Statistics",
 			icon: "https://cdn-icons-png.flaticon.com/512/1046/1046690.png",
 		},
@@ -306,8 +310,10 @@
 			{#each topics as topic}
 				<div
 					class="bg-gray-50 rounded-lg p-6 flex flex-col items-center justify-center shadow hover:shadow-lg transition-shadow duration-200"
-				>
-					<img
+				
+					>
+					<a href={`/${topic.name}`}>
+<img
 						src={topic.icon}
 						alt={topic.name}
 						class="h-16 w-16 mb-4"
@@ -315,6 +321,8 @@
 					<span class="text-lg font-medium text-gray-800"
 						>{topic.name}</span
 					>
+					</a>
+					
 				</div>
 			{/each}
 		</div>
