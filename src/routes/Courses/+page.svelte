@@ -153,9 +153,11 @@
 		<div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
 			{#each courses as course}
 				<div
+                
 					class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
 				>
-					<div class="relative">
+                <a href={`/Courses/${course.title}`}>
+<div class="relative">
 						<img
 							src={course.image}
 							alt={course.title}
@@ -179,6 +181,8 @@
 							>{course.category}</span
 						>
 					</div>
+                </a>
+					
 				</div>
 			{/each}
 		</div>
