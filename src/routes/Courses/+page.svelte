@@ -150,18 +150,16 @@
     </div> -->
 
 		<!-- Courses Carousel -->
-		<div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
-			{#each courses as course}
-				<div
-                
-					class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-				>
-                <a href={`/Courses/${course.title}`}>
-<div class="relative">
+         <h2 class="text-2xl font-bold text-gray-800 mb-4">Featured Courses</h2>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+			{#each courses.slice(0, 4) as course}
+				<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <a href={`/Courses/${course.title}`}>
+                    <div class="relative perspective">
 						<img
 							src={course.image}
 							alt={course.title}
-							class="w-full h-40 object-cover"
+							class="w-full h-40 object-cover transform-gpu transition-transform duration-500 hover:rotate-y-6 hover:rotate-x-6 hover:scale-105"
 						/>
 						<img
 							src={course.logo}
@@ -176,16 +174,16 @@
 						<p class="text-gray-600 text-sm mb-4">
 							{course.school}
 						</p>
-						<span
-							class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm"
-							>{course.category}</span
-						>
+						<span class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
+							{course.category}
+						</span>
 					</div>
-                </a>
+                    </a>
 					
 				</div>
 			{/each}
 		</div>
+		
 	</div>
 	
 
@@ -276,4 +274,17 @@
 		top: 0;
 		display: block;
 	}
+    .perspective {
+		perspective: 1000px;
+	}
+	.transform-gpu {
+		transform-style: preserve-3d;
+	}
+	.rotate-y-6 {
+		transform: rotateY(6deg);
+	}
+	.rotate-x-6 {
+		transform: rotateX(6deg);
+	}
 </style>
+

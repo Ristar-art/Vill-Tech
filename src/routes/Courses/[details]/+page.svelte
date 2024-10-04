@@ -1,4 +1,6 @@
 <script>
+import { page } from "$app/stores";
+    const subject = $page.params.subjects;
   let sections = {
     section1: false,
     section2: false,
@@ -37,7 +39,7 @@
                     <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
                 </div>
                 <div class="flex items-center mb-6">
-                    <a href="#" class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
+                    <a href={`/Courses/${subject}/content`} class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
                     <div class="flex items-center ml-4 text-gray-700">
                         <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/people-fill.svg" alt="learners" class="w-6 h-6">
                         <span class="ml-2">93,012 learners enrolled</span>
