@@ -154,6 +154,8 @@
 		{ src: "/favicon.png", alt: "Image 19" },
 		{ src: "/favicon.png", alt: "Image 20" },
 	];
+
+	
 </script>
 
 <svelte:head>
@@ -210,7 +212,7 @@
 			<h2
 				class="text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-[#f9b51b]"
 			>
-				Meet our Members
+				Our Enabling Partners
 			</h2>
 			<!-- <p class="text-sm md:text-base lg:text-xl text-muted-foreground text-black">
       Check out some of the top businesses in our directory.

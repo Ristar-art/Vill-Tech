@@ -58,7 +58,7 @@
 	}
 </script>
 
-<div class="max-w-2xl mx-auto p-4">
+<div class="max-w-2xl mx-auto p-4 mt-12">
 	<Card.Root>
 		<Card.Header>
 			<Card.Title class="text-2xl font-bold">Enroll in a Tech Course</Card.Title>

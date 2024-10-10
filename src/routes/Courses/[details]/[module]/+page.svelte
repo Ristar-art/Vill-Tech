@@ -1,4 +1,56 @@
 <script>
+    import { page } from "$app/stores";
+    export let data;
+
+    $: ({ course, courseContents, firstModule } = data);
+
+    // ... rest of your existing script code ...
+
+    function navigateToModule(moduleId) {
+        // Implement navigation logic here
+        console.log(`Navigating to module ${moduleId}`);
+    }
+</script>
+
+<!-- ... your existing HTML ... -->
+
+<!-- Example of using the firstModule data -->
+{#if firstModule}
+    <div>
+        <h3>First Module: {firstModule.name}</h3>
+        <p>{@html firstModule.description}</p>
+        <button on:click={() => navigateToModule(firstModule.id)}>
+            Go to Module
+        </button>
+    </div>
+{/if}
+
+<!-- In your course contents section -->
+{#each courseContents as content}
+    <!-- ... existing content ... -->
+    {#if sections[content.id]}
+        <div class="px-6 pb-4">
+            <!-- ... existing content ... -->
+            <ul>
+                {#each content.modules as module}
+                    <li class="flex justify-between items-center py-2">
+                        <div class="flex items-center space-x-2">
+                            <span>{getModuleIcon(module.modname)}</span>
+                            <span>{module.name}</span>
+                        </div>
+                        <button on:click={() => navigateToModule(module.id)}>
+                            View
+                        </button>
+                    </li>
+                {/each}
+            </ul>
+        </div>
+    {/if}
+{/each}
+
+
+
+<!-- <script>
     // Data for the course
     let course = {
         title: "Introduction to ChatGPT",
@@ -54,18 +106,17 @@
     }
 </style>
 
-<main class="container mx-auto px-6 py-8 mt-10">
+<main class="container mx-auto px-6 py-8 mt-12">
     <section class="mb-12">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{course.title}</h1>
         <p class="text-gray-700 text-lg">{course.description}</p>
     </section>
 
-    <!-- Progress Bar Section -->
+  
     <div class="progress-container">
         <div class="progress-bar" style="width: {progress}%;">{Math.round(progress)}% Completed</div>
     </div>
 
-    <!-- Syllabus Section -->
     <section>
         <h2 class="text-2xl font-semibold text-gray-900 mb-6">Syllabus</h2>
         <ul class="space-y-4">
@@ -95,4 +146,4 @@
             {/each}
         </ul>
     </section>
-</main>
+</main> -->

@@ -1,4 +1,4 @@
- <header class="text-center py-10">
+ <header class="text-center py-12">
         <h1 class="text-3xl font-bold">Learning Paths by Job Title</h1>
         <nav class="flex justify-center mt-4 space-x-8">
             <a href="#" class="text-blue-600 font-semibold border-b-4 border-blue-600">Machine Learning Engineer</a>
