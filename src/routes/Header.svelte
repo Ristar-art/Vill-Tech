@@ -18,7 +18,7 @@
             <a href="#" class="text-gray-700 hover:text-indigo-600">Courses</a>
             <a href="#" class="text-gray-700 hover:text-indigo-600">About Us</a>
             <a href="#" class="text-gray-700 hover:text-indigo-600">Blog</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Contact</a>
+            <a href="contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
         </nav>
 
         <!-- Search Bar -->
