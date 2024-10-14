@@ -10,23 +10,16 @@
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
         <!-- Logo -->
         <div class="text-2xl font-bold text-indigo-600">
-            <a href="/">TechCourses</a>
+            <a href="/">Village Tech</a>
         </div>
 
         <!-- Navigation Links (Desktop) -->
         <nav class="hidden lg:flex space-x-8">
-<<<<<<< HEAD
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Courses</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">About Us</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Blog</a>
-            <a href="contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
-=======
             <a href="Courses" class="text-gray-700 hover:text-indigo-600">Courses</a>
                <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
             <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
             <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
             <a href="Contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
->>>>>>> ba4ca86dd1bfd9ffd68d2c62eafe437f76bddb46
         </nav>
 
         <!-- Search Bar -->

@@ -39,14 +39,14 @@
     // }
 </script>
 
-<body class="font-sans mt-12">
+<body class="font-sans pt-12 bg-gradient-to-r from-red-600 via-red-500 to-blue-700">
    
     {#if course}
     <div class="max-w-5xl mx-auto p-8">
       
-        <div class="bg-[#fae7d5] p-6 rounded-lg shadow-lg flex flex-col md:flex-row md:space-x-8">
+        <div class="bg-white bg-opacity-70 p-6 rounded-lg shadow-lg flex flex-col md:flex-row md:space-x-8">
            
-            <div class="flex-1">
+            <div class="flex-1 ">
                 <div class="mb-2">
                     <span class="bg-black text-white text-sm font-semibold px-3 py-1 rounded-full">Free</span>
                     <span class="ml-2 text-sm text-gray-600">Course</span>
@@ -107,7 +107,7 @@
         <div class="max-w-4xl mx-auto py-10">
            
           
-            <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+            <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
                 <h2 class="text-2xl font-bold">Syllabus</h2>
                 <p class="text-sm text-gray-600">6 lessons · 2 projects · 5 quizzes</p>
             </div>
@@ -115,7 +115,7 @@
            
             
             {#each courseContents as content}
-            <div class="bg-white shadow-md rounded-lg mb-4">
+            <div class="bg-white bg-opacity-70 shadow-md rounded-lg mb-4">
                 <button on:click={() => toggleSection(content.id)} class="w-full flex justify-between items-center p-4">
                     <div class="flex items-center space-x-4">
                         <span class="bg-indigo-900 text-white w-8 h-8 flex items-center justify-center rounded-full text-lg">{content.id}</span>
