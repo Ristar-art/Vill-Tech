@@ -10,15 +10,16 @@
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
         <!-- Logo -->
         <div class="text-2xl font-bold text-indigo-600">
-            <a href="#">TechCourses</a>
+            <a href="/">TechCourses</a>
         </div>
 
         <!-- Navigation Links (Desktop) -->
         <nav class="hidden lg:flex space-x-8">
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Courses</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">About Us</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Blog</a>
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Contact</a>
+            <a href="Courses" class="text-gray-700 hover:text-indigo-600">Courses</a>
+               <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
+            <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
+            <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
+            <a href="Contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
         </nav>
 
         <!-- Search Bar -->
@@ -28,8 +29,8 @@
 
         <!-- CTA Buttons -->
         <div class="hidden lg:flex items-center space-x-4">
-            <a href="#" class="text-gray-700 hover:text-indigo-600">Login</a>
-            <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Sign Up</a>
+            <a href="Login" class="text-gray-700 hover:text-indigo-600">Login</a>
+            <a href="Signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Sign Up</a>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -44,13 +45,14 @@
     {#if mobileMenuOpen}
         <div class="lg:hidden">
             <nav class="flex flex-col space-y-2 px-6 py-4 bg-gray-50">
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Courses</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">About Us</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Blog</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Contact</a>
+                <a href="Courses" class="text-gray-700 hover:text-indigo-600">Courses</a>
+                <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
+                <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
+                <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
+                <a href="Contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
                 <input type="text" placeholder="Search Courses" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-600 focus:outline-none">
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Login</a>
-                <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Sign Up</a>
+                <a href="Login" class="text-gray-700 hover:text-indigo-600">Login</a>
+                <a href="Signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Sign Up</a>
             </nav>
         </div>
     {/if}

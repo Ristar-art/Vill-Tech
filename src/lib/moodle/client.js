@@ -7,6 +7,7 @@ export class MoodleClient {
         this.token = config.token;
     }
 
+
     getEndpointUrl(wsfunction) {
         return `${this.baseUrl}/webservice/rest/server.php?wstoken=${this.token}&moodlewsrestformat=json&wsfunction=${wsfunction}`;
     }
