@@ -12,12 +12,12 @@
   <meta name="description" content="Modernized course listing app" />
 </svelte:head>
 
-<div class="flex flex-col min-h-[100dvh] mt-12">
+<div class="flex flex-col min-h-[100dvh] pt-12">
   <div class="max-w-7xl mx-auto p-8">
     <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Our Courses</h2>
 
     {#if data.courses && data.courses.length > 0}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {#each data.courses as course}
           <div
             class="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform duration-300"
@@ -42,11 +42,11 @@
 
               <!-- Display start and end dates -->
               <div class="flex items-center text-sm text-gray-500 space-x-2 mb-4">
-                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full">
+                <span class="inline-block px-2 py-1 bg-green-100 text-green-800 rounded-full">
                   Start: {new Date(course.startdate * 1000).toLocaleDateString()}
                 </span>
                 {#if course.enddate}
-                  <span class="inline-block px-3 py-1 bg-red-100 text-red-800 rounded-full">
+                  <span class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded-full">
                     End: {new Date(course.enddate * 1000).toLocaleDateString()}
                   </span>
                 {/if}

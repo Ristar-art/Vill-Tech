@@ -193,7 +193,7 @@
               the digital age. Taught by industry <br/> experts, our programs are
               designed to help you succeed..
             </p>
-             <Button on:click ={()=> goto("/Enroll")} class="flex justify-start w-16 text-center">Enroll</Button>
+             <Button on:click ={()=> goto("/Enroll")} class="bg-[#21409a] flex justify-start w-16 text-center">Enroll</Button>
           </div>
           
 
@@ -274,7 +274,7 @@
   <div class="max-w-7xl mx-auto p-8">
     <div class="flex justify-between items-center">
       <h2 class="text-3xl font-bold mb-4">Featured Courses</h2>
-      <Button on:click={() => goto("/Courses")} class="mb-4"
+      <Button on:click={() => goto("/Courses")} class="mb-4 bg-[#21409a]"
         >View All Courses</Button
       >
     </div>
