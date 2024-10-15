@@ -58,8 +58,8 @@
 	}
 </script>
 
-<div class="max-w-2xl mx-auto p-4 mt-12">
-	<Card.Root>
+<div class="max-w-2xl mx-auto p-4 pt-24">
+	<Card.Root class=" bg-white bg-opacity-70 pt-6">
 		<Card.Header>
 			<Card.Title class="text-2xl font-bold">Enroll in a Tech Course</Card.Title>
 			<Card.Description>
@@ -139,7 +139,7 @@
 						<Select.Content>
 							{#each courses as course}
 								<Select.Item value={course.id.toString()}>
-									{course.name} - ${course.price}
+									{course.name} - R{course.price}
 								</Select.Item>
 							{/each}
 						</Select.Content>

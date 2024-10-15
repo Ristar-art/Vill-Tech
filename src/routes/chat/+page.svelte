@@ -17,7 +17,7 @@ function sendMessage() {
 }
 </script>
 
-<section class="mt-14">
+<section class="min-h-screen pt-14">
     <h1>Chat</h1>
     <select bind:value={currentRoom}>
 </section>

@@ -9,10 +9,10 @@
   import Carousel from "svelte-carousel";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
-  import { page } from "$app/stores";
+  // import { page } from "$app/stores";
   import { goto } from "$app/navigation";
 
-  const id = $page.params.subjects;
+  // const id = $page.params.subjects;
   let carousel;
   let browser = false;
 
@@ -110,36 +110,41 @@
     "Education",
     "Finance, Investing",
   ];
-  const courses = [
-    {
-      title: "Artificial Intelligence: Implications for Business Strategy",
-      school: "MIT Sloan School of Management",
-      image: "https://picsum.photos/200/150?random=1",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/2048px-MIT_logo.svg.png",
-      category: "Executive Education",
-    },
-    {
-      title: "MBA Essentials",
-      school: "LSE",
-      image: "https://picsum.photos/200/150?random=2",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/London_School_of_Economics_COA.svg/800px-London_School_of_Economics_COA.svg.png",
-      category: "Executive Education",
-    },
-    {
-      title: "Oxford Executive Leadership Programme",
-      school: "Oxford Saïd",
-      image: "https://picsum.photos/200/150?random=3",
-      logo: "https://upload.wikimedia.org/wikipedia/en/e/ec/Oxford_University.png",
-      category: "Executive Education",
-    },
-    {
-      title: "Deepak Chopra: Soul of Leadership and Wellbeing",
-      school: "ChopraX",
-      image: "https://picsum.photos/200/150?random=4",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Deepak_Chopra.jpg/800px-Deepak_Chopra.jpg",
-      category: "Executive Education",
-    },
-  ];
+  // const courses = [
+  //   {
+  //     title: "Artificial Intelligence: Implications for Business Strategy",
+  //     school: "MIT Sloan School of Management",
+  //     image: "https://picsum.photos/200/150?random=1",
+  //     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/2048px-MIT_logo.svg.png",
+  //     category: "Executive Education",
+  //   },
+  //   {
+  //     title: "MBA Essentials",
+  //     school: "LSE",
+  //     image: "https://picsum.photos/200/150?random=2",
+  //     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/London_School_of_Economics_COA.svg/800px-London_School_of_Economics_COA.svg.png",
+  //     category: "Executive Education",
+  //   },
+  //   {
+  //     title: "Oxford Executive Leadership Programme",
+  //     school: "Oxford Saïd",
+  //     image: "https://picsum.photos/200/150?random=3",
+  //     logo: "https://upload.wikimedia.org/wikipedia/en/e/ec/Oxford_University.png",
+  //     category: "Executive Education",
+  //   },
+  //   {
+  //     title: "Deepak Chopra: Soul of Leadership and Wellbeing",
+  //     school: "ChopraX",
+  //     image: "https://picsum.photos/200/150?random=4",
+  //     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Deepak_Chopra.jpg/800px-Deepak_Chopra.jpg",
+  //     category: "Executive Education",
+  //   },
+  // ];
+   export let data;
+
+    $: ({ courses, totalCourses, limit, page, error,totalPages } = data);
+     $: console.log(courses);
+  
   const images = [
     { src: "", alt: "Image 1" },
     { src: "/favicon.png", alt: "Image 2" },
@@ -177,11 +182,11 @@
     <div class="flex-1 grid grid-cols-1 md:grid-cols-1">
 		
      
-	  <div class="min-h-screen text-white flex flex-col  bg-cover bg-center">
+	  <div class="min-h-screen text-white flex flex-col  bg-cover bg-center pt-14">
 	
       
         <!-- Navbar -->
-        <div class="flex justify-between items-center p-6">
+        <!-- <div class="flex justify-between items-center p-6">
           <div class="space-x-2">
             <img
               src=""
@@ -189,7 +194,7 @@
               class="w-6 h-6"
             />
           </div>
-        </div>
+        </div> -->
 
         <!-- Hero Section -->
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2  p-8">
@@ -201,11 +206,13 @@
               the digital age. Taught by industry experts, our programs are
               designed to help you succeed..
             </p>
+             <Button on:click ={()=> goto("/Enroll")} class="flex justify-start w-16 text-center">Enroll</Button>
           </div>
+          
 
           <!-- Right Section -->
           <div
-            class="flex flex-col justify-between bg-gradient-to-b from-blue-800 to-blue-600 bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
+            class="flex flex-col justify-between  bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
           >
             <div class="flex justify-between items-center text-gray-300">
               <!-- <span>TRACKING PAYMENT</span> -->
@@ -274,43 +281,9 @@
   </section>
   <section class=" py-8 md:py-12">
     <div class="max-w-2xl mx-auto text-center space-y-4 px-4 md:px-0">
-      <!-- <h2
-        class="text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-[#f9b51b]"
-      >
-        Our Enabling Partners
-      </h2> -->
-      <!-- <p class="text-sm md:text-base lg:text-xl text-muted-foreground text-black">
-      Check out some of the top businesses in our directory.
-    </p> -->
+      
     </div>
-    <!-- {#if browser}
-      <div class="max-w-screen-xl mx-auto px-4 md:px-8 lg:px-12">
-        <Carousel
-          bind:this={carousel}
-          autoplayDuration={0}
-          duration={5000}
-          autoplay
-          timingFunction="linear"
-          dots={false}
-          arrows={false}
-          swiping={false}
-          particlesToShow={$particlesToShow}
-        >
-          {#each images as image}
-            <div
-              class="bg-white rounded-lg overflow-hidden transition-all hover:scale-105 p-4"
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                class="rounded-box w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain mx-auto hover:scale-110 transition-transform"
-              />
-            </div>
-          {/each}
-        </Carousel>
-      </div>
-    {/if} -->
-  </section>
+     </section>
   <div class="max-w-7xl mx-auto p-8">
     <div class="flex justify-between items-center">
       <h2 class="text-3xl font-bold mb-4">Featured Courses</h2>
@@ -333,48 +306,40 @@
       {/each}
     </div>
 
-    <!-- Filter Tags -->
-    <!-- <div class="flex space-x-4 overflow-x-auto pb-4">
-        {#each filters as filter}
-        <button class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-full hover:bg-gray-200 transition">
-            {filter}
-        </button>
-        {/each}
-    </div> -->
+    
 
     <!-- Courses Carousel -->
+    {#if error}
+    <p class="text-red-500">{error}</p>
+{:else}
     <div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
-      {#each courses as course}
-        <div
-          class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-        >
-          <div class="relative">
-            <img
-              src={course.image}
-              alt={course.title}
-              class="w-full h-40 object-cover"
-            />
-            <img
-              src={course.logo}
-              alt={course.school}
-              class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
-            />
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">
-              {course.title}
-            </h3>
-            <p class="text-gray-600 text-sm mb-4">
-              {course.school}
-            </p>
-            <span
-              class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm"
-              >{course.category}</span
-            >
-          </div>
-        </div>
-      {/each}
+        {#each courses as course}
+            <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="relative">
+                    <img
+                src="https://picsum.photos/200/150?random={course.id}" 
+                alt={course.fullname} 
+                class="w-full h-48 object-cover"
+              />
+                    <!-- <img
+                        src={course.logo}
+                        alt={course.school}
+                        class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
+                    /> -->
+                </div>
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
+                    <p class="text-gray-600 text-sm mb-4 truncate">
+                    {@html course.summary || "No description available."}
+              </p>
+                    <!-- <span class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
+                        {course.category}
+                    </span> -->
+                </div>
+            </div>
+        {/each}
     </div>
+{/if}
   </div>
   <div class="max-w-7xl mx-auto p-8">
     <h2 class="text-2xl font-semibold mb-6">Explore Top Subjects</h2>
@@ -395,57 +360,39 @@
   <div class="max-w-7xl mx-auto p-8">
     <h2 class="text-3xl font-bold mb-4">Newly added Courses</h2>
 
-    <!-- Category Tabs -->
-    <!-- <div class="flex space-x-6 mb-6 border-b">
-        {#each categories as category, i}
-        <button class="py-2 px-4 text-lg font-medium text-gray-600 hover:text-gray-900 focus:text-gray-900 transition-colors border-b-2 {i === 0 ? 'border-green-700 text-green-700' : 'border-transparent'}">
-            {category}
-        </button>
-        {/each}
-    </div> -->
-
-    <!-- Filter Tags -->
-    <!-- <div class="flex space-x-4 overflow-x-auto pb-4">
-        {#each filters as filter}
-        <button class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-full hover:bg-gray-200 transition">
-            {filter}
-        </button>
-        {/each}
-    </div> -->
-
+    
     <!-- Courses Carousel -->
+    {#if error}
+    <p class="text-red-500">{error}</p>
+{:else}
     <div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
-      {#each courses as course}
-        <div
-          class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-        >
-          <div class="relative">
-            <img
-              src={course.image}
-              alt={course.title}
-              class="w-full h-40 object-cover"
-            />
-            <img
-              src={course.logo}
-              alt={course.school}
-              class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
-            />
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">
-              {course.title}
-            </h3>
-            <p class="text-gray-600 text-sm mb-4">
-              {course.school}
-            </p>
-            <span
-              class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm"
-              >{course.category}</span
-            >
-          </div>
-        </div>
-      {/each}
+        {#each courses as course}
+            <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="relative">
+                    <img
+                src="https://picsum.photos/200/150?random={course.id}" 
+                alt={course.fullname} 
+                class="w-full h-48 object-cover"
+              />
+                    <!-- <img
+                        src={course.logo}
+                        alt={course.school}
+                        class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
+                    /> -->
+                </div>
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
+                    <p class="text-gray-600 text-sm mb-4 truncate">
+                    {@html course.summary || "No description available."}
+              </p>
+                    <!-- <span class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
+                        {course.category}
+                    </span> -->
+                </div>
+            </div>
+        {/each}
     </div>
+{/if}
   </div>
   <div
     class="container flex flex-wrap justify-around w-full mt-8 p-6  rounded-2xl shadow-lg"
