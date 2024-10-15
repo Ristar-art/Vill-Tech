@@ -146,26 +146,13 @@
      $: console.log(courses);
   
   const images = [
-    { src: "", alt: "Image 1" },
-    { src: "/favicon.png", alt: "Image 2" },
-    { src: "/favicon.png", alt: "Image 3" },
-    { src: "/favicon.png", alt: "Image 4" },
-    { src: "/favicon.png", alt: "Image 5" },
-    { src: "/favicon.png", alt: "Image 6" },
-    { src: "/favicon.png", alt: "Image 7" },
-    { src: "/favicon.png", alt: "Image 8" },
-    { src: "/favicon.png", alt: "Image 9" },
-    { src: "/favicon.png", alt: "Image 10" },
-    { src: "/favicon.png", alt: "Image 11" },
-    { src: "/favicon.png", alt: "Image 12" },
-    { src: "/favicon.png", alt: "Image 13" },
-    { src: "/favicon.png", alt: "Image 14" },
-    { src: "/favicon.png", alt: "Image 15" },
-    { src: "/favicon.png", alt: "Image 16" },
-    { src: "/favicon.png", alt: "Image 17" },
-    { src: "/favicon.png", alt: "Image 18" },
-    { src: "/favicon.png", alt: "Image 19" },
-    { src: "/favicon.png", alt: "Image 20" },
+    { src: "image1.jpg", alt: "Image 1" },
+    { src: "image2.png", alt: "Image 2" },
+    { src: "image3.png", alt: "Image 3" },
+    { src: "image4.PNG", alt: "Image 4" },
+    { src: "image5.PNG", alt: "Image 5" },
+  
+   
   ];
 </script>
 
@@ -200,10 +187,10 @@
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2  p-8">
           <!-- Left Section -->
           <div class="flex flex-col justify-center space-y-4">
-            <h1 class="text-6xl font-bold">Unlock Your Tech Potential</h1>
+            <h1 class="text-6xl font-bold">Unlock Your <br/>Tech Potential</h1>
             <p class="text-lg text-gray-300">
-              Enroll in our online tech courses and gain the skills to thrive in
-              the digital age. Taught by industry experts, our programs are
+              Enroll in our online tech courses and gain the skills<br/> to thrive in
+              the digital age. Taught by industry <br/> experts, our programs are
               designed to help you succeed..
             </p>
              <Button on:click ={()=> goto("/Enroll")} class="flex justify-start w-16 text-center">Enroll</Button>
