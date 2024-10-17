@@ -11,6 +11,9 @@
   import { writable } from "svelte/store";
   // import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  import { fade } from 'svelte/transition';
+  import { tweened } from 'svelte/motion';
+  import { cubicInOut } from 'svelte/easing';
 
   // const id = $page.params.subjects;
   let carousel;
@@ -41,6 +44,24 @@
       window.removeEventListener("resize", updateParticlesToShow);
     };
   });
+
+  let mounted = false;
+
+// Create tweened stores for x and y position
+const x = tweened(0, { duration: 5000, easing: cubicInOut });
+const y = tweened(0, { duration: 5000, easing: cubicInOut });
+
+// Function to update position
+function updatePosition() {
+  x.set(Math.random() * 100 - 50);
+  y.set(Math.random() * 100 - 50);
+  setTimeout(updatePosition, 5000);
+}
+
+onMount(() => {
+  mounted = true;
+  updatePosition();
+});
   const topics = [
     {
       id: 1,
@@ -193,23 +214,49 @@
               the digital age. Taught by industry <br/> experts, our programs are
               designed to help you succeed..
             </p>
-             <Button on:click ={()=> goto("/Enroll")} class="bg-[#21409a] flex justify-start w-16 text-center">Enroll</Button>
+             <Button on:click ={()=> goto("/Enroll")} class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
           </div>
           
 
+
           <!-- Right Section -->
-          <div
+            <!-- <div
             class="flex flex-col justify-between  bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
-          >
-            <div class="flex justify-between items-center text-gray-300">
+          > -->
+          {#if mounted}
+          <div class="w-full h-full flex items-center justify-center overflow-hidden" in:fade>
+            <div 
+              class="w-[400px] h-[400px] perspective-[1000px] relative preserve-3d transition-transform duration-5000"
+              style="transform: translate({$x}px, {$y}px);"
+            >
+              <div class="w-[200px] h-[200px] bg-[radial-gradient(circle_at_40%_40%,#FFFFFF,#111)] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.7),0_0_30px_#00E5FF,0_0_50px_#FF00FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"></div>
+              
+              <div class="big-ring-container">
+                <div class="w-[400px] h-[400px] border-6 border-[#FFFFFF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF] animate-[rotateBigRingClockwise_15s_linear_infinite]"></div>
+                <div class="w-[400px] h-[400px] border-6 border-[#21409a] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#21409a] animate-[rotateBigRingCounterClockwise_15s_linear_infinite]"></div>
+              </div>
+              
+              <div class="small-ring-container">
+                <div class="w-[300px] h-[300px] border-3 border-[#21409a] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingClockwise_10s_linear_infinite] [transform:rotateX(91deg)_rotateY(128deg)_rotateZ(345deg)]"></div>
+                <div class="w-[300px] h-[300px] border-3 border-[#FFFFFF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF] animate-[rotateSmallRingCounterClockwise_10s_linear_infinite] [transform:rotateX(264deg)_rotateY(321deg)_rotateZ(27deg)]"></div>
+                <div class="w-[300px] h-[300px] border-3 border-[#00E5FF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingClockwise_10s_linear_infinite] [transform:rotateX(120deg)_rotateY(268deg)_rotateZ(215deg)]"></div>
+                <div class="w-[300px] h-[300px] border-3 border-[#00E5FF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingCounterClockwise_10s_linear_infinite] [transform:rotateX(237deg)_rotateY(314deg)_rotateZ(296deg)]"></div>
+              </div>
+            </div>
+          </div>
+          {/if}
+          <!-- <div
+            class="flex flex-col justify-between  bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
+          > -->
+            <!-- <div class="flex justify-between items-center text-gray-300"> -->
               <!-- <span>TRACKING PAYMENT</span> -->
               <!-- <span class="text-sm">19 Jun 24</span> -->
-            </div>
-            <div class="mt-4">
+            <!-- </div>
+            <div class="mt-4"> -->
               <!-- <h2 class="text-3xl font-semibold">#69WS040</h2> -->
               <!-- <p class="text-lg mt-2">Payment completely finished!</p> -->
-            </div>
-            <div class="mt-6 flex items-center space-x-4">
+            <!-- </div> -->
+            <!-- <div class="mt-6 flex items-center space-x-4"> -->
               <!-- <img
                 src="https://picsum.photos/50"
                 alt="User"
@@ -219,8 +266,8 @@
                 <span class="block text-gray-300">Jordan P.</span>
                 <span class="block text-lg font-semibold">$17,460.00</span>
               </div> -->
-            </div>
-          </div>
+            <!-- </div>
+          </div> -->
         </div>
 
         <!-- Footer Links -->
@@ -639,5 +686,25 @@
     height: 100%;
     top: 0;
     display: block;
+  }
+  @keyframes rotateBigRingClockwise {
+    0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+  }
+  @keyframes rotateBigRingCounterClockwise {
+    0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateX(-360deg) rotateY(-360deg); }
+  }
+  @keyframes rotateSmallRingClockwise {
+    0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+  }
+  @keyframes rotateSmallRingCounterClockwise {
+    0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateX(-360deg) rotateY(-360deg); }
+  }
+
+  :global(.preserve-3d) {
+    transform-style: preserve-3d;
   }
 </style>

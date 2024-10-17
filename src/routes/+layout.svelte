@@ -5,8 +5,11 @@
 
 <div class="app">
 	<Header />
+    
 
-	<main class="bg-gradient-to-r from-[#ec1d25] via-[#939598] to-[#21409a]">
+	<main class="bg-[#21409a]">
+        <!-- "bg-gradient-to-r from-[#21409a] via-[#939598] to-[#21409a] -->
+        <!-- [#ec1d25] -->
 
 		
 		<slot />
@@ -105,4 +108,5 @@
 			padding: 12px 0;
 		}
 	}
+    
 </style>
