@@ -39,7 +39,7 @@
     // }
 </script>
 
-<body class="font-sans pt-12 bg-gradient-to-r from-red-600 via-red-500 to-blue-700">
+<body class="font-sans pt-12 bg-[#21409a]">
    
     {#if course}
     <div class="max-w-5xl mx-auto p-8">

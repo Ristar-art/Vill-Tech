@@ -14,6 +14,8 @@
   import { fade } from 'svelte/transition';
   import { tweened } from 'svelte/motion';
   import { cubicInOut } from 'svelte/easing';
+  import { MessageCircle } from 'lucide-svelte';
+  
 
   // const id = $page.params.subjects;
   let carousel;
@@ -44,6 +46,40 @@
       window.removeEventListener("resize", updateParticlesToShow);
     };
   });
+  
+  let courses = [
+    { id: 1, fullname: 'Course 1', summary: 'This is the first course' },
+    { id: 2, fullname: 'Course 2', summary: 'This is the second course' },
+    { id: 3, fullname: 'Course 3', summary: 'This is the third course' },
+    { id: 4, fullname: 'Course 4', summary: 'This is the fourth course' },
+    { id: 5, fullname: 'Course 5', summary: 'This is the fifth course' }
+  ]; // Replace with your actual course data
+  let error = null;
+
+  let scrollContainer;
+
+  // Continuous scrolling function
+  const autoScroll = () => {
+    if (scrollContainer) {
+      scrollContainer.scrollLeft += 1; // Slow down the scroll speed by setting it to a smaller value
+
+      // Loop back to the start if it reaches the end (infinite scrolling)
+      if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth) {
+        scrollContainer.scrollLeft = 0;
+      }
+    }
+  };
+
+  // Start auto scroll on mount
+  onMount(() => {
+    const scrollInterval = setInterval(autoScroll, 30); // Slower scrolling by increasing the interval (e.g., 30ms)
+
+    return () => clearInterval(scrollInterval); // Cleanup interval on unmount
+  });
+  
+  function navigateToChat() {
+    goto('/chat');
+  }
 
   let mounted = false;
 
@@ -205,7 +241,7 @@ onMount(() => {
         </div> -->
 
         <!-- Hero Section -->
-        <div class="flex-1 grid grid-cols-1 md:grid-cols-2  p-8">
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 p-8">
           <!-- Left Section -->
           <div class="flex flex-col justify-center space-y-4">
             <h1 class="text-6xl font-bold">Unlock Your <br/>Tech Potential</h1>
@@ -214,60 +250,47 @@ onMount(() => {
               the digital age. Taught by industry <br/> experts, our programs are
               designed to help you succeed..
             </p>
-             <Button on:click ={()=> goto("/Enroll")} class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
+            <Button on:click ={()=> goto("/Enroll")} class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
           </div>
-          
-
-
+        
           <!-- Right Section -->
-            <!-- <div
-            class="flex flex-col justify-between  bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
-          > -->
           {#if mounted}
           <div class="w-full h-full flex items-center justify-center overflow-hidden" in:fade>
             <div 
               class="w-[400px] h-[400px] perspective-[1000px] relative preserve-3d transition-transform duration-5000"
               style="transform: translate({$x}px, {$y}px);"
             >
-              <div class="w-[200px] h-[200px] bg-[radial-gradient(circle_at_40%_40%,#FFFFFF,#111)] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.7),0_0_30px_#00E5FF,0_0_50px_#FF00FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"></div>
-              
-              <div class="big-ring-container">
-                <div class="w-[400px] h-[400px] border-6 border-[#FFFFFF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF] animate-[rotateBigRingClockwise_15s_linear_infinite]"></div>
-                <div class="w-[400px] h-[400px] border-6 border-[#21409a] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#21409a] animate-[rotateBigRingCounterClockwise_15s_linear_infinite]"></div>
+              <div class="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <svg viewBox="0 0 200 200" class="w-full h-full">
+                  <pattern id="earthTexture" patternUnits="userSpaceOnUse" width="200" height="200">
+                    <image href="/file.png" width="200" height="200" />
+                  </pattern>
+                  <defs>
+                   
+                    <radialGradient id="sphereShading">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+                      <stop offset="80%" stop-color="rgba(0,0,0,0.3)" />
+                      <stop offset="100%" stop-color="rgba(0,0,0,0.6)" />
+                    </radialGradient>
+                  </defs>
+                  
+                  <!-- Earth texture -->
+                  <circle cx="100" cy="100" r="100" fill="url(#earthTexture)"/>
+                  
+                  <!-- Shading overlay -->
+                  <circle cx="100" cy="100" r="100" fill="url(#sphereShading)"/>
+                </svg>
               </div>
               
-              <div class="small-ring-container">
-                <div class="w-[300px] h-[300px] border-3 border-[#21409a] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingClockwise_10s_linear_infinite] [transform:rotateX(91deg)_rotateY(128deg)_rotateZ(345deg)]"></div>
-                <div class="w-[300px] h-[300px] border-3 border-[#FFFFFF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF] animate-[rotateSmallRingCounterClockwise_10s_linear_infinite] [transform:rotateX(264deg)_rotateY(321deg)_rotateZ(27deg)]"></div>
-                <div class="w-[300px] h-[300px] border-3 border-[#00E5FF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingClockwise_10s_linear_infinite] [transform:rotateX(120deg)_rotateY(268deg)_rotateZ(215deg)]"></div>
-                <div class="w-[300px] h-[300px] border-3 border-[#00E5FF] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF] animate-[rotateSmallRingCounterClockwise_10s_linear_infinite] [transform:rotateX(237deg)_rotateY(314deg)_rotateZ(296deg)]"></div>
-              </div>
+              <!-- Rotating rings -->
+              <div class="w-[400px] h-[400px] border-6 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_15s_linear_infinite]"></div>
+              
+              <div class="w-[300px] h-[300px] border-3 border-[#21409a30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF30] animate-[spin_10s_linear_infinite] [transform:rotateX(91deg)_rotateY(128deg)_rotateZ(345deg)]"></div>
+              <div class="w-[300px] h-[300px] border-3 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_10s_linear_infinite_reverse] [transform:rotateX(264deg)_rotateY(321deg)_rotateZ(27deg)]"></div>
+              <div class="w-[300px] h-[300px] border-3 border-[#00E5FF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF30] animate-[spin_10s_linear_infinite] [transform:rotateX(120deg)_rotateY(268deg)_rotateZ(215deg)]"></div>
             </div>
           </div>
           {/if}
-          <!-- <div
-            class="flex flex-col justify-between  bg-[url('heroVT.png')] p-8 rounded-xl shadow-lg mt-8 md:mt-0"
-          > -->
-            <!-- <div class="flex justify-between items-center text-gray-300"> -->
-              <!-- <span>TRACKING PAYMENT</span> -->
-              <!-- <span class="text-sm">19 Jun 24</span> -->
-            <!-- </div>
-            <div class="mt-4"> -->
-              <!-- <h2 class="text-3xl font-semibold">#69WS040</h2> -->
-              <!-- <p class="text-lg mt-2">Payment completely finished!</p> -->
-            <!-- </div> -->
-            <!-- <div class="mt-6 flex items-center space-x-4"> -->
-              <!-- <img
-                src="https://picsum.photos/50"
-                alt="User"
-                class="w-12 h-12 rounded-full"
-              /> -->
-              <!-- <div>
-                <span class="block text-gray-300">Jordan P.</span>
-                <span class="block text-lg font-semibold">$17,460.00</span>
-              </div> -->
-            <!-- </div>
-          </div> -->
         </div>
 
         <!-- Footer Links -->
@@ -313,70 +336,67 @@ onMount(() => {
       </div>
     </div>
   </section>
+  <div 
+  class="fixed bottom-4 right-4 p-4 bg-[#ec1d25] rounded-full shadow-lg cursor-pointer hover:bg-blue-600 transition-colors"
+  on:click={navigateToChat}
+>
+  <MessageCircle size={24} color="white" />
+</div>>
   <section class=" py-8 md:py-12">
     <div class="max-w-2xl mx-auto text-center space-y-4 px-4 md:px-0">
       
     </div>
      </section>
-  <div class="max-w-7xl mx-auto p-8">
-    <div class="flex justify-between items-center">
-      <h2 class="text-3xl font-bold mb-4">Featured Courses</h2>
-      <Button on:click={() => goto("/Courses")} class="mb-4 bg-[#21409a]"
-        >View All Courses</Button
-      >
-    </div>
-
-    <!-- Category Tabs -->
-    <div class="flex space-x-6 mb-6 border-b">
-      {#each categories as category, i}
-        <button
-          class="py-2 px-4 text-lg font-medium text-gray-600 hover:text-gray-900 focus:text-gray-900 transition-colors border-b-2 {i ===
-          0
-            ? 'border-green-700 text-green-700'
-            : 'border-transparent'}"
-        >
-          {category}
-        </button>
-      {/each}
-    </div>
-
+     <div class="max-w-7xl mx-auto p-8">
+      <div class="flex justify-between items-center">
+        <h2 class="text-3xl font-bold mb-4 text-white">Featured Courses</h2>
+        <Button on:click={() => goto("/Courses")} class="mb-4 bg-[#21409a]">
+          View All Courses
+        </Button>
+      </div>
     
-
-    <!-- Courses Carousel -->
-    {#if error}
-    <p class="text-red-500">{error}</p>
-{:else}
-    <div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
-        {#each courses as course}
-            <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="relative">
-                    <img
-                src="https://picsum.photos/200/150?random={course.id}" 
-                alt={course.fullname} 
-                class="w-full h-48 object-cover"
-              />
-                    <!-- <img
-                        src={course.logo}
-                        alt={course.school}
-                        class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
-                    /> -->
-                </div>
-                <div class="p-4">
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
-                    <p class="text-gray-600 text-sm mb-4 truncate">
-                    {@html course.summary || "No description available."}
-              </p>
-                    <!-- <span class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
-                        {course.category}
-                    </span> -->
-                </div>
-            </div>
+      <!-- Category Tabs -->
+      <div class="flex space-x-6 mb-6 border-b">
+        {#each categories as category, i}
+          <button
+            class="py-2 px-4 text-lg font-medium text-gray-600 hover:text-gray-900 focus:text-gray-900 transition-colors border-b-2 {i ===
+            0
+              ? 'border-green-700 text-green-700'
+              : 'border-transparent'}"
+          >
+            {category}
+          </button>
         {/each}
+      </div>
+    
+      <!-- Courses Carousel -->
+      {#if error}
+        <p class="text-red-500">{error}</p>
+      {:else}
+        <div class="flex space-x-6 overflow-x-auto pb-6 mt-6" bind:this={scrollContainer}>
+          {#each courses as course}
+            <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="relative border border-gray-300 rounded-lg overflow-hidden">
+                <img
+                  src="https://picsum.photos/200/150?random={course.id}"
+                  alt={course.fullname}
+                  class="w-full h-48 object-cover"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
+                <p class="text-gray-600 text-sm mb-4 truncate">
+                  {@html course.summary || "No description available."}
+                </p>
+              </div>
+            </div>
+          {/each}
+        </div>
+      {/if}
     </div>
-{/if}
-  </div>
+  
   <div class="max-w-7xl mx-auto p-8">
-    <h2 class="text-2xl font-semibold mb-6">Explore Top Subjects</h2>
+    <h2 class="text-2xl font-semibold mb-6 text-white">Explore Top Subjects</h2>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
       {#each topics as topic}
         <div
@@ -392,42 +412,33 @@ onMount(() => {
   </div>
 
   <div class="max-w-7xl mx-auto p-8">
-    <h2 class="text-3xl font-bold mb-4">Newly added Courses</h2>
-
-    
-    <!-- Courses Carousel -->
+    <h2 class="text-3xl font-bold mb-4 text-white">Newly added Courses</h2>
+  
     {#if error}
-    <p class="text-red-500">{error}</p>
-{:else}
-    <div class="flex space-x-6 overflow-x-auto pb-6 mt-6">
+      <p class="text-red-500">{error}</p>
+    {:else}
+      <div class="flex space-x-6 overflow-x-auto pb-6 mt-6" bind:this={scrollContainer}>
         {#each courses as course}
-            <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="relative">
-                    <img
-                src="https://picsum.photos/200/150?random={course.id}" 
-                alt={course.fullname} 
+          <div class="min-w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="relative border border-gray-300 rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/200/150?random={course.id}"
+                alt={course.fullname}
                 class="w-full h-48 object-cover"
               />
-                    <!-- <img
-                        src={course.logo}
-                        alt={course.school}
-                        class="absolute top-2 left-2 h-12 w-12 bg-white p-1 rounded-lg shadow"
-                    /> -->
-                </div>
-                <div class="p-4">
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
-                    <p class="text-gray-600 text-sm mb-4 truncate">
-                    {@html course.summary || "No description available."}
-              </p>
-                    <!-- <span class="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
-                        {course.category}
-                    </span> -->
-                </div>
             </div>
+            <div class="p-4">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
+              <p class="text-gray-600 text-sm mb-4 truncate">
+                {@html course.summary || "No description available."}
+              </p>
+            </div>
+          </div>
         {/each}
-    </div>
-{/if}
+      </div>
+    {/if}
   </div>
+
   <div
     class="container flex flex-wrap justify-around w-full mt-8 p-6  rounded-2xl shadow-lg"
   >
@@ -687,6 +698,10 @@ onMount(() => {
     top: 0;
     display: block;
   }
+  @keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
   @keyframes rotateBigRingClockwise {
     0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
     100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }

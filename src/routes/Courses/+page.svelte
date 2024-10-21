@@ -14,7 +14,7 @@
 
 <div class="flex flex-col min-h-[100dvh] pt-12">
   <div class="max-w-7xl mx-auto p-8">
-    <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Our Courses</h2>
+    <h2 class="text-4xl font-extrabold text-white mb-6">Our Courses</h2>
 
     {#if data.courses && data.courses.length > 0}
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
@@ -22,16 +22,15 @@
           <div
             class="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform duration-300"
           >
-		  <a href="/Courses/{course.id}">
-		 <div class="relative">
-              <img
-                src="https://picsum.photos/200/150?random={course.id}" 
-                alt={course.fullname} 
-                class="w-full h-48 object-cover"
-              />
-            </div>
-		</a>
-           
+            <a href="/Courses/{course.id}">
+              <div class="relative border-2 border-gray-300 rounded-lg overflow-hidden">
+                <img
+                  src="https://picsum.photos/200/150?random={course.id}" 
+                  alt={course.fullname} 
+                  class="w-full h-48 object-cover"
+                />
+              </div>
+            </a>
 
             <div class="p-6">
               <h3 class="text-xl font-bold text-gray-800 mb-3">{course.fullname}</h3>
@@ -84,4 +83,3 @@
     transform: scale(1.05);
   }
 </style>
-
