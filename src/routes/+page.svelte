@@ -1,4 +1,207 @@
 <script>
+  import { onMount } from 'svelte';
+  import { fade, fly, scale } from 'svelte/transition';
+  import { goto } from '$app/navigation';
+  
+  let visible = false;
+  
+  // Featured courses data
+  const featuredCourses = [
+    {
+      title: "Web Development Fundamentals",
+      description: "Learn the basics of HTML, CSS, and JavaScript",
+      duration: "8 weeks",
+      level: "Beginner",
+      image: "/api/placeholder/400/300",
+      students: 1234
+    },
+    {
+      title: "Python Programming",
+      description: "Master Python programming from scratch",
+      duration: "10 weeks",
+      level: "Intermediate",
+      image: "/api/placeholder/400/300",
+      students: 2156
+    },
+    {
+      title: "Data Science Essentials",
+      description: "Introduction to data analysis and visualization",
+      duration: "12 weeks",
+      level: "Advanced",
+      image: "/api/placeholder/400/300",
+      students: 1789
+    }
+  ];
+  
+  onMount(() => {
+    visible = true;
+  });
+</script>
+
+<div class="min-h-screen bg-[#21409A]">
+  {#if visible}
+    <!-- Hero Section -->
+    <section class="py-24 px-4" in:fade={{ duration: 1000 }}>
+      <div class="max-w-7xl mx-auto text-center space-y-8">
+        <h1 
+          class="text-5xl md:text-6xl font-bold"
+          in:fly={{ y: -50, duration: 800 }}
+        >
+          <span class="text-red-500">Empower</span> 
+          <span class="text-white">Your Future with</span>
+          <span class="text-blue-400">Technology</span>
+        </h1>
+        
+        <p 
+          class="text-xl text-white/80 max-w-2xl mx-auto"
+          in:fly={{ y: 50, duration: 800, delay: 200 }}
+        >
+          Transform your career with our cutting-edge tech courses. Learn from industry experts and join our community of successful graduates.
+        </p>
+        
+        <div 
+          class="flex flex-wrap justify-center gap-4 pt-8"
+          in:fly={{ y: 50, duration: 800, delay: 400 }}
+        >
+          <button 
+            class="px-8 py-3 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            on:click={() => goto('/courses')}
+          >
+            Explore Courses
+          </button>
+          <button 
+            class="px-8 py-3 bg-white/10 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+            on:click={() => goto('/about')}
+          >
+            Learn More
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 px-4" in:fade={{ duration: 1000, delay: 400 }}>
+      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        {#each [{title: "Students", value: "10,000+"}, {title: "Courses", value: "50+"}, {title: "Graduates", value: "5,000+"}, {title: "Success Rate", value: "95%"}] as stat, i}
+          <div 
+            class="text-center"
+            in:fly={{ y: 50, duration: 800, delay: 500 + (i * 100) }}
+          >
+            <h3 class="text-4xl font-bold text-red-500 mb-2">{stat.value}</h3>
+            <p class="text-white/80">{stat.title}</p>
+          </div>
+        {/each}
+      </div>
+    </section>
+
+    <!-- Featured Courses Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-7xl mx-auto">
+        <div 
+          class="flex justify-between items-center mb-12"
+          in:fly={{ x: -50, duration: 800 }}
+        >
+          <h2 class="text-3xl font-bold text-white">Featured Courses</h2>
+          <button 
+            class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            on:click={() => goto('/courses')}
+          >
+            View All Courses
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {#each featuredCourses as course, i}
+            <div 
+              class="bg-white rounded-tl-[40px] rounded-br-[40px] overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105"
+              in:fly={{ y: 50, duration: 800, delay: i * 200 }}
+            >
+              <img 
+                src={course.image} 
+                alt={course.title}
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+                <p class="text-gray-600 mb-4">{course.description}</p>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                    {course.level}
+                  </span>
+                  <span class="text-gray-500">
+                    {course.duration}
+                  </span>
+                </div>
+                <div class="mt-4 pt-4 border-t flex justify-between items-center">
+                  <span class="text-gray-500 text-sm">
+                    {course.students.toLocaleString()} students
+                  </span>
+                  <button 
+                    class="text-red-500 font-medium hover:text-red-600"
+                    on:click={() => goto(`/courses/${course.title.toLowerCase().replace(/\s+/g, '-')}`)}
+                  >
+                    Learn More →
+                  </button>
+                </div>
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 px-4" in:fade={{ duration: 1000 }}>
+      <div 
+        class="max-w-4xl mx-auto bg-white/10 rounded-tl-[40px] rounded-br-[40px] p-12 text-center"
+        in:fly={{ y: 50, duration: 800 }}
+      >
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          Ready to Start Your Journey?
+        </h2>
+        <p class="text-white/80 mb-8 max-w-2xl mx-auto">
+          Join thousands of students who have already transformed their careers through our comprehensive tech education programs.
+        </p>
+        <button 
+          class="px-8 py-3 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          on:click={() => goto('/register')}
+        >
+          Get Started Today
+        </button>
+      </div>
+    </section>
+  {/if}
+</div>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  .bg-blue {
+    background-color: #1a365d;
+  }
+
+  /* Add gradient animation to the background */
+  .bg-gradient {
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+  }
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>
+
+<!-- <script>
   import Counter from "./Counter.svelte";
   import welcome from "$lib/images/svelte-welcome.webp";
   import welcome_fallback from "$lib/images/svelte-welcome.png";
@@ -221,26 +424,13 @@ onMount(() => {
 <div >
   <section>
 
-    <!-- Molecules Background -->
-    <div class="absolute inset-0 overflow-hidden">
-      <!-- Molecule 1 (Spinning in a slow 360° loop) -->
-      <div class="absolute top-20 left-1/4 w-16 h-16 bg-white opacity-40 rounded-full animate-spin-slow"></div>
-      <!-- Molecule 2 (Medium speed rotation) -->
-      <div class="absolute top-1/4 right-1/4 w-24 h-24 bg-white opacity-30 rounded-full animate-spin-medium"></div>
-      <!-- Molecule 3 (Slow with a slight wobble) -->
-      <div class="absolute bottom-1/3 left-1/3 w-32 h-32 bg-white opacity-20 rounded-full animate-spin-slow"></div>
-      <!-- Molecule 4 (Faster rotation) -->
-      <!-- <div class="absolute bottom-1/4 center-10 w-48 h-48 bg-purple-400 opacity-25 rounded-full animate-spin-fast"></div> -->
-    </div>
 
-    
-  
-    <!-- Hero Section -->
+    Hero Section
     <div class="flex-1 grid grid-cols-1 md:grid-cols-1">
       <div class="min-h-screen text-white flex flex-col bg-cover bg-center pt-14">
-        <!-- Hero Section -->
+        Hero Section
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2 p-8">
-          <!-- Left Section -->
+          Left Section
           <div class="flex flex-col justify-center space-y-4">
             <h1 class="text-6xl font-bold">Unlock Your <br />Tech Potential</h1>
             <p class="text-lg text-gray-300">
@@ -251,14 +441,14 @@ onMount(() => {
             <Button on:click="{() => goto('/Enroll')}" class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
           </div>
   
-          <!-- Right Section -->
+          Right Section
           {#if mounted}
           <div class="w-full h-full flex items-center justify-center overflow-hidden" in:fade>
             <div
               class="w-[400px] h-[400px] perspective-[1000px] relative preserve-3d transition-transform duration-5000"
               style="transform: translate({$x}px, {$y}px);"
             >
-              <!-- 3D Sphere -->
+              3D Sphere
               <div class="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 <svg viewBox="0 0 200 200" class="w-full h-full">
                   <pattern id="earthTexture" patternUnits="userSpaceOnUse" width="200" height="200">
@@ -272,15 +462,15 @@ onMount(() => {
                     </radialGradient>
                   </defs>
   
-                  <!-- Earth texture -->
+                  Earth texture
                   <circle cx="100" cy="100" r="100" fill="url(#earthTexture)" />
   
-                  <!-- Shading overlay -->
+                  Shading overlay
                   <circle cx="100" cy="100" r="100" fill="url(#sphereShading)" />
                 </svg>
               </div>
   
-              <!-- Rotating Rings -->
+              Rotating Rings
               <div class="w-[400px] h-[400px] border-6 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_15s_linear_infinite]"></div>
               <div class="w-[300px] h-[300px] border-3 border-[#21409a30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF30] animate-[spin_10s_linear_infinite] [transform:rotateX(91deg)_rotateY(128deg)_rotateZ(345deg)]"></div>
               <div class="w-[300px] h-[300px] border-3 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_10s_linear_infinite_reverse] [transform:rotateX(264deg)_rotateY(321deg)_rotateZ(27deg)]"></div>
@@ -290,7 +480,7 @@ onMount(() => {
           {/if}
         </div>
   
-        <!-- Carousel -->
+        Carousel
         {#if browser}
         <div class="max-w-screen-xl mx-auto px-4 md:px-8 lg:px-12">
           <Carousel
@@ -339,7 +529,7 @@ onMount(() => {
         </Button>
       </div>
     
-      <!-- Category Tabs -->
+      Category Tabs
       <div class="flex space-x-6 mb-6 border-b">
         {#each categories as category, i}
           <button
@@ -353,7 +543,7 @@ onMount(() => {
         {/each}
       </div>
     
-      <!-- Courses Carousel -->
+      Courses Carousel
       {#if error}
         <p class="text-red-500">{error}</p>
       {:else}
@@ -445,235 +635,7 @@ onMount(() => {
     </div>
     </div>
     </section>
-  <!-- <div
-    class="container flex flex-wrap justify-around w-full mt-8 p-6  rounded-2xl shadow-lg"
-  >
-    <div class="text-center text-white w-1/2 sm:w-1/4 mb-4 sm:mb-0">
-      <h2 class="text-2xl font-bold">55</h2>
-      <p class="text-white">Students</p>
-    </div>
-    <div class="text-center text-white w-1/2 sm:w-1/4 mb-4 sm:mb-0">
-      <h2 class="text-2xl font-bold">72</h2>
-      <p class="text-white">Lecturers</p>
-    </div>
-    <div class="text-center text-white w-1/2 sm:w-1/4">
-      <h2 class="text-2xl font-bold">115</h2>
-      <p class="text-white">Courses</p>
-    </div>
-    <div class="text-center text-white w-1/2 sm:w-1/4">
-      <h2 class="text-2xl font-bold">20</h2>
-      <p class="text-white">Certifications</p>
-    </div>
-  </div> -->
-  <!-- <section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
-    <div class="container px-4 md:px-6">
-      <div
-        class="flex flex-col items-center justify-center space-y-4 text-center"
-      >
-        <div class="space-y-2">
-          <div
-            class="inline-block rounded-lg bg-muted px-3 py-1 text-sm text-primary-foreground"
-          >
-            Course Curriculum
-          </div>
-          <h2
-            class="text-3xl font-bold tracking-tighter text-foreground sm:text-5xl"
-          >
-            Comprehensive Curriculum for Tech Success
-          </h2>
-          <p
-            class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
-          >
-            Our online tech courses cover a wide range of topics, from
-            programming fundamentals to cutting-edge technologies. Dive deep and
-            gain the skills to excel in the tech industry.
-          </p>
-        </div>
-      </div>
-      <div
-        class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12"
-      >
-        <img
-          src="/favicon.png"
-          width="550"
-          height="310"
-          alt="Course Curriculum"
-          class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-        />
-        <div class="flex flex-col justify-center space-y-4">
-          <ul class="grid gap-6">
-            <li>
-              <div class="grid gap-1">
-                <h3 class="text-xl font-bold text-foreground">
-                  Programming Fundamentals
-                </h3>
-                <p class="text-muted-foreground">
-                  Master the core concepts of programming, including variables,
-                  data types, control structures, and algorithms.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="grid gap-1">
-                <h3 class="text-xl font-bold text-foreground">
-                  Web Development
-                </h3>
-                <p class="text-muted-foreground">
-                  Learn to build responsive and interactive websites using HTML,
-                  CSS, and JavaScript.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="grid gap-1">
-                <h3 class="text-xl font-bold text-foreground">
-                  Mobile App Development
-                </h3>
-                <p class="text-muted-foreground">
-                  Dive into the world of mobile app development, creating apps
-                  for both iOS and Android platforms.
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section> -->
-  <!-- <section class="w-full py-12 md:py-24 lg:py-32">
-    <div class="container px-4 md:px-6">
-      <div
-        class="flex flex-col items-center justify-center space-y-4 text-center"
-      >
-        <div class="space-y-2">
-          <div
-            class="inline-block rounded-lg bg-muted px-3 py-1 text-sm text-primary-foreground"
-          >
-            Instructors
-          </div>
-          <h2
-            class="text-3xl font-bold tracking-tighter text-foreground sm:text-5xl"
-          >
-            Meet Our Experienced Instructors
-          </h2>
-          <p
-            class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
-          >
-            Our tech courses are taught by industry experts with years of
-            experience. Learn from the best and unlock your full potential.
-          </p>
-        </div>
-      </div>
-      <div
-        class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12"
-      >
-        <div class="flex flex-col justify-center space-y-4">
-          <div class="grid gap-4">
-            <div class="grid grid-cols-[80px_1fr] items-center gap-4">
-              <Avatar.Root>
-                <Avatar.Image src="/favicon.png" alt="Instructor 1" />
-                <Avatar.Fallback>J</Avatar.Fallback>
-              </Avatar.Root>
-              <div>
-                <h3 class="text-xl font-bold text-foreground">John Doe</h3>
-                <p class="text-muted-foreground">Senior Software Engineer</p>
-              </div>
-            </div>
-            <div class="grid grid-cols-[80px_1fr] items-center gap-4">
-              <Avatar.Root>
-                <Avatar.Image src="/favicon.png" alt="Instructor 2" />
-                <Avatar.Fallback>J</Avatar.Fallback>
-              </Avatar.Root>
-              <div>
-                <h3 class="text-xl font-bold text-foreground">Jane Smith</h3>
-                <p class="text-muted-foreground">Lead Mobile Developer</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <img
-          src="/favicon.png"
-          width="550"
-          height="310"
-          alt="Instructors"
-          class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-        />
-      </div>
-    </div>
-  </section> -->
-  <!-- <section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
-    <div class="container px-4 md:px-6">
-      <div
-        class="flex flex-col items-center justify-center space-y-4 text-center"
-      >
-        <div class="space-y-2">
-          <div
-            class="inline-block rounded-lg bg-muted px-3 py-1 text-sm text-primary-foreground"
-          >
-            Student Testimonials
-          </div>
-          <h2
-            class="text-3xl font-bold tracking-tighter text-foreground sm:text-5xl"
-          >
-            What Our Students Say
-          </h2>
-          <p
-            class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
-          >
-            Hear from our students about their experiences and how our tech
-            courses have helped them achieve their goals.
-          </p>
-        </div>
-      </div>
-      <div
-        class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12"
-      >
-        <div class="flex flex-col justify-center space-y-4">
-          <div class="grid gap-4">
-            <div class="grid grid-cols-[80px_1fr] items-center gap-4">
-              <Avatar.Root>
-                <Avatar.Image src="/favicon.png" alt="Student 1" />
-                <Avatar.Fallback>J</Avatar.Fallback>
-              </Avatar.Root>
-              <div>
-                <blockquote class="text-foreground">
-                  "The tech courses at this platform have been a game\n changer
-                  for me. The instructors are knowledgeable and\n the curriculum
-                  is top-notch. Highly recommended!"
-                </blockquote>
-                <p class="text-muted-foreground">
-                  - Sarah Johnson, Software Engineer
-                </p>
-              </div>
-            </div>
-            <div class="grid grid-cols-[80px_1fr] items-center gap-4">
-              <Avatar.Root>
-                <Avatar.Image src="/favicon.png" alt="Student 2" />
-                <Avatar.Fallback>J</Avatar.Fallback>
-              </Avatar.Root>
-              <div>
-                <blockquote class="text-foreground">
-                  "I was able to transition into a tech career thanks to\n the
-                  comprehensive training and support provided by this\n
-                  platform. The courses are engaging and practical."
-                </blockquote>
-                <p class="text-muted-foreground">
-                  - Michael Lee, Mobile Developer
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <img
-          src="/favicon.png"
-          width="550"
-          height="310"
-          alt="Student Testimonials"
-          class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-        />
-      </div>
-    </div>
-  </section> -->
+ 
 </div>
 
 <style>
@@ -752,4 +714,4 @@ onMount(() => {
   :global(.preserve-3d) {
     transform-style: preserve-3d;
   }
-</style>
+</style> -->

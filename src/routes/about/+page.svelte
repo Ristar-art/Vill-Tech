@@ -45,7 +45,7 @@
 	<meta name="description" content="Learn about Village Tech Training Solutions and our mission to empower through technology education" />
   </svelte:head>
   
-  <div class="min-h-screen py-16 px-4 md:px-16 bg-blue">
+  <div class="min-h-screen py-16 px-4 md:px-16 bg-[#21409A]">
 	{#if visible}
 	  <div in:fade={{ duration: 1000 }}>
 		<h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12 mt-24 tracking-tight">
