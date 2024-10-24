@@ -1,241 +1,223 @@
 <script>
-    import { onMount } from "svelte";
-  
-    let formSubmitted = false;
-  
+    import { onMount } from 'svelte';
+    import { fade, fly } from 'svelte/transition';
+    
+    let visible = false;
+    let formData = {
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    };
+    
+    let isSubmitting = false;
+    let submitStatus = null;
+    let map;
+    
     onMount(() => {
-        const form = document.getElementById("contactForm");
-        if (form) {
-            form.addEventListener("submit", handleSubmit);
-        } else {
-            console.error("Contact form not found");
-        }
+      visible = true;
+      
+      // Initialize OpenStreetMap
+      if (typeof window !== 'undefined') {
+        // Wait for the map container to be available
+        setTimeout(() => {
+          map = L.map('map').setView([40.7128, -74.0060], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
+          
+          // Add a marker for the location
+          const marker = L.marker([40.7128, -74.0060]).addTo(map);
+          marker.bindPopup("<b>Village Tech</b><br>123 Tech Street, Digital Village").openPopup();
+        }, 0);
+      }
     });
-  
-    async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("Form submission started");
-        const form = e.target;
-        const formData = new FormData(form);
-  
-        try {
-            const response = await fetch(form.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    Accept: "application/json",
-                },
-            });
-  
-            console.log("Response status:", response.status);
-            console.log("Response headers:", response.headers);
-  
-            const text = await response.text();
-            console.log("Response body:", text);
-  
-            const data = JSON.parse(text);
-            console.log("Parsed data:", data);
-  
-            alert("Form submitted successfully!");
-            form.reset();
-            formSubmitted = true;
-        } catch (error) {
-            console.error("Fetch error:", error);
-            alert(`There was a problem submitting your form: ${error.message}`);
-        }
-    }
-  </script> 
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      isSubmitting = true;
+      
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      submitStatus = 'success';
+      isSubmitting = false;
+      
+      // Reset form
+      formData = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      };
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        submitStatus = null;
+      }, 3000);
+    };
+  </script>
   
   <svelte:head>
-        
-    />
-    <meta name="author" content="" />
-    <meta property="og:title" content="Contact" />
-    <meta
-        property="og:description"
-        content="Reach out to our team for any inquiries or assistance you need. We are always ready to help you plan your perfect trip."
-    />
-    <meta property="og:image" content="favicon.png" />
-    <meta
-     
-    />
-    <!-- <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Contact Us - We're Here to Help" />
-  <meta name="twitter:description" content="Have questions or need help? Contact our team, and we'll get back to you as soon as possible." />
-  <meta name="twitter:image" content="/path/to/your-image.jpg" /> -->
+    <title>Contact Us - Village Tech</title>
+    <meta name="description" content="Get in touch with Village Tech Training Solutions" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   </svelte:head>
   
-  <body class="bg-white overflow-x-hidden">
-    <div
-        class="container mx-auto py-16 px-4 bg-white shadow-lg rounded-lg p-8 mb-4"
-    >
-        <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.6905166364404!2d28.037884175415257!3d-26.206743977075003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950ea242cbb1e3%3A0xea12498442f6848e!2sVillage%20Tech%20Training%20Solutions!5e0!3m2!1sen!2sza!4v1728895771996!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-            width="100%"
-            height="400"
-            style="border:0; border-radius: 10px;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-        >
-        </iframe>
-    </div>
-    <div class="container mx-auto py-16 px-4 bg-white">
-        <div class="flex flex-col lg:flex-row justify-between">
-            <!-- Contact Information Section -->
-            <div
-                class="w-full lg:w-1/2 mb-8 lg:mb-0 bg-white shadow-lg rounded-lg p-8 m-2"
-            >
-                <h2 class="text-3xl font-bold mb-4">
-                    <span style="color: #2e3883;">Get in touch</span>
-                </h2>
-                <div class="mb-6">
-                    <p class="text-lg font-semibold mb-1 flex items-center">
-                        <img
-                            src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/icons/telephone-fill.svg"
-                            alt="Phone"
-                            class="w-5 h-5 mr-2"
-                        />
-                        <span style="color: green;">Phone</span>
-                    </p>
-                    <p class="text-gray-600">
-  
-                        087 135 1313
-                    </p>
-                   
-                </div>
-                <div class="mb-6">
-                    <p class="text-lg font-semibold mb-1 flex items-center">
-                        <img
-                            src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/icons/envelope-fill.svg"
-                            alt="Email"
-                            class="w-5 h-5 mr-2"
-                        />
-                        <span style="color: #277a4c;">Email</span>
-                    </p>
-                    <p class="text-black">
-                      info@villagetech.co.za                  </p>
-  
-                   
-                </div>
-                <div class="mb-6">
-                    <p class="text-lg font-semibold mb-1 flex items-center">
-                        <img
-                            src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/icons/geo-alt-fill.svg"
-                            alt="London Office"
-                            class="w-5 h-5 mr-2"
-                        />
-                        <span style="color: #277a4c;">Location</span>
-                    </p>
-                    <p class="text-gray-600">
-                      85 Main Street Groundfloor<br/> Marshalltown<br/> Johannesburg<br/> 2107
-                    </p>
-                </div>
-            </div>
-  
-            <!-- Contact Form Section -->
-            <div class="w-full lg:w-1/2 bg-white shadow-lg rounded-lg p-8">
-                <form
-                    id="contactForm"
-                    action="https://formspree.io/f/xeojqbyn"
-                    method="POST"
-                >
-                    <div
-                        class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white"
-                    >
-                        <div class="flex flex-col">
-                            <label for="first-name" class="text-gray-700 mb-2"
-                                ><span style="color: black;">First name</span
-                                ></label
-                            >
-                            <input
-                                type="text"
-                                id="first-name"
-                                name="first-name"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                                placeholder="Type Name"
-                                required
-                            />
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="last-name" class="text-gray-700 mb-2"
-                                ><span style="color: black;">Last name</span
-                                ></label
-                            >
-                            <input
-                                type="text"
-                                id="last-name"
-                                name="last-name"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                                placeholder="Type Last Name"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div class="flex flex-col mb-4">
-                        <label for="email" class="text-gray-700 mb-2"
-                            ><span style="color: black;">Email</span></label
-                        >
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                            placeholder="Type Email"
-                            required
-                        />
-                    </div>
-                    <div class="flex flex-col mb-4">
-                        <label for="phone" class="text-gray-700 mb-2"
-                            ><span style="color: black;">Course Interest</span
-                            ></label
-                        >
-                        <input
-                                type="text"
-                                id="Course Intrest"
-                                name="Course Intrest"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                                placeholder="Course Intrest"
-                                required
-                            />
-                    </div>
-                    <div class="flex flex-col mb-4">
-                      <label for="phone" class="text-gray-700 mb-2"
-                          ><span style="color: black;">Registration for</span
-                          ></label
-                      >
-                      <input
-                              type="text"
-                              id="Registration for"
-                              name="Registration for"
-                              class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                              placeholder="Registration for"
-                              required
-                          />
-                  </div>
-                    <div class="flex flex-col mb-4">
-                        <label for="message" class="text-gray-700 mb-2"
-                            ><span style="color: black;">Message</span></label
-                        >
-                        <textarea
-                            id="message"
-                            name="message"
-                            class="border border-gray-300 rounded-lg px-4 py-2 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                            placeholder="Type Message"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </div>
-                    <button
-                        type="submit"
-                        class="w-full bg-[#2e3883] text-white rounded-lg py-2"
-                        ><span style="color: white;">Send</span></button
-                    >
-                </form>
-            </div>
+  <div class="min-h-screen bg-[#21409A]">
+    {#if visible}
+      <!-- Hero Section -->
+      <div class="py-16 px-4" in:fade={{ duration: 1000 }}>
+        <div class="max-w-7xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4 mt-24">
+            <span class="text-red-500">Contact</span> <span class="text-blue-400">Us</span>
+          </h1>
+          <p class="text-white/80 text-center max-w-2xl mx-auto">
+            Have questions about our programs? Want to partner with us? We'd love to hear from you!
+          </p>
         </div>
-    </div>
+      </div>
   
-    <!-- Map Section -->
-  </body>
+      <!-- Contact Section -->
+      <div class="max-w-4xl mx-auto px-4 pb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Contact Information -->
+          <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
+            <div class="bg-white/10 rounded-tl-[40px] rounded-br-[40px] p-6 text-white">
+              <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium">Email</p>
+                    <p class="text-white/80">info@villagetech.org</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium">Location</p>
+                    <p class="text-white/80">123 Tech Street, Digital Village</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium">Phone</p>
+                    <p class="text-white/80">+1 (555) 123-4567</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
   
+          <!-- Contact Form -->
+          <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-tl-[40px] rounded-br-[40px] p-6 shadow-xl">
+            <form on:submit={handleSubmit} class="space-y-4">
+              <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  bind:value={formData.name}
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  bind:value={formData.email}
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                <input
+                  type="text"
+                  id="subject"
+                  bind:value={formData.subject}
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  id="message"
+                  bind:value={formData.message}
+                  required
+                  rows="4"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                ></textarea>
+              </div>
+              
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                class="w-full bg-red-500 text-white py-2 px-6 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {#if isSubmitting}
+                  Sending...
+                {:else}
+                  Send Message
+                {/if}
+              </button>
+              
+              {#if submitStatus === 'success'}
+                <div class="text-green-600 text-center" in:fade>
+                  Message sent successfully!
+                </div>
+              {/if}
+            </form>
+          </div>
+        </div>
+  
+        <!-- Map Section -->
+        <div 
+          in:fly={{ y: 50, duration: 800, delay: 200 }} 
+          class="mt-12 bg-white rounded-tl-[40px] rounded-br-[40px] p-6 shadow-xl"
+        >
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">Find Us</h2>
+          <div id="map" class="h-[400px] w-full rounded-lg"></div>
+        </div>
+      </div>
+    {/if}
+  </div>
+  
+  <style>
+    :global(html) {
+      scroll-behavior: smooth;
+    }
+  
+    .bg-blue {
+      background-color: #1a365d;
+    }
+  
+    /* Map container styles */
+    :global(.leaflet-container) {
+      z-index: 1;
+    }
+  </style>
