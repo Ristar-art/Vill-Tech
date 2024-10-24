@@ -219,72 +219,69 @@ onMount(() => {
 </svelte:head>
 
 <div >
-  <section
-   
-  >
+  <section>
+
+    <!-- Molecules Background -->
+    <div class="absolute inset-0 overflow-hidden">
+      <!-- Molecule 1 (Spinning in a slow 360° loop) -->
+      <div class="absolute top-20 left-1/4 w-16 h-16 bg-white opacity-40 rounded-full animate-spin-slow"></div>
+      <!-- Molecule 2 (Medium speed rotation) -->
+      <div class="absolute top-1/4 right-1/4 w-24 h-24 bg-white opacity-30 rounded-full animate-spin-medium"></div>
+      <!-- Molecule 3 (Slow with a slight wobble) -->
+      <div class="absolute bottom-1/3 left-1/3 w-32 h-32 bg-white opacity-20 rounded-full animate-spin-slow"></div>
+      <!-- Molecule 4 (Faster rotation) -->
+      <!-- <div class="absolute bottom-1/4 center-10 w-48 h-48 bg-purple-400 opacity-25 rounded-full animate-spin-fast"></div> -->
+    </div>
+
+    
+  
     <!-- Hero Section -->
     <div class="flex-1 grid grid-cols-1 md:grid-cols-1">
-		
-     
-	  <div class="min-h-screen text-white flex flex-col  bg-cover bg-center pt-14">
-	
-      
-        <!-- Navbar -->
-        <!-- <div class="flex justify-between items-center p-6">
-          <div class="space-x-2">
-            <img
-              src=""
-              alt="menu"
-              class="w-6 h-6"
-            />
-          </div>
-        </div> -->
-
+      <div class="min-h-screen text-white flex flex-col bg-cover bg-center pt-14">
         <!-- Hero Section -->
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2 p-8">
           <!-- Left Section -->
           <div class="flex flex-col justify-center space-y-4">
-            <h1 class="text-6xl font-bold">Unlock Your <br/>Tech Potential</h1>
+            <h1 class="text-6xl font-bold">Unlock Your <br />Tech Potential</h1>
             <p class="text-lg text-gray-300">
-              Enroll in our online tech courses and gain the skills<br/> to thrive in
-              the digital age. Taught by industry <br/> experts, our programs are
-              designed to help you succeed..
+              Enroll in our online tech courses and gain the skills<br /> to thrive in
+              the digital age. Taught by industry <br /> experts, our programs are
+              designed to help you succeed.
             </p>
-            <Button on:click ={()=> goto("/Enroll")} class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
+            <Button on:click="{() => goto('/Enroll')}" class="bg-[#ec1d25] flex justify-start w-16 text-center">Enroll</Button>
           </div>
-        
+  
           <!-- Right Section -->
           {#if mounted}
           <div class="w-full h-full flex items-center justify-center overflow-hidden" in:fade>
-            <div 
+            <div
               class="w-[400px] h-[400px] perspective-[1000px] relative preserve-3d transition-transform duration-5000"
               style="transform: translate({$x}px, {$y}px);"
             >
+              <!-- 3D Sphere -->
               <div class="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 <svg viewBox="0 0 200 200" class="w-full h-full">
                   <pattern id="earthTexture" patternUnits="userSpaceOnUse" width="200" height="200">
                     <image href="/file.png" width="200" height="200" />
                   </pattern>
                   <defs>
-                   
                     <radialGradient id="sphereShading">
                       <stop offset="0%" stop-color="rgba(255,255,255,0)" />
                       <stop offset="80%" stop-color="rgba(0,0,0,0.3)" />
                       <stop offset="100%" stop-color="rgba(0,0,0,0.6)" />
                     </radialGradient>
                   </defs>
-                  
+  
                   <!-- Earth texture -->
-                  <circle cx="100" cy="100" r="100" fill="url(#earthTexture)"/>
-                  
+                  <circle cx="100" cy="100" r="100" fill="url(#earthTexture)" />
+  
                   <!-- Shading overlay -->
-                  <circle cx="100" cy="100" r="100" fill="url(#sphereShading)"/>
+                  <circle cx="100" cy="100" r="100" fill="url(#sphereShading)" />
                 </svg>
               </div>
-              
-              <!-- Rotating rings -->
+  
+              <!-- Rotating Rings -->
               <div class="w-[400px] h-[400px] border-6 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_15s_linear_infinite]"></div>
-              
               <div class="w-[300px] h-[300px] border-3 border-[#21409a30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF30] animate-[spin_10s_linear_infinite] [transform:rotateX(91deg)_rotateY(128deg)_rotateZ(345deg)]"></div>
               <div class="w-[300px] h-[300px] border-3 border-[#FFFFFF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#00E5FF30] animate-[spin_10s_linear_infinite_reverse] [transform:rotateX(264deg)_rotateY(321deg)_rotateZ(27deg)]"></div>
               <div class="w-[300px] h-[300px] border-3 border-[#00E5FF30] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d shadow-[0_0_15px_#FFFFFF30] animate-[spin_10s_linear_infinite] [transform:rotateX(120deg)_rotateY(268deg)_rotateZ(215deg)]"></div>
@@ -292,56 +289,43 @@ onMount(() => {
           </div>
           {/if}
         </div>
-
-        <!-- Footer Links -->
-        <!-- <div class="flex justify-center space-x-10 p-6 text-gray-300">
-          <a href="#" class="hover:text-white">01 Sign up</a>
-          <a href="#" class="hover:text-white">02 Transfer Details</a>
-          <a href="#" class="hover:text-white">03 Transaction</a>
-          <a href="#" class="hover:text-white">04 Track your Money</a>
-        </div> -->
-		<div class="max-w-2xl mx-auto text-center space-y-4 px-1 md:px-0">
-		
-			<!-- <p class="text-sm md:text-base lg:text-xl text-muted-foreground text-black">
-			Check out some of the top businesses in our directory.
-		  </p> -->
-		  </div>
-		  {#if browser}
-			<div class=" max-w-screen-xl mx-auto px-4 md:px-8 lg:px-12">
-			  <Carousel
-				bind:this={carousel}
-				autoplayDuration={0}
-				duration={5000}
-				autoplay
-				timingFunction="linear"
-				dots={false}
-				arrows={false}
-				swiping={false}
-				particlesToShow={$particlesToShow}
-			  >
-				{#each images as image}
-				  <div
-					class=" rounded-lg overflow-hidden transition-all hover:scale-105 p-4"
-				  >
-					<img
-					  src={image.src}
-					  alt={image.alt}
-					  class="rounded-box w-12 h-12 md:w-24 md:h-12 lg:w-24 lg:h-12 object-contain mx-auto hover:scale-110 transition-transform"
-					/>
-				  </div>
-				{/each}
-			  </Carousel>
-			</div>
-		  {/if}
+  
+        <!-- Carousel -->
+        {#if browser}
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8 lg:px-12">
+          <Carousel
+            bind:this={carousel}
+            autoplayDuration={0}
+            duration={5000}
+            autoplay
+            timingFunction="linear"
+            dots={false}
+            arrows={false}
+            swiping={false}
+            particlesToShow={$particlesToShow}
+          >
+            {#each images as image}
+            <div class="rounded-lg overflow-hidden transition-all hover:scale-105 p-4">
+              <img src={image.src} alt={image.alt} class="rounded-box w-12 h-12 md:w-24 md:h-12 lg:w-24 lg:h-12 object-contain mx-auto hover:scale-110 transition-transform" />
+            </div>
+            {/each}
+          </Carousel>
+        </div>
+        {/if}
       </div>
     </div>
   </section>
+  
+  
+  
   <div 
   class="fixed bottom-4 right-4 p-4 bg-[#ec1d25] rounded-full shadow-lg cursor-pointer hover:bg-blue-600 transition-colors"
   on:click={navigateToChat}
 >
   <MessageCircle size={24} color="white" />
 </div>>
+
+
   <section class=" py-8 md:py-12">
     <div class="max-w-2xl mx-auto text-center space-y-4 px-4 md:px-0">
       
@@ -439,26 +423,48 @@ onMount(() => {
     {/if}
   </div>
 
-  <div
-    class="container flex flex-wrap justify-around w-full mt-8 p-6  rounded-2xl shadow-lg"
-  >
+  <section>
+    <div
+    class="container flex flex-wrap justify-around w-full mt-8 p-6 bg-white rounded-2xl shadow-lg"
+    >
     <div class="text-center text-black w-1/2 sm:w-1/4 mb-4 sm:mb-0">
       <h2 class="text-2xl font-bold">55</h2>
-      <p class="text-white">Students</p>
+      <p class="text-black">Students</p>
     </div>
     <div class="text-center text-black w-1/2 sm:w-1/4 mb-4 sm:mb-0">
       <h2 class="text-2xl font-bold">72</h2>
-      <p class="text-white">Lecturers</p>
+      <p class="text-black">Lecturers</p>
     </div>
     <div class="text-center text-black w-1/2 sm:w-1/4">
       <h2 class="text-2xl font-bold">115</h2>
-      <p class="text-white">Courses</p>
+      <p class="text-black">Courses</p>
     </div>
     <div class="text-center text-black w-1/2 sm:w-1/4">
       <h2 class="text-2xl font-bold">20</h2>
+      <p class="text-black">Certifications</p>
+    </div>
+    </div>
+    </section>
+  <!-- <div
+    class="container flex flex-wrap justify-around w-full mt-8 p-6  rounded-2xl shadow-lg"
+  >
+    <div class="text-center text-white w-1/2 sm:w-1/4 mb-4 sm:mb-0">
+      <h2 class="text-2xl font-bold">55</h2>
+      <p class="text-white">Students</p>
+    </div>
+    <div class="text-center text-white w-1/2 sm:w-1/4 mb-4 sm:mb-0">
+      <h2 class="text-2xl font-bold">72</h2>
+      <p class="text-white">Lecturers</p>
+    </div>
+    <div class="text-center text-white w-1/2 sm:w-1/4">
+      <h2 class="text-2xl font-bold">115</h2>
+      <p class="text-white">Courses</p>
+    </div>
+    <div class="text-center text-white w-1/2 sm:w-1/4">
+      <h2 class="text-2xl font-bold">20</h2>
       <p class="text-white">Certifications</p>
     </div>
-  </div>
+  </div> -->
   <!-- <section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
     <div class="container px-4 md:px-6">
       <div
@@ -697,6 +703,30 @@ onMount(() => {
     height: 100%;
     top: 0;
     display: block;
+  }
+  .animate-spin-slow {
+    animation: spin 30s linear infinite;
+  }
+
+  .animate-spin-medium {
+    animation: spin 20s linear infinite;
+  }
+
+  .animate-spin-fast {
+    animation: spin 10s linear infinite;
+  }
+
+  .animate-spin-slower {
+    animation: spin 50s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
   @keyframes spin {
   from { transform: rotate(0deg); }
