@@ -47,16 +47,16 @@
           class="text-5xl md:text-6xl font-bold"
           in:fly={{ y: -50, duration: 800 }}
         >
-          <span class="text-red-500">Empower</span> 
-          <span class="text-white">Your Future with</span>
-          <span class="text-blue-400">Technology</span>
+          <span class="text-blue-400">Individual </span> 
+          <span class="text-white">& Corporate</span>
+          <span class="text-red-500">Training</span>
         </h1>
         
         <p 
           class="text-xl text-white/80 max-w-2xl mx-auto"
           in:fly={{ y: 50, duration: 800, delay: 200 }}
         >
-          Transform your career with our cutting-edge tech courses. Learn from industry experts and join our community of successful graduates.
+        Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off site or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications and ETQA guidelines and qualification stipulations.
         </p>
         
         <div 

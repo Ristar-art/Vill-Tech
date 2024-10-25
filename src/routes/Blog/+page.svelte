@@ -91,7 +91,7 @@
       <div class="py-16 px-4" in:fade={{ duration: 1000 }}>
         <div class="max-w-7xl mx-auto">
           <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4 mt-24">
-            <span class="text-red-500">Village</span> <span class="text-blue-400">Tech</span> Blog
+            <span class="text-blue-400">Village</span> <span class="text-red-500">Tech</span> Blog
           </h1>
           <p class="text-white/80 text-center max-w-2xl mx-auto">
             Explore our latest stories, success cases, and updates about technology education and community impact

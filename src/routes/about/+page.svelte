@@ -49,7 +49,7 @@
 	{#if visible}
 	  <div in:fade={{ duration: 1000 }}>
 		<h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12 mt-24 tracking-tight">
-		  About <span class="text-red-500">Village</span> <span class="text-blue-400">Tech</span>
+		  About <span class="text-blue-400">Village</span> <span class="text-red-500">Tech</span>
 		</h1>
 	  </div>
   

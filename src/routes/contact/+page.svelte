@@ -71,7 +71,7 @@
       <div class="py-16 px-4" in:fade={{ duration: 1000 }}>
         <div class="max-w-7xl mx-auto">
           <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4 mt-24">
-            <span class="text-red-500">Contact</span> <span class="text-blue-400">Us</span>
+            <span class="text-blue-400">Contact</span> <span class="text-red-500">Us</span>
           </h1>
           <p class="text-white/80 text-center max-w-2xl mx-auto">
             Have questions about our programs? Want to partner with us? We'd love to hear from you!
@@ -96,7 +96,7 @@
                   </div>
                   <div>
                     <p class="font-medium">Email</p>
-                    <p class="text-white/80">info@villagetech.org</p>
+                    <p class="text-white/80">info@villagetech.co.za</p>
                   </div>
                 </div>
                 
@@ -108,19 +108,19 @@
                   </div>
                   <div>
                     <p class="font-medium">Location</p>
-                    <p class="text-white/80">123 Tech Street, Digital Village</p>
+                    <p class="text-white/80">85 Main Street Groundfloor, Marshalltown, Johannesburg, 2107</p>
                   </div>
                 </div>
                 
                 <div class="flex items-center space-x-4">
                   <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                      <path d="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.6905166364404!2d28.037884175415257!3d-26.206743977075003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950ea242cbb1e3%3A0xea12498442f6848e!2sVillage%20Tech%20Training%20Solutions!5e0!3m2!1sen!2sza!4v1729850883675!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />
                     </svg>
                   </div>
                   <div>
                     <p class="font-medium">Phone</p>
-                    <p class="text-white/80">+1 (555) 123-4567</p>
+                    <p class="text-white/80">087 135 1313</p>
                   </div>
                 </div>
               </div>
