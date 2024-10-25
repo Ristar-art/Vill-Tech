@@ -74,7 +74,7 @@
             <span class="text-blue-400">Contact</span> <span class="text-red-500">Us</span>
           </h1>
           <p class="text-white/80 text-center max-w-2xl mx-auto">
-            Have questions about our programs? Want to partner with us? We'd love to hear from you!
+            Have questions about our programmes? Want to partner with us? We'd love to hear from you!
           </p>
         </div>
       </div>
@@ -113,14 +113,18 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.6905166364404!2d28.037884175415257!3d-26.206743977075003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950ea242cbb1e3%3A0xea12498442f6848e!2sVillage%20Tech%20Training%20Solutions!5e0!3m2!1sen!2sza!4v1729850883675!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />
-                    </svg>
-                  </div>
+                  <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.6905166364404!2d28.037884175415257!3d-26.206743977075003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950ea242cbb1e3%3A0xea12498442f6848e!2sVillage%20Tech%20Training%20Solutions!5e0!3m2!1sen!2sza!4v1729850883675!5m2!1sen!2sza" 
+                     target="_blank" 
+                     rel="noopener noreferrer">
+                    <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                      <!-- Icon inside the circle -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927a1 1 0 011.902 0l1.287 4.06a1 1 0 00.95.69h4.5c.917 0 1.285 1.174.553 1.756l-3.647 2.91a1 1 0 00-.362 1.118l1.287 4.06c.281.885-.755 1.62-1.553 1.118L10 15.6l-3.647 2.91c-.798.502-1.834-.233-1.553-1.118l1.287-4.06a1 1 0 00-.362-1.118L2.078 9.433c-.732-.582-.364-1.756.553-1.756h4.5a1 1 0 00.95-.69l1.287-4.06z" />
+                      </svg>
+                    </div>
+                  </a>
                   <div>
-                    <p class="font-medium">Phone</p>
-                    <p class="text-white/80">087 135 1313</p>
+                    Village Tech Training Solutions
                   </div>
                 </div>
               </div>
@@ -212,9 +216,6 @@
       scroll-behavior: smooth;
     }
   
-    .bg-blue {
-      background-color: #1a365d;
-    }
   
     /* Map container styles */
     :global(.leaflet-container) {
