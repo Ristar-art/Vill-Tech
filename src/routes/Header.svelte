@@ -161,7 +161,7 @@
       <!-- <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a> -->
       <a href="About" class="text-gray-700 hover:text-white">About Us</a>
       <a href="Blog" class="text-gray-700 hover:text-white">Blog</a>
-      <a href="Contact" class="text-gray-700 hover:text-white">Contact</a>
+      <a href="contact" class="text-gray-700 hover:text-white">Contact</a>
     </nav>
 
     <!-- Search Bar -->
@@ -214,7 +214,7 @@
         <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
         <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
         <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
-        <a href="Contact" class="text-gray-700 hover:text-indigo-600">Contact</a
+        <a href="contact" class="text-gray-700 hover:text-indigo-600">Contact</a
         >
         <input
           type="text"
