@@ -5,8 +5,11 @@
 
 <div class="app">
 	<Header />
+    
 
-	<main class="bg-gradient-to-r from-[#ec1d25] via-[#939598] to-[#21409a]">
+	<main class="bg-[#21409a]">
+        <!-- "bg-gradient-to-r from-[#21409a] via-[#939598] to-[#21409a] -->
+        <!-- [#ec1d25] -->
 
 		
 		<slot />
@@ -14,8 +17,8 @@
 
 	
 
-	<footer class="bg-white bg-opacity-70 py-10">
-        <div class="container mx-auto px-4">
+	<footer class="bg-[#21409a] py-10">
+        <div class="container mx-auto px-4 bg-white bg-opacity-70 shadow-md z-50 rounded-lg rounded-lg">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <!-- Social Media Icons -->
                 <div class="mb-6 md:mb-0">
@@ -40,10 +43,7 @@
 
                 <!-- Covid-19 Information Section -->
                 <div class="text-center md:text-right mb-6 md:mb-0">
-                    <p class="text-gray-700 mb-2">For up-to-date COVID-19 information,</p>
-                    <a href="#" class="text-red-500 hover:text-red-600 transition duration-300 font-semibold">
-                        visit SA Government's COVID-19 Portal
-                    </a>
+                  
                     <div class="flex justify-center md:justify-end items-center mt-4 space-x-4">
                         <div class="bg-white p-2 rounded-full shadow-md">
                             <img src="/covid19.webp" alt="COVID-19 Logo" class="h-8 w-8">
@@ -105,4 +105,5 @@
 			padding: 12px 0;
 		}
 	}
+    
 </style>

@@ -157,11 +157,11 @@
 
     <!-- Navigation Links (Desktop) -->
     <nav class="hidden lg:flex space-x-8">
-      <a href="Courses" class="text-gray-700 hover:text-indigo-600">Courses</a>
-      <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
-      <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
-      <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
-      <a href="Contact" class="text-gray-700 hover:text-indigo-600">Contact</a>
+      <a href="Courses" class="text-gray-700 hover:text-white">Courses</a>
+      <!-- <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a> -->
+      <a href="About" class="text-gray-700 hover:text-white">About Us</a>
+      <a href="Blog" class="text-gray-700 hover:text-white">Blog</a>
+      <a href="Contact" class="text-gray-700 hover:text-white">Contact</a>
     </nav>
 
     <!-- Search Bar -->
@@ -175,10 +175,10 @@
 
     <!-- CTA Buttons -->
     <div class="hidden lg:flex items-center space-x-4">
-      <a href="Login" class="text-gray-700 hover:text-indigo-600">Login</a>
+      <a href="Login" class="text-gray-700 hover:text-white">Login</a>
       <a
         href="Signup"
-        class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+        class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
         >Sign Up</a
       >
     </div>

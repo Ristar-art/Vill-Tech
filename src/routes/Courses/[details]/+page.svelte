@@ -56,7 +56,7 @@
     // }
 </script>
 
-<body class="font-sans pt-14 bg-gradient-to-r from-[#ec1d25] via-[#939598]  to-[#21409a]">
+<body class="font-sans pt-14 bg-[#21409A]">
    
     {#if course}
     <div class="max-w-5xl mx-auto p-8">
