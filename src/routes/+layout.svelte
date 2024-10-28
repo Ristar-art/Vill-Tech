@@ -15,7 +15,7 @@
 	
 
 	<footer class="bg-white bg-opacity-70 py-10">
-        <div class="container mx-auto px-4 bg-white bg-opacity-70">
+        <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <!-- Social Media Icons -->
                 <div class="mb-6 md:mb-0">
@@ -46,14 +46,14 @@
                     </a>
                     <div class="flex justify-center md:justify-end items-center mt-4 space-x-4">
                         <div class="bg-white p-2 rounded-full shadow-md">
-                            <img src="/api/placeholder/50/50" alt="COVID-19 Logo" class="h-8 w-8">
+                            <img src="/covid19.webp" alt="COVID-19 Logo" class="h-8 w-8">
                         </div>
-                        <div class="bg-white p-2 rounded-full shadow-md">
+                        <!-- <div class="bg-white p-2 rounded-full shadow-md">
                             <img src="/api/placeholder/50/50" alt="Health Department Logo" class="h-8 w-8">
                         </div>
                         <div class="bg-white p-2 rounded-full shadow-md">
                             <img src="/api/placeholder/50/50" alt="NDP Logo" class="h-8 w-8">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

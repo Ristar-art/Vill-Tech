@@ -1,3 +1,4 @@
+// src/lib/moodle/client.js
 export class MoodleClient {
     constructor(config) {
         this.baseUrl = config.baseUrl.replace(/\/$/, '');
@@ -13,12 +14,17 @@ export class MoodleClient {
         Object.entries(params).forEach(([key, value]) => {
             url.searchParams.append(key, value);
         });
-
+       
+        const options = {
+            method: 'GET',
+            timeout: 30000, // 30-second timeout
+        };
         try {
-            const response = await fetch(url.toString());
-            
+            // const response = await fetch(url, );
+            const response = await fetch(url.toString(), options);
+
             if (!response.ok) {
-                throw error(response.status, `Moodle API error: ${response.statusText}`);
+                throw new Error(`Moodle API error: ${response.status} ${response.statusText}`);
             }
 
             const data = await response.json();
@@ -31,22 +37,142 @@ export class MoodleClient {
                         policyUrl: data.message.match(/href="([^"]*)"/)[1]
                     };
                 }
-                throw error(400, `Moodle error: ${data.message}`);
+                throw new Error(`Moodle error: ${data.message}`);
             }
 
             return data;
         } catch (e) {
-            if (e instanceof Error) {
-                throw error(500, `Failed to fetch from Moodle: ${e.message}`);
-            }
-            throw e;
+            console.error(`Error in ${wsfunction}:`, e);
+            throw new Error(`Failed to fetch from Moodle (${wsfunction}): ${e.message}`);
+
         }
     }
 
     async getSiteInfo() {
         return this.fetchMoodle('core_webservice_get_site_info');
     }
+    async getBlockContent(instanceId) {
+        return this.fetchMoodle('core_block_get_dashboard_blocks', {
+            returncontents: 1,
+            includeinvisible: false,
+            instanceid: instanceId
+        });
+    }
 
+    async getCourseBlocks(courseId) {
+        try {
+            // Get blocks using the core function
+            const response = await this.fetchMoodle('core_block_get_course_blocks', {
+                courseid: courseId
+            });
+
+            // Filter visible blocks
+            const visibleBlocks = response.blocks?.filter(block => {
+                return block.visible &&
+                    !block.region?.startsWith('hidden') &&
+                    block.instanceid &&
+                    block.configurable !== false;
+            }) || [];
+
+            // Map blocks to a simpler structure
+            const processedBlocks = visibleBlocks.map(block => ({
+                id: block.instanceid,
+                name: block.name,
+                region: block.region,
+                weight: block.weight,
+                title: block.instance?.title || block.name,
+                // Include any additional block-specific data from the instance
+                config: block.instance?.configdata || {},
+                // For now, we're not trying to fetch additional content
+                hasContent: false
+            }));
+
+            return {
+                blocks: processedBlocks,
+                totalBlocks: response.blocks?.length || 0,
+                visibleBlocksCount: processedBlocks.length
+            };
+        } catch (error) {
+            console.error('Failed to fetch course blocks:', error);
+            return {
+                blocks: [],
+                totalBlocks: 0,
+                visibleBlocksCount: 0,
+                error: error.message
+            };
+        }
+    }
+  
+    async getCourseCompetencies(courseId) {
+        try {
+            if (!courseId || typeof courseId !== 'number') {
+                throw new Error('courseId must be a valid number');
+            }
+
+            // Use 'id' parameter instead of 'courseid' as per Moodle documentation
+            const params = {
+                'id': courseId.toString()
+            };
+
+            // Log the request for debugging
+            // console.log('Sending request with params:', params);
+
+            const data = await this.fetchMoodle('core_competency_list_course_competencies', params);
+
+            if (!data) {
+                return [];
+            }
+
+            // Check if data is an array and has content
+            return Array.isArray(data) ? data : [];
+
+        } catch (error) {
+            console.error('Error fetching competencies:', {
+                courseId,
+                error: error.message,
+                stack: error.stack
+            });
+
+            // Return empty array if no competencies exist
+            return [];
+        }
+    }
+
+
+
+    // async getCompetencyFramework(frameworkId) {
+    //     return this.fetchMoodle('core_competency_read_competency_framework', {
+    //         id: frameworkId
+    //     });
+    // }
+    // async getCompetencyFrameworks() {
+    //     return this.fetchMoodle('core_competency_list_competency_frameworks');
+    // }
+
+    async getCompetencyFramework(courseId) {
+        // console.log('courseId is ', courseId)
+        const courseCompetencies = await this.getCourseCompetencies(courseId);
+        if (courseCompetencies && courseCompetencies.length > 0) {
+            // The framework ID is typically available in the competency data
+            const frameworkId = courseCompetencies[0].competency.competencyframeworkid;
+            return this.fetchMoodle('core_competency_read_competency_framework', {
+                id: frameworkId
+            });
+        }
+        return null;
+    }
+    // async getCompetencyFrameworks() {
+    //     try {
+    //         // If you need to get all frameworks
+    //         return this.fetchMoodle('core_competency_list_competency_frameworks', {
+    //             sort: 'shortname',
+    //             order: 'ASC'
+    //         });
+    //     } catch (error) {
+    //         console.error('Failed to fetch competency frameworks:', error);
+    //         return [];
+    //     }
+    // }
     async getCourses() {
         return this.fetchMoodle('core_course_get_courses');
     }
@@ -57,5 +183,8 @@ export class MoodleClient {
 
     async getCourseModule(cmid) {
         return this.fetchMoodle('core_course_get_course_module', { cmid });
+    }
+    async getEnrolledUsers(courseId) {
+        return this.fetchMoodle('core_enrol_get_enrolled_users', { courseid: courseId });
     }
 }

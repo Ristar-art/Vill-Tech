@@ -7,7 +7,7 @@
 </script>
 
 <header
-  class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-70 shadow-md z-50 rounded-lg backdrop-filter backdrop-blur-lg w-full max-w-7xl"
+  class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-70 shadow-md z-50  backdrop-filter backdrop-blur-lg w-full "
 >
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->

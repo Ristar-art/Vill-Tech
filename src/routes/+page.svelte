@@ -335,7 +335,7 @@
         <div
           class="bg-gray-50 rounded-lg p-6 flex flex-col items-center justify-center shadow hover:shadow-lg transition-shadow duration-200"
         >
-          <a href={`/${topic.name}`}>
+          <a href={`/`}>
             <img src={topic.icon} alt={topic.name} class="h-16 w-16 mb-4" />
             <span class="text-lg font-medium text-gray-800">{topic.name}</span>
           </a>

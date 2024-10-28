@@ -2,6 +2,9 @@
 import { MoodleClient } from './client';
 
 
+// const MOODLE_URL = adbe6250a75ea40bc5215d684eac15c2
+// const MOODLE_TOKEN = https://villagetech.moodlecloud.com/
+
 const MOODLE_URL = import.meta.env.VITE_MOODLE_URL;
 const MOODLE_TOKEN = import.meta.env.VITE_MOODLE_WBTOKEN;
 

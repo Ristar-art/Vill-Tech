@@ -1,16 +1,33 @@
 <script>
     import { page } from "$app/stores";
     import { goto } from '$app/navigation';
+    //  import CourseBlocks from '$lib/components/CourseBlocks.svelte';
+    //  import { getCourseBlocks } from '$lib/moodleApi';
+    import CourseIncludes from '$lib/components/CourseIncludes.svelte';
+    import Accreditation from '$lib/components/Accreditation.svelte';
+    import Duration from '$lib/components/Duration.svelte';
+// const { courseBlocks } = data;
+       
+  /** @type {import('./$types').PageData} */
     export let data;
 
     $: console.log(data);
     const subject = $page.params.subjects;
-  
+      const { course, courseContents, courseBlocks,courseCompetencies } = data;
     // Course data
     $: courseId = $page.params.details;
-    $: course = data.course;
-    $: courseContents = data.courseContents;
-
+    // $: course = data.course;
+    // $: courseContents = data.courseContents;
+    $: competencyDescription = data.courseCompetencies?.[0]?.competency?.description || '';
+    $: PorogrammeOvervie = data.courseCompetencies?.find(comp => comp.competency.shortname === 'Programme Overview')
+    function cleanDescription(html) {
+    if (!html) return '';
+    return html
+      .replace(/dir="ltr"/g, '')  // Remove dir="ltr" attributes
+      .replace(/>\s+(?=\w)/g, '') // Remove remaining > followed by whitespace before words
+      .replace(/<p><\/p>/g, '');  // Remove empty paragraphs
+  }
+  
     // Dynamically manage section toggle states
     let sections = {};
     $: courseContents.forEach(content => sections[content.id] = false);
@@ -39,7 +56,7 @@
     // }
 </script>
 
-<body class="font-sans pt-12 bg-gradient-to-r from-red-600 via-red-500 to-blue-700">
+<body class="font-sans pt-14 bg-gradient-to-r from-[#ec1d25] via-[#939598]  to-[#21409a]">
    
     {#if course}
     <div class="max-w-5xl mx-auto p-8">
@@ -71,16 +88,17 @@
                     <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
                 </div>
                 <div class="flex items-center mb-6">
-                    <a href={`/Courses/${subject}/content`} class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
+                    <a href={`/Courses/${courseId}/`} class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
                     <div class="flex items-center ml-4 text-gray-700">
                         <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/people-fill.svg" alt="learners" class="w-6 h-6">
                         <span class="ml-2">93,012 learners enrolled</span>
                     </div>
                 </div>
             </div>
-
+<!-- <CourseBlocks blocks={courseBlocks} /> -->
+<CourseIncludes {competencyDescription} />
            
-            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <!-- <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
                 <h3 class="text-xl font-semibold text-[#222222] mb-4">This course includes</h3>
                 <ul class="space-y-3 text-gray-700">
                     <li class="flex items-center">
@@ -100,9 +118,12 @@
                         A certificate of completion
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
 
+           <Accreditation  courseCompetencies={data.courseCompetencies}  />
+<Duration courseCompetencies={data.courseCompetencies} />
+                  
         
         <div class="max-w-4xl mx-auto py-10">
            
@@ -136,7 +157,7 @@
                             </div>
                             <span >
                              
-                             <a><a href={`/Courses/${subject}/${content.id}`}> {content.name}</a></span>
+                             <a><a href={`/Courses`}> {content.name}</a></span>
                         </li>
                     </ul>
                 </div>

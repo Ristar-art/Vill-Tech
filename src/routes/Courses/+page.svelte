@@ -12,7 +12,7 @@
   <meta name="description" content="Modernized course listing app" />
 </svelte:head>
 
-<div class="flex flex-col min-h-[100dvh] pt-12">
+<div class="flex flex-col min-h-[100dvh] pt-14">
   <div class="max-w-7xl mx-auto p-8">
     <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Our Courses</h2>
 
