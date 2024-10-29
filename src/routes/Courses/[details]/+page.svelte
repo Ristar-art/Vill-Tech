@@ -6,6 +6,8 @@
     import CourseIncludes from '$lib/components/CourseIncludes.svelte';
     import Accreditation from '$lib/components/Accreditation.svelte';
     import Duration from '$lib/components/Duration.svelte';
+    import TargetAudience from '$lib/components/TargetAudience.svelte';
+    import EntryRequirements from '$lib/components/EntryRequirements.svelte'
 // const { courseBlocks } = data;
        
   /** @type {import('./$types').PageData} */
@@ -123,19 +125,19 @@
 
            <Accreditation  courseCompetencies={data.courseCompetencies}  />
 <Duration courseCompetencies={data.courseCompetencies} />
-                  
-        
+                  <TargetAudience courseCompetencies={data.courseCompetencies} />
+        <EntryRequirements courseCompetencies={data.courseCompetencies} />
         <div class="max-w-4xl mx-auto py-10">
            
           
-            <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
+            <!-- <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
                 <h2 class="text-2xl font-bold">Syllabus</h2>
                 <p class="text-sm text-gray-600">6 lessons · 2 projects · 5 quizzes</p>
-            </div>
+            </div> -->
 
            
             
-            {#each courseContents as content}
+            <!-- {#each courseContents as content}
             <div class="bg-white bg-opacity-70 shadow-md rounded-lg mb-4">
                 <button on:click={() => toggleSection(content.id)} class="w-full flex justify-between items-center p-4">
                     <div class="flex items-center space-x-4">
@@ -163,7 +165,7 @@
                 </div>
                 {/if}
             </div>
-            {/each}
+            {/each} -->
         </div>
     </div>
     {:else}

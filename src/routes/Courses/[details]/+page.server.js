@@ -44,12 +44,12 @@ export async function load({ params }) {
         // }
 
         console.log(' courseCompetencies: ', courseCompetencies);
-        console.log(`Found ${blocksData.visibleBlocksCount} visible blocks out of ${blocksData.totalBlocks} total blocks`);
+        // console.log(`Found ${blocksData.visibleBlocksCount} visible blocks out of ${blocksData.totalBlocks} total blocks`);
 
         return {
             course,
             courseContents,
-            courseBlocks: blocksData.blocks,
+            // courseBlocks: blocksData.blocks,
             courseCompetencies,
             // frameworks
         };
