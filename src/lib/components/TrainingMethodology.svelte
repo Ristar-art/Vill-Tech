@@ -1,7 +1,7 @@
 <script>
   export let courseCompetencies;
-   $: console.log('courseCompetencies is ', courseCompetencies);
-  $: duration = courseCompetencies?.find(comp => comp.competency.shortname === 'Duration');
+
+  $: CourseAndModules  = courseCompetencies?.find(comp => comp.competency.shortname === 'Training Methodology');
 
   function cleanDescription(html) {
     if (!html) return '';
@@ -16,16 +16,21 @@
   <div class="flex items-start gap-4">
     <div class="flex-shrink-0">
       <img 
-        src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/clock.svg" 
-        alt="Duration icon" 
+        src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/award.svg" 
+        alt="Course Structure and Modules icon" 
         class="w-8 h-8 text-indigo-600"
       >
     </div>
     <div class="flex-grow">
-      <h3 class="text-xl font-semibold text-[#222222] mb-2">{duration?.competency?.shortname || 'Duration'}</h3>
+      <h3 class="text-xl font-semibold text-[#222222] mb-2">{CourseAndModules?.competency?.shortname || 'Training Methodology'}</h3>
       <div class="text-gray-700">
+        <!-- {#if CourseAndModules?.competency?.idnumber}
+          <div class="text-sm font-medium text-indigo-600 mb-2">
+            Course Structure and Modules Code: {CourseAndModules.competency.idnumber}
+          </div>
+        {/if} -->
         <div class="prose prose-sm max-w-none">
-          {@html cleanDescription(duration?.competency?.description)}
+          {@html cleanDescription(CourseAndModules?.competency?.description)}
         </div>
       </div>
     </div>

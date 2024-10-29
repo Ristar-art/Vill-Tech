@@ -43,7 +43,7 @@ export async function load({ params }) {
         //     });
         // }
 
-        console.log(' courseCompetencies: ', courseCompetencies);
+        // console.log(' courseCompetencies: ', courseCompetencies);
         // console.log(`Found ${blocksData.visibleBlocksCount} visible blocks out of ${blocksData.totalBlocks} total blocks`);
 
         return {

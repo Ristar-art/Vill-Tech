@@ -48,9 +48,7 @@ export class MoodleClient {
         }
     }
 
-    async getSiteInfo() {
-        return this.fetchMoodle('core_webservice_get_site_info');
-    }
+   
     async getBlockContent(instanceId) {
         return this.fetchMoodle('core_block_get_dashboard_blocks', {
             returncontents: 1,
@@ -114,9 +112,7 @@ export class MoodleClient {
                 'id': courseId.toString()
             };
 
-            // Log the request for debugging
-            // console.log('Sending request with params:', params);
-
+           
             const data = await this.fetchMoodle('core_competency_list_course_competencies', params);
 
             if (!data) {
@@ -140,15 +136,7 @@ export class MoodleClient {
 
 
 
-    // async getCompetencyFramework(frameworkId) {
-    //     return this.fetchMoodle('core_competency_read_competency_framework', {
-    //         id: frameworkId
-    //     });
-    // }
-    // async getCompetencyFrameworks() {
-    //     return this.fetchMoodle('core_competency_list_competency_frameworks');
-    // }
-
+    
     async getCompetencyFramework(courseId) {
         // console.log('courseId is ', courseId)
         const courseCompetencies = await this.getCourseCompetencies(courseId);
@@ -161,18 +149,7 @@ export class MoodleClient {
         }
         return null;
     }
-    // async getCompetencyFrameworks() {
-    //     try {
-    //         // If you need to get all frameworks
-    //         return this.fetchMoodle('core_competency_list_competency_frameworks', {
-    //             sort: 'shortname',
-    //             order: 'ASC'
-    //         });
-    //     } catch (error) {
-    //         console.error('Failed to fetch competency frameworks:', error);
-    //         return [];
-    //     }
-    // }
+    
     async getCourses() {
         return this.fetchMoodle('core_course_get_courses');
     }

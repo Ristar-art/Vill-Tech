@@ -1,20 +1,33 @@
 <script>
-  export let competencyDescription;
-
+  export let courseCompetencies;
+  $: console.log('courseCompetencies is ', courseCompetencies);
+  $: overview = courseCompetencies?.find(comp => comp.competency.shortname === 'Programme Overview');
+  $: console.log('Overview is ', overview);
   function cleanDescription(html) {
+    if (!html) return '';
     return html
       .replace(/dir="ltr"/g, '')  // Remove dir="ltr" attributes
-      .replace(/<li>\s*<p>\s*>/g, '<li><p>')  // Remove trailing > and clean whitespace
       .replace(/>\s+(?=\w)/g, '') // Remove remaining > followed by whitespace before words
-      .replace(/<li/g, '<li class="flex items-start"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/patch-check-fill.svg" alt="icon" class="w-5 h-5 mr-2 text-indigo-600 mt-1" />'); // Keep the icon
+      .replace(/<p><\/p>/g, '');  // Remove empty paragraphs
   }
 </script>
 
-<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-  <h3 class="text-xl font-semibold text-[#222222] mb-4">This course includes</h3>
-  <div 
-    class="text-gray-700 [&_ul]:space-y-3 [&_li]:flex [&_li]:items-start [&_p]:m-0"
-  >
-    {@html cleanDescription(competencyDescription)}
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 mt-6">
+  <div class="flex items-start gap-4">
+    <div class="flex-shrink-0">
+      <img 
+        src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/clock.svg" 
+        alt="Duration icon" 
+        class="w-8 h-8 text-indigo-600"
+      >
+    </div>
+    <div class="flex-grow">
+      <h3 class="text-xl font-semibold text-[#222222] mb-2">{overview?.competency?.shortname || 'Overview'}</h3>
+      <div class="text-gray-700">
+        <div class="prose prose-sm max-w-none">
+          {@html cleanDescription(overview?.competency?.description)}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,106 +1,156 @@
 <script>
-    import { page } from "$app/stores";
-    import { goto } from '$app/navigation';
-    //  import CourseBlocks from '$lib/components/CourseBlocks.svelte';
-    //  import { getCourseBlocks } from '$lib/moodleApi';
-    import CourseIncludes from '$lib/components/CourseIncludes.svelte';
-    import Accreditation from '$lib/components/Accreditation.svelte';
-    import Duration from '$lib/components/Duration.svelte';
-    import TargetAudience from '$lib/components/TargetAudience.svelte';
-    import EntryRequirements from '$lib/components/EntryRequirements.svelte'
-// const { courseBlocks } = data;
-       
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  //  import CourseBlocks from '$lib/components/CourseBlocks.svelte';
+  //  import { getCourseBlocks } from '$lib/moodleApi';
+  import CourseIncludes from "$lib/components/CourseIncludes.svelte";
+  import Accreditation from "$lib/components/Accreditation.svelte";
+  import Duration from "$lib/components/Duration.svelte";
+  import TargetAudience from "$lib/components/TargetAudience.svelte";
+  import EntryRequirements from "$lib/components/EntryRequirements.svelte";
+  import CourseAndModules from "$lib/components/CourseAndModules.svelte";
+  import Module1 from "$lib/components/Module1.svelte";
+  import Module2 from "$lib/components/Module2.svelte";
+  import Module3 from "$lib/components/Module3.svelte";
+  import Module4 from "$lib/components/Module4.svelte";
+  import Module5 from "$lib/components/Module5.svelte";
+  import Module6 from "$lib/components/Module6.svelte";
+  import Module7 from "$lib/components/Module7.svelte";
+  import Module8 from "$lib/components/Module8.svelte";
+ import TrainingMethodology from "$lib/components/TrainingMethodology.svelte";
+ import CareerOpportunities from "$lib/components/CareerOpportunities.svelte";
+ import RecommendedCoursesFee from "$lib/components/RecommendedCoursesFee.svelte";
+  // const { courseBlocks } = data;
+
   /** @type {import('./$types').PageData} */
-    export let data;
+  export let data;
 
-    $: console.log(data);
-    const subject = $page.params.subjects;
-      const { course, courseContents, courseBlocks,courseCompetencies } = data;
-    // Course data
-    $: courseId = $page.params.details;
-    // $: course = data.course;
-    // $: courseContents = data.courseContents;
-    $: competencyDescription = data.courseCompetencies?.[0]?.competency?.description || '';
-    $: PorogrammeOvervie = data.courseCompetencies?.find(comp => comp.competency.shortname === 'Programme Overview')
-    function cleanDescription(html) {
-    if (!html) return '';
+  //   $: console.log(data);
+  const subject = $page.params.subjects;
+  const { course, courseContents, courseBlocks, courseCompetencies } = data;
+  // Course data
+  $: courseId = $page.params.details;
+  // $: course = data.course;
+  // $: courseContents = data.courseContents;
+  $: competencyDescription =
+    data.courseCompetencies?.[0]?.competency?.description || "";
+  $: console.log("competencyDescription is ", competencyDescription);
+  $: PorogrammeOvervie = data.courseCompetencies?.find(
+    (comp) => comp.competency.shortname === "Learning Objective"
+  );
+  function cleanDescription(html) {
+    if (!html) return "";
     return html
-      .replace(/dir="ltr"/g, '')  // Remove dir="ltr" attributes
-      .replace(/>\s+(?=\w)/g, '') // Remove remaining > followed by whitespace before words
-      .replace(/<p><\/p>/g, '');  // Remove empty paragraphs
+      .replace(/dir="ltr"/g, "") // Remove dir="ltr" attributes
+      .replace(/>\s+(?=\w)/g, "") // Remove remaining > followed by whitespace before words
+      .replace(/<p><\/p>/g, ""); // Remove empty paragraphs
   }
-  
-    // Dynamically manage section toggle states
-    let sections = {};
-    $: courseContents.forEach(content => sections[content.id] = false);
 
-    // Toggle function
-    function toggleSection(sectionId) {
-        sections[sectionId] = !sections[sectionId];
-    }
+  // Dynamically manage section toggle states
+  let sections = {};
+  $: courseContents.forEach((content) => (sections[content.id] = false));
 
-    // Icon function
-    function getModuleIcon(modname) {
-        const icons = {
-            resource: '📄',
-            url: '🔗',
-            forum: '💬',
-            assign: '📝',
-            quiz: '❓',
-            default: '📚'
-        };
-        return icons[modname] || icons.default;
-    }
+  // Toggle function
+  //   function toggleSection(sectionId) {
+  //     sections[sectionId] = !sections[sectionId];
+  //   }
 
-    // Navigate to lesson details
-    // function viewLessonDetails(lessonId) {
-    //     goto(`/Courses/${subject}/${lessonId}`); // Navigate to lesson details page
-    // }
+  // Icon function
+  //   function getModuleIcon(modname) {
+  //     const icons = {
+  //       resource: "📄",
+  //       url: "🔗",
+  //       forum: "💬",
+  //       assign: "📝",
+  //       quiz: "❓",
+  //       default: "📚",
+  //     };
+  //     return icons[modname] || icons.default;
+  //   }
+
+  // Navigate to lesson details
+  // function viewLessonDetails(lessonId) {
+  //     goto(`/Courses/${subject}/${lessonId}`); // Navigate to lesson details page
+  // }
 </script>
 
 <body class="font-sans pt-14 bg-[#21409A]">
-   
-    {#if course}
+  {#if course}
     <div class="max-w-5xl mx-auto p-8">
-      
-        <div class="bg-white bg-opacity-70 p-6 rounded-lg shadow-lg flex flex-col md:flex-row md:space-x-8">
-           
-            <div class="flex-1 ">
-                <div class="mb-2">
-                    <span class="bg-black text-white text-sm font-semibold px-3 py-1 rounded-full">Free</span>
-                    <span class="ml-2 text-sm text-gray-600">Course</span>
-                </div>
-                <h1 class="text-4xl font-bold text-[#222222] mb-4">{course.fullname}</h1>
+      <div
+        class="bg-white bg-opacity-70 p-6 rounded-lg shadow-lg flex flex-col md:flex-row md:space-x-8"
+      >
+        <div class="flex-1">
+          <div class="mb-2">
+            <span
+              class="bg-black text-white text-sm font-semibold px-3 py-1 rounded-full"
+              >Free</span
+            >
+            <span class="ml-2 text-sm text-gray-600">Course</span>
+          </div>
+          <h1 class="text-4xl font-bold text-[#222222] mb-4">
+            {course.fullname}:
+              {@html cleanDescription(PorogrammeOvervie?.competency?.shortname)}
+          </h1>
 
-                {#if course.summary}
-                <div class="text-lg text-gray-700 mb-4">
-                    {@html course.summary}
-                </div>
-                {/if}
-
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl font-bold text-[#222222] mr-2">4.3</span>
-                    <div class="flex space-x-1">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-half.svg" alt="half star" class="w-5 h-5 text-yellow-400">
-                    </div>
-                    <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
-                </div>
-                <div class="flex items-center mb-6">
-                    <a href={`/Courses/${courseId}/`} class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
-                    <div class="flex items-center ml-4 text-gray-700">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/people-fill.svg" alt="learners" class="w-6 h-6">
-                        <span class="ml-2">93,012 learners enrolled</span>
-                    </div>
-                </div>
+          {#if course.summary}
+            <div class="text-lg text-gray-700 mb-4">
+              <!-- {@html course.summary} -->
+               {@html cleanDescription(PorogrammeOvervie?.competency?.description)}
             </div>
-<!-- <CourseBlocks blocks={courseBlocks} /> -->
-<CourseIncludes {competencyDescription} />
-           
-            <!-- <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+          {/if}
+
+          <div class="flex items-center mb-4">
+            <span class="text-2xl font-bold text-[#222222] mr-2">4.3</span>
+            <div class="flex space-x-1">
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg"
+                alt="star"
+                class="w-5 h-5 text-yellow-400"
+              />
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg"
+                alt="star"
+                class="w-5 h-5 text-yellow-400"
+              />
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg"
+                alt="star"
+                class="w-5 h-5 text-yellow-400"
+              />
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg"
+                alt="star"
+                class="w-5 h-5 text-yellow-400"
+              />
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-half.svg"
+                alt="half star"
+                class="w-5 h-5 text-yellow-400"
+              />
+            </div>
+            <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
+          </div>
+          <div class="flex items-center mb-6">
+            <a
+              href={`/Courses/${courseId}/`}
+              class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition"
+              >Start</a
+            >
+            <div class="flex items-center ml-4 text-gray-700">
+              <img
+                src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/people-fill.svg"
+                alt="learners"
+                class="w-6 h-6"
+              />
+              <span class="ml-2">93,012 learners enrolled</span>
+            </div>
+          </div>
+        </div>
+        <!-- <CourseBlocks blocks={courseBlocks} /> -->
+        <!-- <CourseIncludes {competencyDescription} /> -->
+
+        <!-- <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
                 <h3 class="text-xl font-semibold text-[#222222] mb-4">This course includes</h3>
                 <ul class="space-y-3 text-gray-700">
                     <li class="flex items-center">
@@ -121,23 +171,31 @@
                     </li>
                 </ul>
             </div> -->
-        </div>
+      </div>
 
-           <Accreditation  courseCompetencies={data.courseCompetencies}  />
-<Duration courseCompetencies={data.courseCompetencies} />
-                  <TargetAudience courseCompetencies={data.courseCompetencies} />
-        <EntryRequirements courseCompetencies={data.courseCompetencies} />
-        <div class="max-w-4xl mx-auto py-10">
-           
-          
-            <!-- <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
+      <Accreditation courseCompetencies={data.courseCompetencies} />
+      <Duration courseCompetencies={data.courseCompetencies} />
+      <TargetAudience courseCompetencies={data.courseCompetencies} />
+      <EntryRequirements courseCompetencies={data.courseCompetencies} />
+      <CourseAndModules courseCompetencies={data.courseCompetencies} />
+      <Module1 courseCompetencies={data.courseCompetencies} />
+      <Module2 courseCompetencies={data.courseCompetencies} />
+      <Module3 courseCompetencies={data.courseCompetencies} />
+      <Module4 courseCompetencies={data.courseCompetencies} />
+      <Module5 courseCompetencies={data.courseCompetencies} />
+      <Module6 courseCompetencies={data.courseCompetencies} />
+      <Module7 courseCompetencies={data.courseCompetencies} />
+      <Module8 courseCompetencies={data.courseCompetencies} />
+      <TrainingMethodology courseCompetencies={data.courseCompetencies} />
+      <CareerOpportunities courseCompetencies={data.courseCompetencies} />
+      <!-- <RecommendedCoursesFee courseCompetencies={data.courseCompetencies} /> -->
+      <div class="max-w-4xl mx-auto py-10">
+        <!-- <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
                 <h2 class="text-2xl font-bold">Syllabus</h2>
                 <p class="text-sm text-gray-600">6 lessons · 2 projects · 5 quizzes</p>
             </div> -->
 
-           
-            
-            <!-- {#each courseContents as content}
+        <!-- {#each courseContents as content}
             <div class="bg-white bg-opacity-70 shadow-md rounded-lg mb-4">
                 <button on:click={() => toggleSection(content.id)} class="w-full flex justify-between items-center p-4">
                     <div class="flex items-center space-x-4">
@@ -166,15 +224,12 @@
                 {/if}
             </div>
             {/each} -->
-        </div>
+      </div>
     </div>
-    {:else}
+  {:else}
     <p class="error">Course not found</p>
-    {/if}
+  {/if}
 </body>
-
-
-
 
 <!-- <div class="course-details">
     {#if course}
