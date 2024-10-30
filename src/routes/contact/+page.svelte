@@ -221,4 +221,5 @@
     :global(.leaflet-container) {
       z-index: 1;
     }
+    
   </style>
