@@ -1,210 +1,196 @@
 <script>
+    import { onMount } from 'svelte';
+    import { fade, fly, scale } from 'svelte/transition';
+    import { spring } from 'svelte/motion';
     import { page } from "$app/stores";
     import { goto } from '$app/navigation';
+    
     export let data;
-
+    let visible = false;
+    
     $: console.log(data);
     const subject = $page.params.subjects;
-  
-    // Course data
     $: courseId = $page.params.details;
     $: course = data.course;
     $: courseContents = data.courseContents;
-
+    
     // Dynamically manage section toggle states
     let sections = {};
     $: courseContents.forEach(content => sections[content.id] = false);
-
-    // Toggle function
+    
+    // Toggle function with animation
     function toggleSection(sectionId) {
         sections[sectionId] = !sections[sectionId];
     }
-
-    // Icon function
+    
+    onMount(() => {
+        visible = true;
+    });
+    
+    // Icon function with SVG icons instead of emoji
     function getModuleIcon(modname) {
         const icons = {
-            resource: '📄',
-            url: '🔗',
-            forum: '💬',
-            assign: '📝',
-            quiz: '❓',
-            default: '📚'
+            resource: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>`,
+            url: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>`,
+            forum: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+            </svg>`,
+            assign: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>`,
+            quiz: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>`,
+            default: `<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>`
         };
         return icons[modname] || icons.default;
     }
-
-    // Navigate to lesson details
-    // function viewLessonDetails(lessonId) {
-    //     goto(`/Courses/${subject}/${lessonId}`); // Navigate to lesson details page
-    // }
-</script>
-
-<body class="font-sans pt-12 bg-[#21409a]">
-   
-    {#if course}
-    <div class="max-w-5xl mx-auto p-8">
-      
-        <div class="bg-white bg-opacity-70 p-6 rounded-lg shadow-lg flex flex-col md:flex-row md:space-x-8">
-           
-            <div class="flex-1 ">
-                <div class="mb-2">
-                    <span class="bg-black text-white text-sm font-semibold px-3 py-1 rounded-full">Free</span>
-                    <span class="ml-2 text-sm text-gray-600">Course</span>
-                </div>
-                <h1 class="text-4xl font-bold text-[#222222] mb-4">{course.fullname}</h1>
-
-                {#if course.summary}
-                <div class="text-lg text-gray-700 mb-4">
-                    {@html course.summary}
-                </div>
-                {/if}
-
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl font-bold text-[#222222] mr-2">4.3</span>
-                    <div class="flex space-x-1">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-fill.svg" alt="star" class="w-5 h-5 text-yellow-400">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/star-half.svg" alt="half star" class="w-5 h-5 text-yellow-400">
-                    </div>
-                    <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
-                </div>
-                <div class="flex items-center mb-6">
-                    <a href={`/Courses/${subject}/content`} class="bg-[#4b24ec] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#3a1ebd] transition">Start</a>
-                    <div class="flex items-center ml-4 text-gray-700">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/people-fill.svg" alt="learners" class="w-6 h-6">
-                        <span class="ml-2">93,012 learners enrolled</span>
-                    </div>
-                </div>
-            </div>
-
-           
-            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h3 class="text-xl font-semibold text-[#222222] mb-4">This course includes</h3>
-                <ul class="space-y-3 text-gray-700">
-                    <li class="flex items-center">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/patch-check-fill.svg" alt="icon" class="w-5 h-5 mr-2 text-indigo-600">
-                        AI assistance for guided coding help
-                    </li>
-                    <li class="flex items-center">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/patch-check-fill.svg" alt="icon" class="w-5 h-5 mr-2 text-indigo-600">
-                        Projects to apply new skills
-                    </li>
-                    <li class="flex items-center">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/patch-check-fill.svg" alt="icon" class="w-5 h-5 mr-2 text-indigo-600">
-                        Quizzes to test your knowledge
-                    </li>
-                    <li class="flex items-center">
-                        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/patch-check-fill.svg" alt="icon" class="w-5 h-5 mr-2 text-indigo-600">
-                        A certificate of completion
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        
-        <div class="max-w-4xl mx-auto py-10">
-           
-          
-            <div class="pt-12 bg-white bg-opacity-70 shadow-md rounded-lg p-6 mb-4">
-                <h2 class="text-2xl font-bold">Syllabus</h2>
-                <p class="text-sm text-gray-600">6 lessons · 2 projects · 5 quizzes</p>
-            </div>
-
-           
-            
-            {#each courseContents as content}
-            <div class="bg-white bg-opacity-70 shadow-md rounded-lg mb-4">
-                <button on:click={() => toggleSection(content.id)} class="w-full flex justify-between items-center p-4">
-                    <div class="flex items-center space-x-4">
-                        <span class="bg-indigo-900 text-white w-8 h-8 flex items-center justify-center rounded-full text-lg">{content.id}</span>
-                        <h3 class="font-semibold text-lg">{content.name}</h3>
-                    </div>
-                    <span class="text-lg">{sections[content.id] ? '⌃' : '⌄'}</span>
-                </button>
-                {#if sections[content.id]}
-                <div class="px-6 pb-4">
-                    <p class="text-sm mb-4">
-                        {@html content.summary || "No summary available for this lesson."}
-                    </p>
-                    <ul>
-                        <li class="flex justify-between items-center py-2">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/journal.svg" alt="Lesson" class="w-5 h-5">
-                                <span >Lesson</span>
+    </script>
+    
+    <div class="min-h-screen bg-[#21409a]">
+        {#if visible && course}
+        <div class="max-w-5xl mx-auto p-8 pt-12">
+            <div in:fade={{ duration: 1000 }}>
+                <!-- Course Header Section -->
+                <div class="bg-white bg-opacity-90 rounded-tl-[60px] rounded-br-[60px] p-8 shadow-xl mb-12">
+                    <div class="flex flex-col md:flex-row md:space-x-8">
+                        <div class="flex-1" in:fly={{ y: 50, duration: 800 }}>
+                            <div class="flex items-center space-x-3 mb-4">
+                                <span class="bg-red-500 text-white text-sm font-semibold px-4 py-1 rounded-full">Free</span>
+                                <span class="text-gray-600">Course</span>
                             </div>
-                            <span >
-                             
-                             <a><a href={`/Courses/${subject}/${content.id}`}> {content.name}</a></span>
-                        </li>
-                    </ul>
-                </div>
-                {/if}
-            </div>
-            {/each}
-        </div>
-    </div>
-    {:else}
-    <p class="error">Course not found</p>
-    {/if}
-</body>
-
-
-
-
-<!-- <div class="course-details">
-    {#if course}
-        <h1>{course.fullname}</h1>
-        
-        {#if course.summary}
-            <div class="course-summary">
-                {@html course.summary}
-            </div>
-        {/if}
-
-        {#if courseContents && courseContents.length > 0}
-            {#each courseContents as section}
-                <section>
-                    <h2>{section.name || 'Untitled Section'}</h2>
-                    {#if section.summary}
-                        <div class="section-summary">
-                            {@html section.summary}
+                            
+                            <h1 class="text-4xl font-bold text-blue-900 mb-6">{course.fullname}</h1>
+                            
+                            {#if course.summary}
+                            <div class="text-lg text-gray-700 mb-6 leading-relaxed">
+                                {@html course.summary}
+                            </div>
+                            {/if}
+    
+                            <div class="flex flex-wrap items-center gap-6 mb-8">
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-blue-900 mr-2">4.3</span>
+                                    <div class="flex text-red-400 text-xl">{"★".repeat(4)}{"☆"}</div>
+                                    <span class="ml-2 text-sm text-gray-500">(3,400 ratings)</span>
+                                </div>
+                                <div class="flex items-center text-gray-700">
+                                    <svg class="w-6 h-6 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                    <span>93,012 learners enrolled</span>
+                                </div>
+                            </div>
+    
+                            <div class="flex items-center space-x-4">
+                                <a href={`/Courses/${subject}/content`} 
+                                   class="bg-red-500 text-white font-semibold py-3 px-8 rounded-full hover:bg-red-600 transform transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2">
+                                    <span>Start Learning</span>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
-                    {/if}
-                    
-                    {#if section.modules && section.modules.length > 0}
-                        <ul class="module-list">
-                            {#each section.modules as module}
-                                <li class="module-item">
-                                    <span class="module-icon">{getModuleIcon(module.modname)}</span>
-                                    <div class="module-content">
-                                        {#if module.url}
-                                            <a href={module.url} target="_blank" rel="noopener noreferrer">
-                                                {module.name}
-                                            </a>
-                                        {:else}
-                                            <span>{module.name}</span>
-                                        {/if}
-                                        
-                                        {#if module.description}
-                                            <div class="module-description">
-                                                {@html module.description}
-                                            </div>
-                                        {/if}
-                                    </div>
-                                </li>
-                            {/each}
-                        </ul>
-                    {:else}
-                        <p class="no-content">No content in this section.</p>
-                    {/if}
-                </section>
-            {/each}
+    
+                        <div class="md:w-80 mt-8 md:mt-0" in:fly={{ y: 50, duration: 800, delay: 200 }}>
+                            <div class="bg-blue-50 p-6 rounded-tl-[30px] rounded-br-[30px] shadow-lg border border-blue-100">
+                                <h3 class="text-xl font-semibold text-blue-900 mb-4">Course Features</h3>
+                                <ul class="space-y-4">
+                                    {#each ['AI-powered guidance', 'Hands-on projects', 'Interactive quizzes', 'Completion certificate'] as feature}
+                                    <li class="flex items-center text-gray-700">
+                                        <svg class="w-5 h-5 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {feature}
+                                    </li>
+                                    {/each}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Syllabus Section -->
+                <div class="mt-12">
+                    <div class="bg-white bg-opacity-90 rounded-tl-[40px] rounded-br-[40px] p-8 shadow-xl mb-8" 
+                         in:fly={{ y: 50, duration: 800, delay: 400 }}>
+                        <h2 class="text-3xl font-bold text-blue-900 mb-2">Course Syllabus</h2>
+                        <p class="text-gray-600">6 lessons · 2 projects · 5 quizzes</p>
+                    </div>
+    
+                    <div class="space-y-4">
+                        {#each courseContents as content, i}
+                        <div 
+                            in:fly={{ y: 50, duration: 800, delay: (i + 3) * 200 }}
+                            class="bg-white bg-opacity-90 rounded-tl-[30px] rounded-br-[30px] shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl"
+                        >
+                            <button 
+                                on:click={() => toggleSection(content.id)}
+                                class="w-full flex justify-between items-center p-6 hover:bg-blue-50 transition-all duration-300"
+                            >
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full font-semibold">
+                                        {content.id}
+                                    </span>
+                                    <h3 class="font-semibold text-lg text-blue-900">{content.name}</h3>
+                                </div>
+                                <svg 
+                                    class="w-6 h-6 text-red-400 transform transition-transform duration-300"
+                                    style="transform: rotate({sections[content.id] ? '180deg' : '0deg'})"
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            
+                            {#if sections[content.id]}
+                            <div 
+                                in:fly={{ y: -20, duration: 300 }}
+                                class="px-6 pb-6 border-t border-gray-100"
+                            >
+                                <p class="text-gray-600 mb-4">
+                                    {@html content.summary || "No summary available for this lesson."}
+                                </p>
+                                <a 
+                                    href={`/Courses/${subject}/${content.id}`}
+                                    class="inline-flex items-center space-x-2 text-red-500 hover:text-red-600 font-medium group"
+                                >
+                                    <span>View Lesson</span>
+                                    <svg 
+                                        class="w-5 h-5 transform transition-transform group-hover:translate-x-1" 
+                                        fill="none" 
+                                        stroke="currentColor" 
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                            {/if}
+                        </div>
+                        {/each}
+                    </div>
+                </div>
+            </div>
+        </div>
         {:else}
-            <p class="no-content">No content available for this course.</p>
+        <div class="flex items-center justify-center min-h-screen">
+            <p class="text-white text-xl">Course not found</p>
+        </div>
         {/if}
-    {:else}
-        <p class="error">Course not found</p>
-    {/if}
-</div> -->
+    </div>
+    
+    <style>
+        :global(html) {
+            scroll-behavior: smooth;
+        }
+    </style>
