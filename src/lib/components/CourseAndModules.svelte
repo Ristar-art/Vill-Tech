@@ -12,8 +12,8 @@
   }
 </script>
 
-<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 mt-6">
-  <div class="flex items-start gap-4">
+<div class="bg-white bg-opacity-90 rounded-tl-[40px] rounded-br-[40px] p-8 shadow-xl mb-8" >
+      <div class="flex items-start gap-4">
     <div class="flex-shrink-0">
       <img 
         src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/award.svg" 

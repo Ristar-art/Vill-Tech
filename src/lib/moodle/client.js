@@ -10,18 +10,47 @@ export class MoodleClient {
     }
 
     async fetchMoodle(wsfunction, params = {}) {
-        const url = new URL(this.getEndpointUrl(wsfunction));
-        Object.entries(params).forEach(([key, value]) => {
-            url.searchParams.append(key, value);
-        });
-       
+        const url = this.getEndpointUrl(wsfunction);
+
+        // Create form data with the required parameters
+        const formData = new URLSearchParams();
+        formData.append('wstoken', this.token);
+        formData.append('moodlewsrestformat', 'json');
+        formData.append('wsfunction', wsfunction);
+
+        // For MoodleCloud, we need to format the users parameter carefully
+        if (wsfunction === 'core_user_create_users') {
+            const users = params.users || [];
+            users.forEach((user, index) => {
+                Object.entries(user).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((item, i) => {
+                            Object.entries(item).forEach(([subKey, subValue]) => {
+                                formData.append(`users[${index}][${key}][${i}][${subKey}]`, subValue);
+                            });
+                        });
+                    } else {
+                        formData.append(`users[${index}][${key}]`, value);
+                    }
+                });
+            });
+        } else {
+            // Handle other API calls normally
+            Object.entries(params).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+        }
+
         const options = {
-            method: 'GET',
-            timeout: 30000, // 30-second timeout
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString()
         };
+
         try {
-            // const response = await fetch(url, );
-            const response = await fetch(url.toString(), options);
+            const response = await fetch(url, options);
 
             if (!response.ok) {
                 throw new Error(`Moodle API error: ${response.status} ${response.statusText}`);
@@ -29,14 +58,7 @@ export class MoodleClient {
 
             const data = await response.json();
 
-            // Check for Moodle exception
             if (data.exception) {
-                if (data.message.includes('Site policy not agreed')) {
-                    return {
-                        error: 'site_policy_not_agreed',
-                        policyUrl: data.message.match(/href="([^"]*)"/)[1]
-                    };
-                }
                 throw new Error(`Moodle error: ${data.message}`);
             }
 
@@ -44,8 +66,102 @@ export class MoodleClient {
         } catch (e) {
             console.error(`Error in ${wsfunction}:`, e);
             throw new Error(`Failed to fetch from Moodle (${wsfunction}): ${e.message}`);
-
         }
+    }
+
+    async getCourseCompetencies(courseId) {
+        try {
+            if (!courseId || typeof courseId !== 'number') {
+                throw new Error('courseId must be a valid number');
+            }
+
+            // Use 'id' parameter instead of 'courseid' as per Moodle documentation
+            const params = {
+                'id': courseId.toString()
+            };
+
+            const data = await this.fetchMoodle('core_competency_list_course_competencies', params);
+
+            if (!data) {
+                return [];
+            }
+
+            // Check if data is an array and has content
+            return Array.isArray(data) ? data : [];
+
+        } catch (error) {
+            console.error('Error fetching competencies:', {
+                courseId,
+                error: error.message,
+                stack: error.stack
+            });
+
+            // Return empty array if no competencies exist
+            return [];
+        }
+    }
+   
+
+    async getCompetencyFramework(courseId) {
+        const courseCompetencies = await this.getCourseCompetencies(courseId);
+        if (courseCompetencies && courseCompetencies.length > 0) {
+            // The framework ID is typically available in the competency data
+            const frameworkId = courseCompetencies[0].competency.competencyframeworkid;
+            return this.fetchMoodle('core_competency_read_competency_framework', {
+                id: frameworkId
+            });
+        }
+        return null;
+    }
+
+    async createUser(userData) {
+        // Format user data according to Moodle's structure
+        const user = {
+            username: userData.username,
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            email: userData.email,
+            password: userData.password,
+            auth: userData.auth || 'manual',
+            idnumber: userData.idnumber || '',
+            lang: userData.lang || 'en',
+            calendartype: userData.calendartype || 'gregorian',
+            theme: userData.theme || '',
+            timezone: userData.timezone || '99',
+            mailformat: userData.mailformat || 1,
+            description: userData.description || '',
+            city: userData.city || '',
+            country: userData.country || '',
+            maildisplay: userData.maildisplay || 2,
+            interests: userData.interests || '',
+            institution: userData.institution || '',
+            department: userData.department || '',
+            phone1: userData.phone1 || '',
+            phone2: userData.phone2 || '',
+            address: userData.address || '',
+            firstnamephonetic: userData.firstnamephonetic || '',
+            lastnamephonetic: userData.lastnamephonetic || '',
+            middlename: userData.middlename || '',
+            alternatename: userData.alternatename || ''
+        };
+
+        // Add customfields if provided
+        if (userData.customfields) {
+            user.customfields = userData.customfields;
+        }
+
+        // Add preferences if provided
+        if (userData.preferences) {
+            user.preferences = userData.preferences;
+        }
+
+        // Log the user data being sent to Moodle
+        console.log('User data being sent to Moodle:', user);
+
+        // Send the request with the properly structured users array
+        return this.fetchMoodle('core_user_create_users', {
+            users: [user]
+        });
     }
 
    
@@ -101,55 +217,11 @@ export class MoodleClient {
         }
     }
   
-    async getCourseCompetencies(courseId) {
-        try {
-            if (!courseId || typeof courseId !== 'number') {
-                throw new Error('courseId must be a valid number');
-            }
-
-            // Use 'id' parameter instead of 'courseid' as per Moodle documentation
-            const params = {
-                'id': courseId.toString()
-            };
-
-           
-            const data = await this.fetchMoodle('core_competency_list_course_competencies', params);
-
-            if (!data) {
-                return [];
-            }
-
-            // Check if data is an array and has content
-            return Array.isArray(data) ? data : [];
-
-        } catch (error) {
-            console.error('Error fetching competencies:', {
-                courseId,
-                error: error.message,
-                stack: error.stack
-            });
-
-            // Return empty array if no competencies exist
-            return [];
-        }
-    }
-
-
-
-    
-    async getCompetencyFramework(courseId) {
-        // console.log('courseId is ', courseId)
-        const courseCompetencies = await this.getCourseCompetencies(courseId);
-        if (courseCompetencies && courseCompetencies.length > 0) {
-            // The framework ID is typically available in the competency data
-            const frameworkId = courseCompetencies[0].competency.competencyframeworkid;
-            return this.fetchMoodle('core_competency_read_competency_framework', {
-                id: frameworkId
-            });
-        }
-        return null;
-    }
-    
+    // async createUser(user) {
+    //     return this.fetchMoodle('core_user_create_users', {
+    //         users: JSON.stringify([user])
+    //     });
+    // }
     async getCourses() {
         return this.fetchMoodle('core_course_get_courses');
     }

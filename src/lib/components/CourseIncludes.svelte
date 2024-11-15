@@ -1,8 +1,8 @@
 <script>
   export let courseCompetencies;
-  $: console.log('courseCompetencies is ', courseCompetencies);
+  // $: console.log('courseCompetencies is ', courseCompetencies);
   $: overview = courseCompetencies?.find(comp => comp.competency.shortname === 'Programme Overview');
-  $: console.log('Overview is ', overview);
+  // $: console.log('Overview is ', overview);
   function cleanDescription(html) {
     if (!html) return '';
     return html

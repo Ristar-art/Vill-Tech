@@ -1,4 +1,67 @@
 <script>
+
+   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  import { fade, slide } from "svelte/transition";
+  import { auth, db } from "$lib/firebase/firebase";
+  import { onMount } from "svelte";
+  import {
+    collection,
+    query,
+    where,
+    onSnapshot,
+    getDoc,
+    doc,
+  } from "firebase/firestore";
+ import { signOut } from "firebase/auth";
+ 
+  let user = null;  
+  let userData = null;
+  let loading = true;
+  let error = null;
+ 
+
+ 
+async function handleLogout() {
+    try {
+        await signOut(auth); // Use Firebase's signOut function
+
+        // Navigate to the home page
+        await goto("/");
+
+        // Reload the page to ensure a full refresh
+        window.location.reload();
+    } catch (error) {
+        console.error("Logout failed:", error);
+    }
+}
+  // Firebase setup and auth logic
+  onMount(() => {
+    auth.onAuthStateChanged(async (currentUser) => {
+      user = currentUser;
+      if (user) {
+        
+        fetchUserData(user.uid);
+      
+      }
+    });
+  });
+
+  async function fetchUserData(userId) {
+    try {
+      const userDoc = await getDoc(doc(db, "users", userId));
+      if (userDoc.exists()) {
+        userData = { id: userDoc.id, ...userDoc.data() };
+      } else {
+        error = "User not found";
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  }
   let mobileMenuOpen = false;
 
   function toggleMenu() {
@@ -175,12 +238,27 @@
 
     <!-- CTA Buttons -->
     <div class="hidden lg:flex items-center space-x-4">
+      {#if userData}
+        <button
+          on:click={() => goto("/Profile")}
+class="text-gray-700 hover:text-white"        >
+          {userData.firstName}
+        </button>
+       <button
+        class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+      on:click={handleLogout}>
+        SIGN OUT
+      </button>
+      {:else}
       <a href="Login" class="text-gray-700 hover:text-white">Login</a>
-      <a
+       <a
         href="Signup"
         class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
         >Sign Up</a
       >
+      
+      {/if}
+      
     </div>
 
     <!-- Mobile Menu Button -->
@@ -221,12 +299,28 @@
           placeholder="Search Courses"
           class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-600 focus:outline-none"
         />
+         {#if userData}
+        <button
+          on:click={() => goto("/Profile")}
+         class="text-gray-700 hover:text-indigo-600"
+        >
+          {userData.username}
+        </button>
+        <button
+        class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+      on:click={handleLogout}>
+        SIGN OUT
+      </button>
+      {:else}
         <a href="Login" class="text-gray-700 hover:text-indigo-600">Login</a>
         <a
           href="Signup"
           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
           >Sign Up</a
         >
+      {/if}
+       
+        
       </nav>
     </div>
   {/if}

@@ -12,7 +12,7 @@
       description: "Learn the basics of HTML, CSS, and JavaScript",
       duration: "8 weeks",
       level: "Beginner",
-      image: "/api/placeholder/400/300",
+      image: "/favicon.png",
       students: 1234
     },
     {
@@ -20,7 +20,7 @@
       description: "Master Python programming from scratch",
       duration: "10 weeks",
       level: "Intermediate",
-      image: "/api/placeholder/400/300",
+      image: "/favicon.png",
       students: 2156
     },
     {
@@ -28,7 +28,7 @@
       description: "Introduction to data analysis and visualization",
       duration: "12 weeks",
       level: "Advanced",
-      image: "/api/placeholder/400/300",
+      image: "/favicon.png",
       students: 1789
     }
   ];
@@ -164,7 +164,7 @@
             class="text-center"
             in:fly={{ y: 50, duration: 800, delay: 500 + (i * 100) }}
           >
-            <h3 class="text-4xl font-bold text-red-500 mb-2">{stat.value}</h3>
+            <h3 class="text-4xl font-bold text-white mb-2">{stat.value}</h3>
             <p class="text-white/80">{stat.title}</p>
           </div>
         {/each}

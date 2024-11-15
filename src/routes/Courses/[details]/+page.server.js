@@ -19,39 +19,27 @@ export async function load({ params }) {
         }
 
         // Fetch other data with proper error handling
-        const [courseContents, blocksData, courseCompetencies] = await Promise.all([
+        const [courseContents, courseCompetencies] = await Promise.all([
             moodleClient.getCourseContents(courseId).catch(err => {
                 console.error('Failed to fetch course contents:', err);
                 return [];
             }),
-            moodleClient.getCourseBlocks(courseId).catch(err => {
-                console.error('Failed to fetch blocks:', err);
-                return { blocks: [], totalBlocks: 0, visibleBlocksCount: 0 };
-            }),
+          
             moodleClient.getCourseCompetencies(courseId).catch(err => {
                 console.error('Failed to fetch competencies:', err);
-                return [];
+                return []; // Ensure this returns an array
             })
         ]);
 
-        // Only fetch frameworks if we successfully got competencies
-        // let frameworks = [];
-        // if (courseCompetencies && courseCompetencies.length > 0) {
-        //     frameworks = await moodleClient.getCompetencyFrameworks().catch(err => {
-        //         console.error('Failed to fetch frameworks:', err);
-        //         return [];
-        //     });
-        // }
-
-        // console.log(' courseCompetencies: ', courseCompetencies);
-        // console.log(`Found ${blocksData.visibleBlocksCount} visible blocks out of ${blocksData.totalBlocks} total blocks`);
+        // Ensure courseCompetencies is an array
+        if (!Array.isArray(courseCompetencies)) {
+            courseCompetencies = [];
+        }
 
         return {
             course,
-            courseContents,
-            // courseBlocks: blocksData.blocks,
+            courseContents,           
             courseCompetencies,
-            // frameworks
         };
     } catch (e) {
         console.error('Failed to fetch course data:', e);

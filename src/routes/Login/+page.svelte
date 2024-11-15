@@ -1,16 +1,44 @@
 <script>
     import { fade, fly } from 'svelte/transition';
-    
-    let visible = false;
+    import { auth } from '$lib/firebase/firebase'; // Adjust the import path as needed
+  import { 
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider
+  } from 'firebase/auth';
+  import { goto } from '$app/navigation';
+
+   let visible = false;
     let formData = {
       email: '',
       password: '',
       rememberMe: false
     };
-    
+    let loading = false;
+    let error = null;
     let isSubmitting = false;
     let submitStatus = null;
     let errors = {};
+
+  const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
+
+
+  async function handleSocialLogin(provider) {
+    try {
+      loading = true;
+      error = '';
+      await signInWithPopup(auth, provider);
+      goto('/dashboard'); // Adjust the redirect path as needed
+    } catch (err) {
+      console.error(err);
+      error = err instanceof Error ? err.message : 'An error occurred during social login';
+    } finally {
+      loading = false;
+    }
+  }
+   
     
     function validateForm() {
       errors = {};
@@ -30,16 +58,28 @@
       if (!validateForm()) return;
       
       isSubmitting = true;
+      try {
+      loading = true;
+      error = '';
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+     
+    } catch (err) {
+      console.error(err);
+      error = err instanceof Error ? err.message : 'An error occurred during login';
+    } finally {
       submitStatus = 'success';
+      loading = false;
+      submitStatus = null;
       isSubmitting = false;
+      goto('/'); // Adjust the redirect path as needed
+    }
+      
+      
       
       // Reset form after success
       setTimeout(() => {
-        submitStatus = null;
+       
       }, 3000);
     };
     
@@ -156,7 +196,7 @@
             <div class="text-center space-y-2">
               <p class="text-sm text-gray-500">
                 Don't have an account?
-                <a href="/signup" class="text-red-500 hover:text-red-600">
+                <a href="/Signup" class="text-red-500 hover:text-red-600">
                   Sign up
                 </a>
               </p>

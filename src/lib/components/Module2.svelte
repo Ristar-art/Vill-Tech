@@ -23,8 +23,8 @@
 
 </script>
 
-<div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 mt-6">
-  <h3 class="text-xl font-semibold text-gray-800 mb-4">
+<div class="bg-white bg-opacity-90 rounded-tl-[40px] rounded-br-[40px] p-8 shadow-xl mb-8" >
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">
     {module2?.competency?.shortname || 'MODULE 2'}
   </h3>
 

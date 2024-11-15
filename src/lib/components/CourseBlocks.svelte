@@ -11,7 +11,7 @@
         }));
 
     function parseBlockContent(content) {
-        console.log('contene : ', content)
+        // console.log('contene : ', content)
         // You might need to adjust this based on your Moodle block content structure
         try {
             if (typeof content === 'string') {
