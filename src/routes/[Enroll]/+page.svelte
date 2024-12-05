@@ -1,77 +1,53 @@
-<!-- scr/routes/[Enroll]/+page.svelte -->
+<!-- src/routes/[Enroll]/+page.svelte -->
 <script>
 	import { enhance } from '$app/forms';
 	import { Button } from "$lib/components/ui/button";
 	import { Input } from "$lib/components/ui/input";
 	import { Label } from "$lib/components/ui/label";
-	import { Checkbox } from "$lib/components/ui/checkbox";
-	import * as RadioGroup from "$lib/components/ui/radio-group";
-	import * as Select from "$lib/components/ui/select";
 	import * as Card from "$lib/components/ui/card";
-    import page from '$app/stores'
-	
-	const courseid = $page.params.Enroll;
+	import { page } from '$app/stores';
+	import { auth } from '$lib/firebase/firebase';
+	import { onMount } from 'svelte';
+
 	export let data;
-
-	const experienceLevels = ["Beginner", "Intermediate", "Advanced"];
-
+	export let form;
 	let isSubmitting = false;
-	let formErrors = {};
-	let enrollmentResult = null;
+	let user = null;
+	$: console.log("user is", user);
 
-	function validateEmail(email) {
-		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-	}
-
-	function validateForm(data) {
-        const errors = {};
-
-        if (!data.firstName?.trim()) errors.firstName = "First name is required";
-        if (!data.lastName?.trim()) errors.lastName = "Last name is required";
-        if (!data.email?.trim()) {
-            errors.email = "Email is required";
-        } else if (!validateEmail(data.email)) {
-            errors.email = "Please enter a valid email";
-        }
-        if (!data.experienceLevel || !experienceLevels.includes(data.experienceLevel)) {
-            errors.experienceLevel = "Please select a valid experience level";
-        }
-
-        return errors;
-    }
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
-
-        const formErrors = validateForm(data);
-
-        if (Object.keys(formErrors).length > 0) {
-            return;
-        }
-
-        // Submit the form
-    }
+	onMount(() => {
+		// Fetch the current user from Firebase
+		auth.onAuthStateChanged(currentUser => {
+			if (currentUser) {
+				user = currentUser;			
+			}
+		});
+	});
 </script>
 
 <div class="max-w-2xl mx-auto p-4 pt-24">
+	{#if data}
 	<Card.Root class="bg-white bg-opacity-70 pt-6">
 		<Card.Header>
-			<Card.Title class="text-2xl font-bold">Enroll in {data.courseInfo.name}</Card.Title>
+			<Card.Title class="text-2xl font-bold">Enroll in {data.courseInfo.fullname}</Card.Title>
 			<Card.Description>
 				Take the next step in your tech career. Fill out the form below to enroll in this course.
 			</Card.Description>
 		</Card.Header>
 		<Card.Content>
-			<form method="POST" use:enhance={() => {
-				return async ({ result }) => {
-					isSubmitting = false;
-					enrollmentResult = result;
-				};
-			}} on:submit|preventDefault={handleSubmit} class="space-y-6">
+			<form 
+				method="POST" 
+				use:enhance={() => {
+					isSubmitting = true;
+					return async ({ update }) => {
+						await update();
+						isSubmitting = false;
+					};
+				}} 
+				class="space-y-6"
+			>
 				<input type="hidden" name="courseId" value={data.courseId} />
-				<input type="hidden" name="userId" value="1" /> <!-- Replace with actual user ID when available -->
+				<input type="hidden" name="userId" value={user?.uid} />
 
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<div class="space-y-2">
@@ -80,10 +56,11 @@
 							id="firstName" 
 							name="firstName" 
 							placeholder="John"
-							class={formErrors.firstName ? 'border-red-500' : ''}
+							class={form?.errors?.firstName ? 'border-red-500' : ''}
+							value={form?.data?.firstName ?? ''}
 						/>
-						{#if formErrors.firstName}
-							<p class="text-red-500 text-sm">{formErrors.firstName}</p>
+						{#if form?.errors?.firstName}
+							<p class="text-red-500 text-sm">{form.errors.firstName}</p>
 						{/if}
 					</div>
 					<div class="space-y-2">
@@ -92,10 +69,11 @@
 							id="lastName" 
 							name="lastName" 
 							placeholder="Doe"
-							class={formErrors.lastName ? 'border-red-500' : ''}
+							class={form?.errors?.lastName ? 'border-red-500' : ''}
+							value={form?.data?.lastName ?? ''}
 						/>
-						{#if formErrors.lastName}
-							<p class="text-red-500 text-sm">{formErrors.lastName}</p>
+						{#if form?.errors?.lastName}
+							<p class="text-red-500 text-sm">{form.errors.lastName}</p>
 						{/if}
 					</div>
 				</div>
@@ -107,33 +85,12 @@
 						name="email" 
 						type="email" 
 						placeholder="john.doe@example.com"
-						class={formErrors.email ? 'border-red-500' : ''}
+						class={form?.errors?.email ? 'border-red-500' : ''}
+						value={form?.data?.email ?? ''}
 					/>
-					{#if formErrors.email}
-						<p class="text-red-500 text-sm">{formErrors.email}</p>
+					{#if form?.errors?.email}
+						<p class="text-red-500 text-sm">{form.errors.email}</p>
 					{/if}
-				</div>
-
-				<div class="space-y-2">
-					<Label>Experience Level</Label>
-					<RadioGroup.Root name="experienceLevel">
-						{#each experienceLevels as level}
-							<div class="flex items-center space-x-2">
-								<RadioGroup.Item value={level} id={level} />
-								<Label for={level}>{level}</Label>
-							</div>
-						{/each}
-					</RadioGroup.Root>
-					{#if formErrors.experienceLevel}
-						<p class="text-red-500 text-sm">{formErrors.experienceLevel}</p>
-					{/if}
-				</div>
-
-				<div class="flex items-center space-x-2">
-					<Checkbox id="marketing" name="marketing" />
-					<Label for="marketing">
-						I agree to receive marketing emails about course updates and promotions
-					</Label>
 				</div>
 
 				<div class="pt-4">
@@ -151,9 +108,13 @@
 				</div>
 			</form>
 
-			{#if enrollmentResult}
-				<div class="mt-4 p-4 rounded-md {enrollmentResult.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-					{enrollmentResult.success ? enrollmentResult.message : enrollmentResult.error}
+			{#if form?.success}
+				<div class="mt-4 p-4 rounded-md bg-green-100 text-green-700">
+					{form.message}
+				</div>
+			{:else if form?.error}
+				<div class="mt-4 p-4 rounded-md bg-red-100 text-red-700">
+					{form.error}
 				</div>
 			{/if}
 		</Card.Content>
@@ -163,4 +124,7 @@
 			</p>
 		</Card.Footer>
 	</Card.Root>
+	{:else}
+		<h1 class="text-2xl font-bold">Loading...</h1>
+    {/if}
 </div>

@@ -2,7 +2,7 @@
   import { fade, fly } from "svelte/transition";
   import { goto } from "$app/navigation";
   import { enhance } from "$app/forms";
-
+  import { page } from "$app/stores";
   let formData = {
     firstName: "",
     lastName: "",
@@ -248,7 +248,8 @@
 
         <p class="text-center text-sm text-gray-500">
           Already have an account?
-          <a href="/login" class="text-red-500 hover:text-red-600">
+          <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1
+" class:active={$page.url.pathname === "https://villagetech.moodlecloud.com/login/index.php?loginredirect=1"} class="text-red-500 hover:text-red-600">
             Sign in
           </a>
         </p>

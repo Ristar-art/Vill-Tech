@@ -4,6 +4,28 @@ import { auth, db } from '$lib/firebase/firebase';
 import { fail } from '@sveltejs/kit';
 import { rateLimit } from '$lib/server/rateLimit';
 import { moodleClient } from '$lib/moodle';
+import * as crypto from 'crypto';
+
+function generateUniqueSalt(uid) {
+    const randomValue = crypto.randomBytes(16).toString('hex');
+    return uid + randomValue;
+}
+
+function stringToIntegerSumWithSalt(str, salt) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++) {
+        sum += str.charCodeAt(i);
+    }
+    for (let i = 0; i < salt.length; i++) {
+        sum += salt.charCodeAt(i);
+    }
+    return sum;
+}
+
+function hashToInteger(hash) {
+    const first8Chars = hash.slice(0, 8);
+    return parseInt(first8Chars, 16);
+}
 
 export const actions = {
     default: async ({ request, getClientAddress }) => {
@@ -29,65 +51,57 @@ export const actions = {
             const email = data.get('email')?.trim();
             const password = data.get('password');
 
-            // Input validation
             if (!firstName || !lastName || !email || !password) {
                 return fail(400, {
                     error: 'All fields are required'
                 });
             }
 
-            try {
-                // Create user in Firebase first
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                const username = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            const username = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
 
-                // Then create in Moodle with proper structure
-                const moodleResponse = await moodleClient.createUser({
-                    username: username,
-                    password: password,
-                    firstname: firstName,
-                    lastname: lastName,
-                    email: email,
-                    auth: 'manual',
-                    idnumber: user.uid, // Firebase UID
-                    preferences: [
-                        {
-                            type: 'auth_forcepasswordchange',
-                            value: '0'
-                        }
-                    ]
-                });
+            const uniqueSalt = generateUniqueSalt(user.uid);
+            const moodleUserId = stringToIntegerSumWithSalt(user.uid, uniqueSalt);
+            const hashedMoodleUserId = crypto.createHash('sha256').update(moodleUserId.toString()).digest('hex');
+            const normalizedMoodleUserId = hashToInteger(hashedMoodleUserId);
 
-                console.log("moodleResponse", moodleResponse);
-                
-                if (moodleResponse.exception) {
-                    throw new Error(moodleResponse.message);
-                }
+            const moodleResponse = await moodleClient.createUser({
+                username: username,
+                password: password,
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
+                auth: 'manual',
+                idnumber: normalizedMoodleUserId.toString(),
+                preferences: [
+                    {
+                        type: 'auth_forcepasswordchange',
+                        value: '0'
+                    }
+                ]
+            });
 
-                // If successful, store the Moodle user ID in Firebase
-                if (moodleResponse?.[0]?.id) {
-                    await setDoc(doc(db, "users", user.uid), {
-                        firstName,
-                        lastName,
-                        email,
-                        moodleId: moodleResponse[0].id,
-                        createdAt: new Date().toISOString(),
-                        moodleUsername: username
-                    });
-                }
-
-                return { success: true };
-
-            } catch (error) {
-                console.error("Error creating user:", error);
-                return fail(400, { error: error.message });
+            if (moodleResponse.exception) {
+                throw new Error(moodleResponse.message);
             }
 
-        } catch (error) {
-            console.error("Error signing up:", error);
+            if (moodleResponse?.[0]?.id) {
+                await setDoc(doc(db, "users", user.uid), {
+                    firstName,
+                    lastName,
+                    email,
+                    moodleId: moodleResponse[0].id,
+                    createdAt: new Date().toISOString(),
+                    moodleUsername: username,
+                    uniqueSalt: uniqueSalt
+                });
+            }
 
-            // Handle Firebase-specific errors
+            return { success: true };
+
+        } catch (error) {
+            console.error("Error creating user:", error);
             const errorMessage = (() => {
                 switch (error.code) {
                     case 'auth/email-already-in-use':

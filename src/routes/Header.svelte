@@ -1,9 +1,10 @@
 <script>
 
-   import { page } from "$app/stores";
+  import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { fade, slide } from "svelte/transition";
   import { auth, db } from "$lib/firebase/firebase";
+  import { onAuthStateChanged } from 'firebase/auth';
   import { onMount } from "svelte";
   import {
     collection,
@@ -74,7 +75,7 @@ async function handleLogout() {
 >
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <a href="/"  class="text-2xl font-bold">
+    <a href="/" class:active={$page.url.pathname === '/'}  class="text-2xl font-bold">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 526 663"
@@ -220,11 +221,11 @@ async function handleLogout() {
 
     <!-- Navigation Links (Desktop) -->
     <nav class="hidden lg:flex space-x-8">
-      <a href="Courses" class="text-gray-700 hover:text-white">Courses</a>
+      <a href="/Courses" class:active={$page.url.pathname === "/Courses"} class="text-gray-700 hover:text-white">Courses</a>
       <!-- <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a> -->
-      <a href="About" class="text-gray-700 hover:text-white">About Us</a>
-      <a href="Blog" class="text-gray-700 hover:text-white">Blog</a>
-      <a href="contact" class="text-gray-700 hover:text-white">Contact</a>
+      <a href="/about" class:active={$page.url.pathname === "/about"} class="text-gray-700 hover:text-white">About Us</a>
+      <a href="/Blog" class:active={$page.url.pathname === "/Blog"} class="text-gray-700 hover:text-white">Blog</a>
+      <a href="/contact" class:active={$page.url.pathname === "/contact"} class="text-gray-700 hover:text-white">Contact</a>
     </nav>
 
     <!-- Search Bar -->
@@ -238,26 +239,14 @@ async function handleLogout() {
 
     <!-- CTA Buttons -->
     <div class="hidden lg:flex items-center space-x-4">
-      {#if userData}
-        <button
-          on:click={() => goto("/Profile")}
-class="text-gray-700 hover:text-white"        >
-          {userData.firstName}
-        </button>
-       <button
+      
+                <a
+        href="/Signup" class:active={$page.url.pathname === "/Signup"}
         class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-      on:click={handleLogout}>
-        SIGN OUT
-      </button>
-      {:else}
-      <a href="Login" class="text-gray-700 hover:text-white">Login</a>
-       <a
-        href="Signup"
-        class="bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-        >Sign Up</a
+        >Create an Account</a
       >
       
-      {/if}
+    
       
     </div>
 
@@ -287,12 +276,12 @@ class="text-gray-700 hover:text-white"        >
   {#if mobileMenuOpen}
     <div class="lg:hidden">
       <nav class="flex flex-col space-y-2 px-6 py-4 bg-gray-50">
-        <a href="Courses" class="text-gray-700 hover:text-indigo-600">Courses</a
+        <a href="/Courses"class:active={$page.url.pathname === "/Courses"} class="text-gray-700 hover:text-indigo-600">Courses</a
         >
-        <a href="chat" class="text-gray-700 hover:text-indigo-600">Chat</a>
-        <a href="About" class="text-gray-700 hover:text-indigo-600">About Us</a>
-        <a href="Blog" class="text-gray-700 hover:text-indigo-600">Blog</a>
-        <a href="contact" class="text-gray-700 hover:text-indigo-600">Contact</a
+        <a href="/chat" class:active={$page.url.pathname === "/chat"} class="text-gray-700 hover:text-indigo-600">Chat</a>
+        <a href="/about" class:active={$page.url.pathname === "/about"} class="text-gray-700 hover:text-indigo-600">About Us</a>
+        <a href="/Blog" class:active={$page.url.pathname === "/Blog"} class="text-gray-700 hover:text-indigo-600">Blog</a>
+        <a href="/contact" class:active={$page.url.pathname === "/contact"} class="text-gray-700 hover:text-indigo-600">Contact</a
         >
         <input
           type="text"
@@ -301,7 +290,7 @@ class="text-gray-700 hover:text-white"        >
         />
          {#if userData}
         <button
-          on:click={() => goto("/Profile")}
+          on:click={() => goto("/Profile")}  
          class="text-gray-700 hover:text-indigo-600"
         >
           {userData.username}
@@ -312,9 +301,10 @@ class="text-gray-700 hover:text-white"        >
         SIGN OUT
       </button>
       {:else}
-        <a href="Login" class="text-gray-700 hover:text-indigo-600">Login</a>
+        <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1
+" class:active={$page.url.pathname === "https://villagetech.moodlecloud.com/login/index.php?loginredirect=1"} class="text-gray-700 hover:text-indigo-600">Login</a>
         <a
-          href="Signup"
+          href="/Signup" class:active={$page.url.pathname === "/Signup"}
           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
           >Sign Up</a
         >

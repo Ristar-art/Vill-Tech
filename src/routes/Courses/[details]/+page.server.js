@@ -2,6 +2,10 @@
 import { error } from '@sveltejs/kit';
 import { moodleClient } from '$lib/moodle';
 
+export const ssr = true;
+export const csr = true;
+export const prerender = false;
+
 export async function load({ params }) {
     try {
         const courseId = parseInt(params.details);
@@ -18,28 +22,34 @@ export async function load({ params }) {
             throw error(404, `Course with ID ${courseId} not found`);
         }
 
-        // Fetch other data with proper error handling
-        const [courseContents, courseCompetencies] = await Promise.all([
-            moodleClient.getCourseContents(courseId).catch(err => {
-                console.error('Failed to fetch course contents:', err);
-                return [];
-            }),
-          
-            moodleClient.getCourseCompetencies(courseId).catch(err => {
-                console.error('Failed to fetch competencies:', err);
-                return []; // Ensure this returns an array
-            })
-        ]);
+        // Initialize variables
+        let courseByField = [];
+        let courseContents = [];
+        let courseCompetencies = [];
 
-        // Ensure courseCompetencies is an array
-        if (!Array.isArray(courseCompetencies)) {
-            courseCompetencies = [];
+        // Fetch initial data with fallback
+        try {
+            [courseByField, courseContents, courseCompetencies] = await Promise.all([
+                moodleClient.getCourseByField('id', courseId.toString()),
+                moodleClient.getCourseContents(courseId),
+                moodleClient.getCourseCompetencies(courseId)
+            ]);
+        } catch (err) {
+            console.error('Failed to fetch one or more course data:', err);
+            // You can choose to handle specific cases here if needed
         }
 
         return {
             course,
-            courseContents,           
+            courseByField,
+            courseContents,
             courseCompetencies,
+            streamed: {
+                // Allows potential refetching or additional data loading
+                courseByField: moodleClient.getCourseByField('id', courseId.toString()).catch(() => []),
+                courseContents: moodleClient.getCourseContents(courseId).catch(() => []),
+                courseCompetencies: moodleClient.getCourseCompetencies(courseId).catch(() => [])
+            }
         };
     } catch (e) {
         console.error('Failed to fetch course data:', e);
