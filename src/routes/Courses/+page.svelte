@@ -2,11 +2,70 @@
   import { onMount } from "svelte";
   import { fade, fly } from 'svelte/transition';
   import { page } from "$app/stores";
-  
-  export let data;  // This will contain the data returned from load()
-  
-  // Optional: If you want to do something with streamed courses
-  $: courseDetails = data.courseDetails || [];
+  import { collection, getDocs, query } from 'firebase/firestore';
+  import { db } from '$lib/firebase/firebase'; 
+
+  export let data;
+  export let streamed;
+  let loading = true;
+  let loadedCourses = data.courses;
+  let courseImagesData = [];
+  $: console.log('loadedCourses is : ',loadedCourses)
+  $: {
+    // Merge course images with loaded courses when both are available
+    if (loadedCourses && courseImagesData.length > 0) {
+      loadedCourses = loadedCourses.map(course => {
+        // Find matching image by comparing displayname with title
+        const matchingImage = courseImagesData.find(
+          image => image.title === course.displayname
+        );
+        
+        // If a matching image is found, add its imageUrl to the course
+        return matchingImage 
+          ? { ...course, courseimage: matchingImage.imageUrl }
+          : course;
+      });
+    }
+  }
+
+  $: {
+    // Update courses when streamed data arrives
+    if (streamed?.courses) {
+      streamed.courses.then(courses => {
+        loadedCourses = courses;
+      }).catch(error => {
+        console.error('Failed to load courses:', error);
+        loadedCourses = [];
+      });
+    }
+  }
+
+  onMount(() => {      
+    fetchCourseImages();
+  });
+
+  async function fetchCourseImages() {
+    const imageCollection = collection(db, "courses");
+    const q = query(imageCollection);
+    
+    try {
+      const imageSnapshot = await getDocs(q);
+      courseImagesData = imageSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    } catch (err) {
+      console.error("Error fetching course images: ", err);
+      if (err.code) {
+        console.error("Error code:", err.code);
+      }
+      if (err.name) {
+        console.error("Error name:", err.name);
+      }
+    } finally {
+      loading = false;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -15,7 +74,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-[#21409A]">
-  {#if !courseDetails || courseDetails.length === 0}
+  {#if !loadedCourses || loadedCourses.length === 0}
     <!-- Skeleton Loader -->
     <div class="max-w-7xl mx-auto px-4 pb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -39,7 +98,7 @@
     <!-- Rest of your existing code remains the same, just replace courseDetails -->
     <div class="max-w-7xl mx-auto px-4 pb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-         {#each courseDetails as course}
+         {#each loadedCourses as course}
           <div
             in:fly={{ y: 50, duration: 800, delay: 100 }}
             class="bg-white rounded-tl-[40px] rounded-br-[40px] shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
