@@ -28,12 +28,12 @@ export async function load({ url }) {
         };
     } catch (e) {
         console.error('Failed to fetch Moodle courses:', e);
-        
+
         // If it's already a SvelteKit error, throw it directly
         if (e.status && e.body) {
             throw e;
         }
-        
+
         // Otherwise, create a new error
         throw error(500, {
             message: 'Failed to fetch courses',

@@ -10,7 +10,7 @@
   let loading = true;
   let loadedCourses = data.courses;
   let courseImagesData = [];
-  $: console.log('loadedCourses is : ',loadedCourses)
+  $: console.log('loadedCourses is: ' ,loadedCourses )
   $: {
     // Merge course images with loaded courses when both are available
     if (loadedCourses && courseImagesData.length > 0) {
@@ -73,7 +73,7 @@
   <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409A]">
+<div class="min-h-screen bg-[#21409A] ">
   {#if !loadedCourses || loadedCourses.length === 0}
     <!-- Skeleton Loader -->
     <div class="max-w-7xl mx-auto px-4 pb-16">
@@ -96,14 +96,14 @@
     </div>
   {:else}
     <!-- Rest of your existing code remains the same, just replace courseDetails -->
-    <div class="max-w-7xl mx-auto px-4 pb-16">
+    <div class="max-w-7xl mx-auto px-4 pb-16 pt-36">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
          {#each loadedCourses as course}
           <div
             in:fly={{ y: 50, duration: 800, delay: 100 }}
             class="bg-white rounded-tl-[40px] rounded-br-[40px] shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
           >
-            <a href="/Courses/{course.id}"class:active={$page.url.pathname === `/Courses/${course.id}`}>
+            <a href="/Courses/{course.id}" class:active={$page.url.pathname === `/Courses/${course.id}`}>
               <div class="relative">
                 <img
                  src={course.courseimage} alt={course.fullname}
