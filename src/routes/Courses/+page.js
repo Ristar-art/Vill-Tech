@@ -1,13 +1,13 @@
+// src/routes/+page.js
 import { moodleClient } from '$lib/moodle';
 
-export const ssr = true;
-export const csr = true;
+
 export const prerender = false;
 
 export async function load() {
     try {
         const courses = await moodleClient.getCourses();
-   
+
         return {
             courses: courses || [],
             streamed: {

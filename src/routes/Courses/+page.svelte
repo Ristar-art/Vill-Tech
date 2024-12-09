@@ -10,7 +10,7 @@
   let loading = true;
   let loadedCourses = data.courses;
   let courseImagesData = [];
-  $: console.log('loadedCourses is: ' ,loadedCourses )
+  
   $: {
     // Merge course images with loaded courses when both are available
     if (loadedCourses && courseImagesData.length > 0) {

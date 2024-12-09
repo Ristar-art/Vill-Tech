@@ -2,17 +2,23 @@
   import { page } from "$app/stores";
   import { fade } from 'svelte/transition';
   import CourseCompetencies from "$lib/components/CourseCompetencies.svelte";
-
+  import { collection, getDocs, query, where } from 'firebase/firestore';
+  import { db } from '$lib/firebase/firebase';
+  import { onMount } from "svelte";
   /** @type {import('./$types').PageData} */
   export let data;
   export let streamed;
 
+  onMount(()=>{
+
+  })
   // Reactive variables to handle streamed data
   $: course = data.course;
   $: courseContents = data.courseContents;
   $: courseCompetencies = data.courseCompetencies;
   $: courseByField = data.courseByField;
-
+  let courseImagesData = []
+  $: console.log("courseImagesData is ",courseImagesData)
   // Update streamed data when it arrives
   $: {
     if (streamed?.courseContents) {
@@ -48,16 +54,41 @@
   // Dynamically manage section toggle states
   let sections = {};
   $: courseContents.forEach((content) => (sections[content.id] = false));
+
+  async function fetchCourseImage(course) {
+    const imageCollection = collection(db, "courses");
+    
+    // Correct usage of the where clause
+    const q = query(imageCollection, where("title", "==", course.fullname));
+    
+    try {
+        const imageSnapshot = await getDocs(q);
+        // Map through the documents to extract data
+        courseImagesData = imageSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+    } catch (err) {
+        console.error("Error fetching course images: ", err);
+        if (err.code) {
+            console.error("Error code:", err.code);
+        }
+        if (err.name) {
+            console.error("Error name:", err.name);
+        }
+    } finally {
+        loading = false; // Assuming loading is defined in your scope
+    }
+}
 </script>
 
 <body class="font-sans pt-14 bg-[#21409A]">
-  {#if courseByField && courseByField.courses && courseByField.courses.length > 0}
-    <h1>{courseByField.courses[0].fullname}</h1>
+  {#if courseImagesData}    
     <picture>
       <img 
-        src={courseByField.courses[0].courseimage} 
-        alt={courseByField.courses[0].shortname} 
-        on:error={() => console.error('Image failed to load:', courseByField.courses[0].courseimage)}
+        src={courseImagesData.imageUrl} 
+        alt={courseImagesData.title} 
+        
       />
     </picture>
   {:else}
