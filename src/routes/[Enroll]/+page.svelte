@@ -1,4 +1,4 @@
-<!-- src/routes/[Enroll]/+page.svelte -->
+<!-- src/routes/[Enroll]/+page.svelte
 <script>
 	import { enhance } from '$app/forms';
 	import { Button } from "$lib/components/ui/button";
@@ -127,4 +127,4 @@
 	{:else}
 		<h1 class="text-2xl font-bold">Loading...</h1>
     {/if}
-</div>
+</div> -->
