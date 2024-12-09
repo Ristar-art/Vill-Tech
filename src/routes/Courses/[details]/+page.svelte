@@ -5,20 +5,48 @@
   import { collection, getDocs, query, where } from 'firebase/firestore';
   import { db } from '$lib/firebase/firebase';
   import { onMount } from "svelte";
+
   /** @type {import('./$types').PageData} */
   export let data;
   export let streamed;
 
-  onMount(()=>{
+  onMount(() => {
+    fetchCourseImages(data.course.fullname);
+  });
 
-  })
+  let courseImagesData = [];
+  let loading = true; // Define loading variable
+
+  async function fetchCourseImages(courseFullName) {
+    const imageCollection = collection(db, "courses");
+    const q = query(imageCollection, where("title", "==", courseFullName));
+
+    try {
+      const imageSnapshot = await getDocs(q);
+      courseImagesData = imageSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    } catch (err) {
+      console.error("Error fetching course images: ", err);
+      if (err.code) {
+        console.error("Error code:", err.code);
+      }
+      if (err.name) {
+        console.error("Error name:", err.name);
+      }
+    } finally {
+      loading = false;
+    }
+  }
+
   // Reactive variables to handle streamed data
   $: course = data.course;
   $: courseContents = data.courseContents;
   $: courseCompetencies = data.courseCompetencies;
   $: courseByField = data.courseByField;
-  let courseImagesData = []
-  $: console.log("courseImagesData is ",courseImagesData)
+  $: console.log("courseImagesData is ", courseImagesData);
+
   // Update streamed data when it arrives
   $: {
     if (streamed?.courseContents) {
@@ -54,45 +82,20 @@
   // Dynamically manage section toggle states
   let sections = {};
   $: courseContents.forEach((content) => (sections[content.id] = false));
-
-  async function fetchCourseImage(course) {
-    const imageCollection = collection(db, "courses");
-    
-    // Correct usage of the where clause
-    const q = query(imageCollection, where("title", "==", course.fullname));
-    
-    try {
-        const imageSnapshot = await getDocs(q);
-        // Map through the documents to extract data
-        courseImagesData = imageSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-    } catch (err) {
-        console.error("Error fetching course images: ", err);
-        if (err.code) {
-            console.error("Error code:", err.code);
-        }
-        if (err.name) {
-            console.error("Error name:", err.name);
-        }
-    } finally {
-        loading = false; // Assuming loading is defined in your scope
-    }
-}
 </script>
 
 <body class="font-sans pt-14 bg-[#21409A]">
-  {#if courseImagesData}    
+  {#if !loading && courseImagesData.length > 0}
     <picture>
       <img 
-        src={courseImagesData.imageUrl} 
-        alt={courseImagesData.title} 
-        
+        src={courseImagesData[0].imageUrl} 
+        alt={courseImagesData[0].title} 
       />
     </picture>
+  {:else if !loading}
+    <p>No course image available.</p>
   {:else}
-    <p>No course data available.</p>
+    <p>Loading course image...</p>
   {/if}
 
   {#if course}
