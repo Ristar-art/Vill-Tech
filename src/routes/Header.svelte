@@ -205,7 +205,7 @@
           d="M110.6,503.5l21.4,0.1c0.4-10,0-20.9,0-31c0-6.2,0.3-91-0.1-92.9l-21.2,0L110.6,503.5z"
         />
       </svg>
-      <span class="text-2xl font-bold text-[#283377]">VillageTech</span>
+      
     </a>
 
     <!-- Navigation Links (Desktop) -->

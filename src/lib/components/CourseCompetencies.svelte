@@ -79,56 +79,76 @@ function cleanModuleDescription(html) {
   
 </script>
 
-{#each sections as { shortname, icon }}
-  {#if courseCompetencies?.find(comp => comp.competency.shortname === shortname)}
-    <div class="bg-white bg-opacity-90 rounded-tl-[40px] rounded-br-[40px] p-8 shadow-xl mb-8">
-      <div class="flex items-start gap-4">
-        <div class="flex-shrink-0">
-          <img 
-            src={`https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/${icon}.svg`} 
-            alt={`${shortname} icon`} 
-            class="w-8 h-8 text-indigo-600"
-          >
-        </div>
-        <div class="flex-grow">
-          <h3 class="text-xl font-semibold text-[#222222] mb-2">{shortname}</h3>
-          <div class="text-gray-700">
-            {#if shortname === 'Accreditation'}
-              {#if courseCompetencies?.find(comp => comp.competency.shortname === shortname)?.competency?.idnumber}
-                <div class="text-sm font-medium text-indigo-600 mb-2">
-                  Certification Code: {courseCompetencies.find(comp => comp.competency.shortname === shortname).competency.idnumber}
+<div class="relative bg-[#21409A] min-h-screen">
+  <div class="max-w-7xl mx-auto py-16 px-6">
+    <!-- Section Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-codec-pro text-white mb-4">Course Details</h1>
+      <p class="text-white font-codec-pro text-lg">
+        Explore detailed information about the course, including its structure, modules, and opportunities it provides.
+      </p>
+    </div>
+
+    <!-- Scrollable Sections -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Column (Sections) -->
+      <div class="col-span-1 bg-white shadow-lg rounded-2xl p-6 max-h-[70vh] overflow-auto">
+        <h2 class="text-2xl font-codec-pro text-gray-800 mb-6">Course Highlights</h2>
+        {#each sections as { shortname, icon }}
+          {#if courseCompetencies?.find(comp => comp.competency.shortname === shortname)}
+            <div class="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
+              <div class="flex items-start gap-4">
+                <div>
+                  <img 
+                    src={`https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/${icon}.svg`} 
+                    alt={`${shortname} icon`} 
+                    class="w-6 h-6 text-indigo-600"
+                  >
                 </div>
-              {/if}
-            {/if}
-            <div class="prose prose-sm max-w-none">
-              {@html cleanDescription(courseCompetencies?.find(comp => comp.competency.shortname === shortname)?.competency?.description)}
+                <div>
+                  <h3 class="text-lg font-codec-pro text-gray-800">{shortname}</h3>
+                  <p class="text-sm text-gray-600">
+                    {@html cleanDescription(courseCompetencies?.find(comp => comp.competency.shortname === shortname)?.competency?.description)}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          {/if}
+        {/each}
+      </div>
+
+      <!-- Right Column (Modules) -->
+      <div class="col-span-2 bg-white shadow-lg rounded-2xl p-6 max-h-[70vh] overflow-auto">
+        <h2 class="text-2xl font-codec-pro text-gray-800 mb-6">Modules</h2>
+        {#each modules as module}
+          {#if courseCompetencies?.find(comp => comp.competency.shortname === module)}
+            <div class="bg-gray-50 p-4 rounded-lg mb-4 shadow-sm">
+              <h3 class="text-lg font-codec-pro text-gray-900">{module}</h3>
+              {#if courseCompetencies?.find(comp => comp.competency.shortname === module)?.competency?.description}
+                {@const content = cleanModuleDescription(courseCompetencies.find(comp => comp.competency.shortname === module).competency.description)}
+                <!-- Overview -->
+                <div class="prose prose-sm max-w-none mb-4">
+                  <p class="text-gray-700 font-codec-pro">{content.overview}</p>
+                </div>
+                <!-- Table -->
+                {#if content.table}
+                  <div class="prose prose-sm max-w-none mb-4 font-codec-pro overflow-x-auto">
+                    {@html content.table}
+                  </div>
+                {/if}
+                <!-- List Items -->
+                {#if content.items.length > 0}
+                  <ul class="list-disc list-inside text-gray-700">
+                    {#each content.items as item}
+                      <li>{item}</li>
+                    {/each}
+                  </ul>
+                {/if}
+              {/if}
+            </div>
+          {/if}
+        {/each}
       </div>
     </div>
-  {/if}
-{/each}
-
-{#each modules as module}
-  {#if courseCompetencies?.find(comp => comp.competency.shortname === module)}
-    <div class="bg-white bg-opacity-90 rounded-tl-[40px] rounded-br-[40px] p-8 shadow-xl mb-8">
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">
-        {module}
-      </h3>
-      {#if courseCompetencies?.find(comp => comp.competency.shortname === module)?.competency?.description}
-        {@const content = cleanModuleDescription(courseCompetencies.find(comp => comp.competency.shortname === module).competency.description)}
-        <!-- Display Overview -->
-        <div class="prose prose-sm max-w-none mb-4">
-          <p class="text-gray-700">{content.overview}</p>
-        </div>
-        <!-- Display Table -->
-        {#if content.table}
-          <div class="prose prose-sm max-w-none mb-4">
-            {@html content.table}
-          </div>
-        {/if}
-      {/if}
-    </div>
-  {/if}
-{/each}
+  </div>
+</div>
