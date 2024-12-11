@@ -1,22 +1,17 @@
 // src/lib/server/rateLimit.js
 import { Redis } from '@upstash/redis';
-import { UPSTASH_REDIS_URL, UPSTASH_REDIS_TOKEN } from '$env/static/private';
 
 // Initialize Redis client if credentials are available
 let redis;
 try {
-    if (UPSTASH_REDIS_URL && UPSTASH_REDIS_TOKEN) {
-        // For local Redis instance
-        
-        redis = new Redis({
-            url: UPSTASH_REDIS_URL,
-            // token: UPSTASH_REDIS_TOKEN,
+    
+        redis = redis.createClient({
+            url: process.env.UPSTASH_REDIS_URL,
         });
-        // For cloud-based Redis instance
-        // const client = redis.createClient({
-        //     url: 'redis://:<password>@your-instance-name.redis.cache.windows.net:6379'
-        // });
-    }
+
+        redis.on('error', (error) => {
+            console.error('Redis Client Error:', error);
+        });
 } catch (error) {
     console.warn('Redis connection failed, falling back to in-memory store');
 }
