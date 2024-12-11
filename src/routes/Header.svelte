@@ -288,7 +288,7 @@
 
   <!-- Mobile Menu (Initially Hidden) -->
   {#if mobileMenuOpen}
-    <div class="lg:hidden" transition:slide>
+    <div class="lg:hidden" transition>
       <nav class="flex flex-col space-y-4 px-6 py-4 bg-gray-50">
         <a href="/Courses" class:active={$page.url.pathname === "/Courses"} 
           class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]">
