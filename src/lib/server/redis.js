@@ -1,17 +1,21 @@
-// src/lib/server/redis.js
-import { Redis } from '@upstash/redis';
-import { UPSTASH_REDIS_URL, UPSTASH_REDIS_TOKEN } from '$env/static/private';
+import { createClient } from 'redis';
 
 let redis;
+
 try {
-    if (UPSTASH_REDIS_URL && UPSTASH_REDIS_TOKEN) {
-        redis = new Redis({
-            url: UPSTASH_REDIS_URL,
-            token: UPSTASH_REDIS_TOKEN,
-        });
-    }
+    redis = createClient({
+        url: process.env.UPSTASH_REDIS_URL
+    });
+
+    redis.on('error', (error) => {
+        console.error('Redis Client Error:', error);
+    });
+
+    await redis.connect();
+    console.log('Redis connected successfully');
 } catch (error) {
-    console.warn('Redis connection failed, falling back to no cache');
+    console.warn('Redis connection failed:', error.message);
+    redis = null;
 }
 
 export async function getCachedData(key) {

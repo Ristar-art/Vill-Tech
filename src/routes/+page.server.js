@@ -1,4 +1,3 @@
-// src/routes/+page.server.js
 import { moodleClient } from '$lib/moodle';
 import { error } from '@sveltejs/kit';
 import { getCachedData, setCachedData } from '$lib/server/redis';
@@ -13,7 +12,7 @@ export async function load({ url }) {
 
         if (!allCourses) {
             allCourses = await moodleClient.getCourses();
-            await setCachedData(cacheKey, JSON.stringify(allCourses), { ex: 60 * 60 }); // Cache for 1 hour
+            await setCachedData(cacheKey, JSON.stringify(allCourses), { EX: 60 * 60 }); // Cache for 1 hour
         } else {
             allCourses = JSON.parse(allCourses);
         }
