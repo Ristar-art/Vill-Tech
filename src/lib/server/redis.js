@@ -4,7 +4,7 @@ let redis;
 
 try {
     redis = createClient({
-        url: process.env.UPSTASH_REDIS_URL
+        url: process.env.VITE_REDIS_URL
     });
 
     redis.on('error', (error) => {

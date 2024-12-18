@@ -34,7 +34,7 @@ export const actions = {
         const rateLimitResult = await rateLimit({
             ip,
             limit: 3,
-            windowMs: 2 * 60 * 1000
+            windowMs: 60 * 60 * 1000
         });
 
         if (rateLimitResult.isLimited) {

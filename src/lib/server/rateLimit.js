@@ -1,17 +1,15 @@
 // src/lib/server/rateLimit.js
 import { Redis } from '@upstash/redis';
 
-// Initialize Redis client if credentials are available
 let redis;
 try {
-    
-        redis = redis.createClient({
-            url: process.env.UPSTASH_REDIS_URL,
-        });
+    redis = new Redis({
+        url: process.env.VITE_REDIS_URL,        
+    });
 
-        redis.on('error', (error) => {
-            console.error('Redis Client Error:', error);
-        });
+    redis.on('error', (error) => {
+        console.error('Redis Client Error:', error);
+    });
 } catch (error) {
     console.warn('Redis connection failed, falling back to in-memory store');
 }
