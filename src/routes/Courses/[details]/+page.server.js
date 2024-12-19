@@ -1,6 +1,7 @@
 // src/routes/courses/[details]/+page.server.js
 import { error } from '@sveltejs/kit';
 import { moodleClient } from '$lib/moodle';
+import { getCachedData, setCachedData } from '$lib/server/redis';
 
 export const ssr = true;
 export const csr = true;
@@ -14,7 +15,24 @@ export async function load({ params }) {
             throw error(400, 'Invalid course ID');
         }
 
-        // Fetch course first to verify it exists
+        const cacheKey = `moodle:course:${courseId}`;
+        let cachedCourseData = await getCachedData(cacheKey);
+
+        if (cachedCourseData) {
+            let { course, courseByField, courseContents, courseCompetencies } = JSON.parse(cachedCourseData);
+            return {
+                course,
+                courseByField,
+                courseContents,
+                courseCompetencies,
+                streamed: {
+                    courseByField: Promise.resolve(courseByField),
+                    courseContents: Promise.resolve(courseContents),
+                    courseCompetencies: Promise.resolve(courseCompetencies)
+                }
+            };
+        }
+
         const allCourses = await moodleClient.getCourses();
         const course = allCourses.find(c => c.id === courseId);
 
@@ -22,12 +40,10 @@ export async function load({ params }) {
             throw error(404, `Course with ID ${courseId} not found`);
         }
 
-        // Initialize variables
         let courseByField = [];
         let courseContents = [];
         let courseCompetencies = [];
 
-        // Fetch initial data with fallback
         try {
             [courseByField, courseContents, courseCompetencies] = await Promise.all([
                 moodleClient.getCourseByField('id', courseId.toString()),
@@ -36,8 +52,10 @@ export async function load({ params }) {
             ]);
         } catch (err) {
             console.error('Failed to fetch one or more course data:', err);
-            // You can choose to handle specific cases here if needed
         }
+
+        const cacheData = JSON.stringify({ course, courseByField, courseContents, courseCompetencies });
+        await setCachedData(cacheKey, cacheData, { ex: 60 * 60 });
 
         return {
             course,
@@ -45,7 +63,6 @@ export async function load({ params }) {
             courseContents,
             courseCompetencies,
             streamed: {
-                // Allows potential refetching or additional data loading
                 courseByField: moodleClient.getCourseByField('id', courseId.toString()).catch(() => []),
                 courseContents: moodleClient.getCourseContents(courseId).catch(() => []),
                 courseCompetencies: moodleClient.getCourseCompetencies(courseId).catch(() => [])

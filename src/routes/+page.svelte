@@ -56,7 +56,10 @@
     }
   }
 </script>
-
+<svelte:head>
+  <title>Village Tech</title>
+  <meta name="description" content="Village tech" />
+</svelte:head>
 <div class="min-h-screen bg-[#21409A]">
   {#if visible}
     <!-- Hero Section -->

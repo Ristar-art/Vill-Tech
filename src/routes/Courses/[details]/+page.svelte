@@ -5,7 +5,7 @@
   import { collection, getDocs, query, where } from "firebase/firestore";
   import { db } from "$lib/firebase/firebase";
   import { onMount } from "svelte";
-
+  
   /** @type {import('./$types').PageData} */
   export let data;
   export let streamed;
@@ -13,6 +13,8 @@
   onMount(() => {
     fetchCourseImages(data.course.fullname);
   });
+  // let courseDetails =  params.details
+  // $:console.log ("courseDetails is ", courseDetails)
 
   let courseImagesData = [];
   let loading = true; // Define loading variable
@@ -45,7 +47,6 @@
   $: courseContents = data.courseContents;
   $: courseCompetencies = data.courseCompetencies;
   $: courseByField = data.courseByField;
-  $: console.log("courseImagesData is ", courseImagesData);
 
   // Update streamed data when it arrives
   $: {
@@ -87,7 +88,10 @@
   let sections = {};
   $: courseContents.forEach((content) => (sections[content.id] = false));
 </script>
-
+<svelte:head>
+  <title>Village Tech</title>
+  <meta name="description" content="Village tech" />
+</svelte:head>
 <body class="font-sans bg-[#21409A]">
   {#if course}
     <div class="relative">

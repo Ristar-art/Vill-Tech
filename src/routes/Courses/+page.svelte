@@ -103,7 +103,7 @@
             in:fly={{ y: 50, duration: 800, delay: 100 }}
             class="bg-white rounded-tl-[40px] rounded-br-[40px] shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
           >
-            <a href="/Courses/{course.id}" class:active={$page.url.pathname === `/Courses/${course.id}`}>
+            <a href="/Courses/{course.id} " data-sveltekit-preload-data="false">
               <div class="relative">
                 <img
                  src={course.courseimage} alt={course.fullname}
