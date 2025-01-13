@@ -1,27 +1,28 @@
 // src/routes/courses/+page.server.js
 import { moodleClient } from '$lib/moodle';
-import { getCachedData, setCachedData } from '$lib/server/redis';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '$lib/firebase/firebase';
 
 export const prerender = false;
+const cache = new Map();
 
 export async function load() {
     try {
         const cacheKey = `moodle:courses`;
-        let allCourses = await getCachedData(cacheKey);
+        let allCourses = cache.get(cacheKey); // Get cached courses
 
         if (!allCourses) {
+            // Fetch courses from Moodle API if not cached
             allCourses = await moodleClient.getCourses();
-            await setCachedData(cacheKey, JSON.stringify(allCourses), { ex: 60 * 60 }); // Cache for 1 hour
-        } else {
-            allCourses = JSON.parse(allCourses);
+            cache.set(cacheKey, allCourses); // Cache the courses
+            setTimeout(() => cache.delete(cacheKey), 60 * 60 * 1000); // Clear cache after 1 hour
         }
 
         const courseImagesCacheKey = `firebase:courseImages`;
-        let courseImagesData = await getCachedData(courseImagesCacheKey);
+        let courseImagesData = cache.get(courseImagesCacheKey); // Get cached course images
 
         if (!courseImagesData) {
+            // Fetch course images from Firestore if not cached
             const imageCollection = collection(db, "courses");
             const q = query(imageCollection);
             const imageSnapshot = await getDocs(q);
@@ -29,11 +30,11 @@ export async function load() {
                 id: doc.id,
                 ...doc.data(),
             }));
-            await setCachedData(courseImagesCacheKey, JSON.stringify(courseImagesData), { ex: 60 * 60 }); // Cache for 1 hour
-        } else {
-            courseImagesData = JSON.parse(courseImagesData);
+            cache.set(courseImagesCacheKey, courseImagesData); // Cache the course images
+            setTimeout(() => cache.delete(courseImagesCacheKey), 60 * 60 * 1000); // Clear cache after 1 hour
         }
 
+        // Combine courses with their images
         const coursesWithImages = allCourses.map(course => {
             const matchingImage = courseImagesData.find(
                 image => image.title === course.displayname
@@ -46,7 +47,7 @@ export async function load() {
         return {
             courses: coursesWithImages,
             streamed: {
-                courses: moodleClient.getCourses()
+                courses: moodleClient.getCourses() // Stream fresh courses as a fallback
             }
         };
     } catch (error) {
@@ -54,7 +55,7 @@ export async function load() {
         return {
             courses: [],
             streamed: {
-                courses: Promise.resolve([])
+                courses: Promise.resolve([]) // Return empty array on error
             }
         };
     }

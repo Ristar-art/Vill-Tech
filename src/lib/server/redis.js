@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
 
 let redis;
-
+console.log('VITE_REDIS_URL is ',process.env.VITE_REDIS_URL)
 try {
     redis = createClient({
         url: process.env.VITE_REDIS_URL

@@ -1,11 +1,13 @@
 // src/routes/courses/[details]/+page.server.js
 import { error } from '@sveltejs/kit';
 import { moodleClient } from '$lib/moodle';
-import { getCachedData, setCachedData } from '$lib/server/redis';
 
 export const ssr = true;
 export const csr = true;
 export const prerender = false;
+
+// In-memory cache
+const cache = new Map();
 
 export async function load({ params }) {
     try {
@@ -16,10 +18,11 @@ export async function load({ params }) {
         }
 
         const cacheKey = `moodle:course:${courseId}`;
-        let cachedCourseData = await getCachedData(cacheKey);
+        let cachedCourseData = cache.get(cacheKey);
 
         if (cachedCourseData) {
-            let { course, courseByField, courseContents, courseCompetencies } = JSON.parse(cachedCourseData);
+            // If cached data exists, return it
+            const { course, courseByField, courseContents, courseCompetencies } = cachedCourseData;
             return {
                 course,
                 courseByField,
@@ -33,6 +36,7 @@ export async function load({ params }) {
             };
         }
 
+        // Fetch all courses to find the specific course
         const allCourses = await moodleClient.getCourses();
         const course = allCourses.find(c => c.id === courseId);
 
@@ -40,6 +44,7 @@ export async function load({ params }) {
             throw error(404, `Course with ID ${courseId} not found`);
         }
 
+        // Fetch additional course data
         let courseByField = [];
         let courseContents = [];
         let courseCompetencies = [];
@@ -54,8 +59,12 @@ export async function load({ params }) {
             console.error('Failed to fetch one or more course data:', err);
         }
 
-        const cacheData = JSON.stringify({ course, courseByField, courseContents, courseCompetencies });
-        await setCachedData(cacheKey, cacheData, { ex: 60 * 60 });
+        // Cache the data in memory
+        const cacheData = { course, courseByField, courseContents, courseCompetencies };
+        cache.set(cacheKey, cacheData);
+
+        // Set a timeout to clear the cache after 1 hour
+        setTimeout(() => cache.delete(cacheKey), 60 * 60 * 1000); // Cache for 1 hour
 
         return {
             course,
@@ -63,9 +72,9 @@ export async function load({ params }) {
             courseContents,
             courseCompetencies,
             streamed: {
-                courseByField: moodleClient.getCourseByField('id', courseId.toString()).catch(() => []),
-                courseContents: moodleClient.getCourseContents(courseId).catch(() => []),
-                courseCompetencies: moodleClient.getCourseCompetencies(courseId).catch(() => [])
+                courseByField: Promise.resolve(courseByField),
+                courseContents: Promise.resolve(courseContents),
+                courseCompetencies: Promise.resolve(courseCompetencies)
             }
         };
     } catch (e) {

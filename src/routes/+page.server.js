@@ -1,6 +1,8 @@
 import { moodleClient } from '$lib/moodle';
 import { error } from '@sveltejs/kit';
-import { getCachedData, setCachedData } from '$lib/server/redis';
+
+// In-memory cache
+const cache = new Map();
 
 export async function load({ url }) {
     const limit = parseInt(url.searchParams.get('limit')) || 6;
@@ -8,13 +10,12 @@ export async function load({ url }) {
 
     try {
         const cacheKey = `moodle:courses`;
-        let allCourses = await getCachedData(cacheKey);
+        let allCourses = cache.get(cacheKey);
 
         if (!allCourses) {
             allCourses = await moodleClient.getCourses();
-            await setCachedData(cacheKey, JSON.stringify(allCourses), { EX: 60 * 60 }); // Cache for 1 hour
-        } else {
-            allCourses = JSON.parse(allCourses);
+            cache.set(cacheKey, allCourses);
+            setTimeout(() => cache.delete(cacheKey), 60 * 60 * 1000); // Cache for 1 hour
         }
 
         if (!Array.isArray(allCourses)) {
