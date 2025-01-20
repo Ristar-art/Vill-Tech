@@ -33,7 +33,8 @@ export async function load({ url }) {
             totalCourses,
             limit,
             page,
-            totalPages: Math.ceil(totalCourses / limit)
+            totalPages: Math.ceil(totalCourses / limit),
+            form: {} // Added form property
         };
     } catch (e) {
         console.error('Failed to fetch Moodle courses:', e);

@@ -6,7 +6,7 @@
   import { db } from '$lib/firebase/firebase'; 
 
   let visible = false;
-
+  let loading = true;
   onMount(() => {
     visible = true;
      fetchCourseImages();

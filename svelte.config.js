@@ -24,7 +24,10 @@ const config = {
 					throw new Error(`Failed to prerender ${path}: ${message}`);
 				}
 			}
-		}
+		},
+		alias: {
+            "@/*": "./src/lib/*",
+        },
 	},
 	preprocess: vitePreprocess()
 };
