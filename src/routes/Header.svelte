@@ -233,7 +233,7 @@
     </nav>
 
     <!-- Search Bar -->
-    <div class="hidden lg:flex items-center space-x-4">
+    <!-- <div class="hidden lg:flex items-center space-x-4">
       <div class="relative">
         <input
           type="text"
@@ -243,7 +243,7 @@
         />
         <Search class="absolute left-3 top-3 text-gray-400" />
       </div>
-    </div>
+    </div> -->
 
     <!-- CTA Buttons -->
     <div class="hidden lg:flex items-center space-x-4">
@@ -311,7 +311,7 @@
           <span>Contact</span>
         </a>
 
-        <div class="relative">
+        <!-- <div class="relative">
           <input
             type="text"
             bind:value={searchQuery}
@@ -319,7 +319,7 @@
             class="w-full px-4 py-2 pl-10 border rounded-md focus:ring-2 focus:ring-[#21409A] focus:outline-none"
           />
           <Search class="absolute left-3 top-3 text-gray-400" />
-        </div>
+        </div> -->
 
         {#if userData}
           <button 

@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 const cache = new Map();
 
 export async function load({ url }) {
-    const limit = parseInt(url.searchParams.get('limit')) || 6;
+    const limit = parseInt(url.searchParams.get('limit')) || 3;
     const page = parseInt(url.searchParams.get('page')) || 1;
 
     try {
