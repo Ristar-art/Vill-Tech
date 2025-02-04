@@ -4,6 +4,10 @@
   import { goto } from "$app/navigation";
   import { collection, getDocs, query } from "firebase/firestore";
   import { db } from "$lib/firebase/firebase";
+  import { Button } from "@/components/ui/button"
+  import { Badge } from "$lib/components/ui/badge";
+  import * as Card from "$lib/components/ui/card";
+
 
   let visible = false;
   let loading = true;
@@ -12,6 +16,14 @@
     fetchCourseImages();
   });
 
+const benefits = [
+  "Learn at your own pace",
+  "Access to expert instructors",
+  "Diverse range of courses",
+  "Interactive learning experience",
+  "Certificates upon completion",
+  "Lifetime access to course materials",
+]
   export let data;
   $: ({ courses, totalCourses, limit, page, totalPages, error } = data);
   let courseImagesData = [];
@@ -60,162 +72,106 @@
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
 </svelte:head>
-<div class="min-h-screen bg-[#21409A]">
+<div class="min-h-screen">
   {#if visible}
-    <!-- Hero Section -->
-    <!-- Hero Section -->
-    <section in:fade={{ duration: 1000, delay: 400 }}>
-      <div
-        class="max-w-screen-xl pt-24 px-4 mx-auto flex flex-col lg:flex-row items-start"
-      >
-        <div class="max-w-7xl mx-auto text-center space-y-8 relative z-10">
-          <h1
-            class="text-5xl md:text-6xl font-bold"
-            in:fly={{ y: -50, duration: 800 }}
-          >
-            <span class="text-blue-400">Individual </span>
-            <span class="text-white">& Corporate</span>
-            <span class="text-red-500">Training</span>
-          </h1>
+   
+    <!-- <section in:fade={{ duration: 1000, delay: 400 }} class="py-16">
 
-          <p
-            class="text-xl text-white/80 max-w-2xl mx-auto"
-            in:fly={{ y: 50, duration: 800, delay: 200 }}
-          >
-            Our inclusive learning approach and project management principles
-            are professionally implemented and seamlessly structured for
-            conducting on-site, off site or virtual distance learning, adhering
-            to all SAQA, QCTO Occupational Qualifications and ETQA guidelines
-            and qualification stipulations.
-          </p>
-
-          <div
-            class="flex flex-wrap justify-center gap-4 pt-8"
-            in:fly={{ y: 50, duration: 800, delay: 400 }}
-          >
-            <button
-              class="px-8 py-3 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              on:click={() => goto("/Courses")}
-            >
-              Explore Courses
-            </button>
-            <button
-              class="px-8 py-3 bg-white/10 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-              on:click={() => goto("/about")}
-            >
-              Learn More
-            </button>
+      <div class="grid gap-8 p-8">
+        <div class="grid grid-cols-1 gap-8 md:hidden">
+          <div class="text-center">
+            <h1 class="text-5xl font-bold">
+              <span class="text-blue-400">Individual </span>
+              <span class="text-white">& Corporate</span>
+              <span class="text-red-500">Training</span>
+            </h1>
+            <p class="text-xl text-white/80">
+              Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off site or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications and ETQA guidelines and qualification stipulations.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 pt-8">
+              <button class="px-8 py-3 bg-red-500 text-white rounded-full font-medium hover:scale-105 hover:bg-red-600 focus:ring-2 focus:ring-red-500">
+                Explore Courses
+              </button>
+              <button class="px-8 py-3 bg-white/10 text-white rounded-full font-medium hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white">
+                Learn More
+              </button>
+            </div>
           </div>
-        </div>
-
-        <!-- Banner Decoration Section -->
-        <!-- <div class="absolute inset-0 flex items-center justify-center section-banner">
-  <div id="star-1">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
+          <div class="w-full relative" id="girl">
+            <img class="w-10/12 mx-auto" src="girl.png" />
           </div>
         </div>
       
-        <div id="star-2">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
+        <div class="hidden md:grid grid-cols-12 gap-8">
+          <div class="col-start-2 md:col-span-6 lg:col-span-5 order-2 md:order-1 bg-slate-300">
+            <div class="max-w-7xl mx-auto text-center relative z-10">
+              <h1 class="text-5xl md:text-6xl font-bold">
+                <span class="text-blue-400">Individual </span>
+                <span class="text-white">& Corporate</span>
+                <span class="text-red-500">Training</span>
+              </h1>
+              <p class="text-xl text-white/80 max-w-2xl mx-auto">
+                Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+              </p>
+              <div class="flex flex-wrap justify-center gap-4 pt-8">
+                <button class="px-8 py-3 bg-red-500 text-white rounded-full font-medium hover:scale-105 hover:bg-red-600 focus:ring-2 focus:ring-red-500">
+                  Explore Courses
+                </button>
+                <button class="px-8 py-3 bg-white/10 text-white rounded-full font-medium hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white">
+                  Learn More
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-3">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-4">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
+          <div class="col-start-8 md:col-span-6 lg:col-span-7 order-1 md:order-2 bg-slate-300">
+            <div class="w-full lg:w-6/12 mx-auto lg:-mt-10 relative" id="girl">
+              <img class="w-10/12 mx-auto 2xl:-mb-20" src="girl.png" />
+            </div>
           </div>
         </div>
-      
-        <div id="star-5">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-6">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-7">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-</div> -->
-        <div class="w-full lg:w-6/12 lg:-mt-10 relative" id="girl">
-          <img
-            data-aos="fade-up"
-            data-aos-once="true"
-            class="w-10/12 mx-auto 2xl:-mb-20"
-            src="girl.png"
-          />
-          <!-- calendar -->
-        </div>
+        
       </div>
-      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4">
-        {#if data}
-        {#each [{ title: "Students", value: "1000+" }, { title: "Courses", value: totalCourses }, { title: "Graduates", value: "5000+" }, { title: "Success Rate", value: "95%" }] as stat, i}
-        <div
-          class="text-center"
-          in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
-        >
-          <h3 class="text-4xl font-bold text-white mb-2">{stat.value}</h3>
-          <p class="text-white/80">{stat.title}</p>
-        </div>
-      {/each}
-        {/if}
-       
+     
+      
+    </section> -->
+
+    <section class="pt-20  bg-gradient-to-transparent from-primary to-primary-foreground text-primary-foreground">
+      <div class="w-full mx-auto text-center ">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">Join  our <span class="text-blue-400">Individual </span>
+          <span class="text-white">& Corporate</span>
+          <span class="text-red-500">Training</span></h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our
+          cutting-edge online courses.
+        </p>
+        <button
+            class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            on:click={() => goto("/Courses")}
+          >
+          Explore Courses
+          </button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f3f4f5" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path></svg>
       </div>
+      
     </section>
-
-    <div class="max-w-4xl mx-auto pt-6">
-      <h1 class="text-center mb-3 text-gray-400 font-medium">
-       Supported and credited by these Companies
+   
+    <div class="w-full  pb-4 grid grid-cols-2 md:grid-cols-4 bg-[#f3f4f5]">
+      {#if data}
+      {#each [{ title: "Students", value: "1000+" }, { title: "Courses", value: totalCourses }, { title: "Graduates", value: "5000+" }, { title: "Success Rate", value: "95%" }] as stat, i}
+      <div
+        class="text-center"
+        in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
+      >
+        <h3 class="text-4xl font-bold text-blue-400 mb-2">{stat.value}</h3>
+        <p class="text-black">{stat.title}</p>
+      </div>
+    {/each}
+      {/if}
+     
+    </div>
+    <div class=" mx-auto py-14 bg-[#f3f4f5]">
+      <h1 class="text-center text-2xl mb-6 mt-4  text-[#21409a] font-medium">
+       We are Supported and credited by these Companies
       </h1>
       <div class="grid grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center">
         <img class="h-10 transform translate-y-2" src="image1.jpg" />
@@ -226,22 +182,70 @@
       </div>
     </div>
 
-    <div class="mt-20 flex flex-col-reverse md:flex-row items-center md:space-x-10 ">
-      <div transition:fade={{ duration: 1000 }} class="md:w-1/3">
-        <img class="md:w-11/12" src="girl.png">
+     <section class="p-4 md:p-8 lg:p-10">
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
+        <!-- Image Section -->
+        <div class="md:col-start-4 md:col-span-3 md:row-span-4 flex justify-center items-center ">
+          <img src="girl.png" class="w-10/12 mx-auto 2xl:-mb-20"/>
+        </div>
+        
+        <!-- Heading Section -->
+        <div class="md:col-span-3 bg-gradient-to-r text-white p-6 rounded-lg justify-start">
+          <h1 class="text-4xl font-bold">
+            Discover Our Learning Methods
+          </h1>
+        </div>
+        
+        <!-- Learning Methods Cards -->
+        <div class="grid grid-cols-3 md:col-span-3 gap-4 p-8">
+          <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
+            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg" alt="Online" class="w-10 h-10 mb-3 " />
+            <h3 class="text-xl font-semibold text-gray-800">Online</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
+            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg" alt="Hybrid" class="w-10 h-10 mb-3" />
+            <h3 class="text-xl font-semibold text-gray-800">Hybrid</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
+            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg" alt="Class" class="w-10 h-10 mb-3" />
+            <h3 class="text-xl font-semibold text-gray-800">Classroom</h3>
+          </div>
+        </div>
+        
+        <div class="md:col-span-3 p-6">
+          <p class="text-lg text-white font-medium leading-relaxed">
+            Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+          </p>
+        </div>
       </div>
-      <div transition:fade={{ duration: 1000 }}>
-        <h1 class="font-semibold text-darken text-3xl lg:pr-64 text-white-500">ICT  SKILLS TRAINING</h1>
-        <p class="text-gray-500 my-5 lg:pr-52">Building abilities related to computers, telecommunications, software, and digital tools. It’s valuable across industries and essential for many modern careers.</p>
+     </section>
+   
+    
+    <!-- <section id="courses" className="py-20 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">Featured Courses</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {courses.map((course) => (
+            <Card key={course.id}>
+              <CardContent className="p-0">
+                <Image
+                  src={course.image || "/placeholder.svg"}
+                  alt={course.title}
+                  width={300}
+                  height={200}
+                  className="w-full h-48 object-cover"
+                />
+              </CardContent>
+              <CardFooter className="flex flex-col items-start p-4">
+                <Badge className="mb-2">{course.category}</Badge>
+                <h3 className="text-lg font-semibold">{course.title}</h3>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </div>
-      <!-- <div transition:fade={{ duration: 1000 }} class="md:w-1/3">
-        <img class="md:w-11/12" src="girl.png">
-      </div> -->
-    </div>
-
-
-
-    <!-- Featured Courses Section -->
+    </section> -->
+      
     <section class="py-16 px-4">
       <div class="max-w-7xl mx-auto">
         <div
@@ -256,8 +260,93 @@
             View All Courses
           </button>
         </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {#each courses as course, i}
+            <Card.Root key={course.id}>
+              <Card.Content class="p-0">
+                <img
+                  src={course.courseimage || "/placeholder.svg"}
+                  alt={course.fullname}
+                  width={300}
+                  height={200}
+                  class="w-full h-48 object-cover rounded-md"
+                />
+              </Card.Content>
+              <Card.Footer class="flex flex-col items-start p-4">
+                <!-- <Badge class="mb-2">{course.category}</Badge> -->
+                <h3 class="text-lg font-semibold">{course.fullname}</h3>
+                <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                  {@html course.summary || "No description available."}
+                </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+                <div class="flex flex-wrap gap-1 mb-2">
+                  <span
+                    class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full"
+                  >
+                    Start: {new Date(
+                      course.startdate * 1000,
+                    ).toLocaleDateString()}
+                  </span>
+                  {#if course.enddate}
+                    <span
+                      class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full"
+                    >
+                      End: {new Date(
+                        course.enddate * 1000,
+                      ).toLocaleDateString()}
+                    </span>
+                  {/if}
+                </div>
+
+                <div class="flex flex-wrap gap-2 mt-2 text-xs">
+                  {#if course.showactivitydates}
+                    <div class="flex items-center space-x-1">
+                      <div
+                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-3 w-3 text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <span>Activity Dates</span>
+                    </div>
+                  {/if}
+                  {#if course.showcompletionconditions}
+                    <div class="flex items-center space-x-1">
+                      <div
+                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-3 w-3 text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <span>Completion Tracking</span>
+                    </div>
+                  {/if}
+                </div>
+              </Card.Footer>
+            </Card.Root>
+          {/each}
+        </div>
+        <!-- <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
           {#each courses as course, i}
             <div
               in:fly={{ y: 50, duration: 800, delay: i * 100 }}
@@ -349,21 +438,17 @@
               </div>
             </div>
           {/each}
-        </div>
+        </div> -->
       </div>
     </section>
-    	<div class="container px-4 lg:px-8 mx-auto max-w-screen-xl text-gray-700 overflow-x-hidden">
+    	<div class="container px-4 lg:px-8 mx-auto max-w-screen-xl text-white overflow-x-hidden">
 
-<!-- Tools For Teachers And Learners -->
-<div class="flex flex-col md:flex-row item-center md:space-x-10 mt-16 ">
- 
-  <div  in:fly={{ y: 50, duration: 800, delay: 400 }}>
-    <h1 class="text-darken font-semibold text-3xl lg:pr-56">Our Learnig methods</h1>
-    <p class="text-gray-500 my-4 lg:pr-32">Class has a dynamic set of teaching tools built to be deployed and used during class. Teachers can handout assignments in real-time for students to complete and submit.</p>
-  </div>
-  <img  in:fly={{ y: 50, duration: 800, delay: 400 }} class="md:w-1/3" src="girl.png">
-</div>
-<div data-aos="zoom-in" class="mt-16 text-center">
+
+
+
+
+
+<!-- <div data-aos="zoom-in" class="mt-16 text-center">
   <h1 class="text-darken text-2xl font-semibold">Latest News and Resources</h1>
   <p class="text-gray-500 my-5">See the developments that have occurred to Skillines in the world</p>
 </div>
@@ -413,12 +498,39 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
       </div>
-    <!-- CTA Section -->
-    <section class="py-16 px-4" in:fade={{ duration: 1000 }}>
-      <!-- CTA Section Content -->
+
+      <section id="benefits" class="pt-20 bg-[#f3f4f5]">
+      <div class=" mx-auto ">
+        <h2 class="text-3xl text-blue-400 font-bold text-center mb-12">Why Choose Village Tech?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
+          {#each benefits as benefit}
+          <div key={benefit} class="flex items-center space-x-2">
+            <!-- / <CheckCircle className="text-primary flex-shrink-0" /> -->
+              <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="black"
+              class="h-5 w-5 animate-bounce"
+          >
+              <path
+                  fillRule="evenodd"
+                  d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                  clipRule="evenodd"
+              />
+          </svg>
+              <p class="text-lg">{benefit}</p>
+            </div>
+          {/each}
+        </div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#21409a" fill-opacity="1" d="M0,320L1440,32L1440,320L0,320Z"></path></svg>
+
     </section>
+     
+   
+   
   {/if}
 </div>
 
@@ -610,3 +722,151 @@
     color: #2F327D;
 }
 </style>
+
+        <!-- Banner Decoration Section -->
+        <!-- <div class="absolute inset-0 flex items-center justify-center section-banner">
+  <div id="star-1">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-2">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-3">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-4">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-5">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-6">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+      
+        <div id="star-7">
+          <div class="curved-corner-star">
+            <div id="curved-corner-bottomright"></div>
+            <div id="curved-corner-bottomleft"></div>
+          </div>
+          <div class="curved-corner-star">
+            <div id="curved-corner-topright"></div>
+            <div id="curved-corner-topleft"></div>
+          </div>
+        </div>
+</div> -->
+  <!-- <div
+        class="max-w-screen-xl pt-24 px-4  mx-auto flex flex-col lg:flex-row items-start"
+      >
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+          <h1
+            class="text-5xl md:text-6xl font-bold"
+            in:fly={{ y: -50, duration: 800 }}
+          >
+            <span class="text-blue-400">Individual </span>
+            <span class="text-white">& Corporate</span>
+            <span class="text-red-500">Training</span>
+          </h1>
+
+          <p
+            class="text-xl text-white/80 max-w-2xl mx-auto"
+            in:fly={{ y: 50, duration: 800, delay: 200 }}
+          >
+            Our inclusive learning approach and project management principles
+            are professionally implemented and seamlessly structured for
+            conducting on-site, off site or virtual distance learning, adhering
+            to all SAQA, QCTO Occupational Qualifications and ETQA guidelines
+            and qualification stipulations.
+          </p>
+
+          <div
+            class="flex flex-wrap justify-center gap-4 pt-8"
+            in:fly={{ y: 50, duration: 800, delay: 400 }}
+          >
+            <button
+              class="px-8 py-3 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              on:click={() => goto("/Courses")}
+            >
+              Explore Courses
+            </button>
+            <button
+              class="px-8 py-3 bg-white/10 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+              on:click={() => goto("/about")}
+            >
+              Learn More
+            </button>
+          </div>
+        </div>
+
+       <div class="w-full lg:w-6/12 lg:-mt-10 relative" id="girl">
+          <img
+            data-aos="fade-up"
+            data-aos-once="true"
+            class="w-10/12 mx-auto 2xl:-mb-20"
+            src="girl.png"
+          />
+         
+        </div>
+      </div> -->
+
+        <!-- <div class="grid grid-rows-3 grid-cols-1 md:grid-cols-6 gap-8 p-8 ">
+        <div class="col-start-2 row-start-1 col-span-2 row-span-3  ">
+          <img src="girl.png" class="w-10/12 mx-auto 2xl:-mb-20" />
+        </div>
+        <div class="col-start-4 row-start-2 col-span-2 row-span-2 ">
+          <h1 class="text-4xl font-bold text-white">
+            ICT Skill Training
+          </h1>
+          <p class="text-lg text-white font-medium leading-relaxed">
+            Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+          </p>
+        </div>
+      </div> -->
+  

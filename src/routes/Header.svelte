@@ -60,7 +60,7 @@
   }
 </script>
 
-<header class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-70 shadow-md z-50 backdrop-filter backdrop-blur-lg w-full">
+<header class="fixed top-0 left-1/2 bg-white transform -translate-x-1/2  shadow-md z-50 backdrop-filter backdrop-blur-lg w-full">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
     <a href="/"  class="flex items-center space-x-2">
