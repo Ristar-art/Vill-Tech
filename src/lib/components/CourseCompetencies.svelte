@@ -1,4 +1,5 @@
 <script>
+  import { fade } from "svelte/transition";
   export let courseCompetencies;
   
   function cleanDescription(html) {
@@ -77,10 +78,21 @@ function cleanModuleDescription(html) {
     'MODULE 1', 'MODULE 2', 'MODULE 3', 'MODULE 4', 'MODULE 5', 'MODULE 6', 'MODULE 7', 'MODULE 8'
   ];
   
+  let isOpen = false;
+  let openStates = {};
+  $: {
+    if (sections) {
+      sections.forEach(({ shortname }) => {
+        if (!(shortname in openStates)) {
+          openStates[shortname] = false;
+        }
+      });
+    }
+  }
 </script>
-
-<div class="relative bg-[#21409A] min-h-screen">
-  <div class="max-w-7xl mx-auto py-16 px-6">
+<!-- bg-[#21409A] -->
+<div class="relative  min-h-screen ">
+  <div class="mx-auto py-16 ">
     <!-- Section Header -->
     <div class="mb-12 text-center">
       <h1 class="text-4xl font-codec-pro text-white mb-4">Course Details</h1>
@@ -90,35 +102,48 @@ function cleanModuleDescription(html) {
     </div>
 
     <!-- Scrollable Sections -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Left Column (Sections) -->
-      <div class="col-span-1 bg-white shadow-lg rounded-2xl p-6 max-h-[70vh] overflow-auto">
-        <h2 class="text-2xl font-codec-pro text-gray-800 mb-6">Course Highlights</h2>
-        {#each sections as { shortname, icon }}
-          {#if courseCompetencies?.find(comp => comp.competency.shortname === shortname)}
-            <div class="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
-              <div class="flex items-start gap-4">
-                <div>
-                  <img 
-                    src={`https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/${icon}.svg`} 
-                    alt={`${shortname} icon`} 
-                    class="w-6 h-6 text-indigo-600"
-                  >
-                </div>
-                <div>
-                  <h3 class="text-lg font-codec-pro text-gray-800">{shortname}</h3>
-                  <p class="text-sm text-gray-600">
-                    {@html cleanDescription(courseCompetencies?.find(comp => comp.competency.shortname === shortname)?.competency?.description)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          {/if}
-        {/each}
-      </div>
+   
+      
 
       <!-- Right Column (Modules) -->
-      <div class="col-span-2 bg-white shadow-lg rounded-2xl p-6 max-h-[70vh] overflow-auto">
+      <div class="col-span-2 bg-white shadow-lg rounded-2xl p-6  overflow-auto">
+        <h2 class="text-2xl font-codec-pro text-gray-800 mb-6">Course Highlights</h2>
+        {#each sections as { shortname, icon }}
+  {#if courseCompetencies?.find(comp => comp.competency.shortname === shortname)}
+    <div class="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
+      <div class="flex items-start gap-4">
+        <div>
+          <img 
+            src={`https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/icons/${icon}.svg`} 
+            alt={`${shortname} icon`} 
+            class="w-6 h-6 text-indigo-600"
+          >
+        </div>
+        <div class="w-full">
+          <button 
+            class="flex justify-between items-center w-full py-3 text-lg font-semibold text-gray-800 hover:bg-gray-100 px-4 rounded-lg transition"
+            on:click={() => openStates[shortname] = !openStates[shortname]}
+          >
+            {shortname}
+            <span 
+              class="transform transition-transform" 
+              class:rotate-180={openStates[shortname]}
+            >
+              ▼
+            </span>
+          </button>     
+          {#if openStates[shortname]}
+            <p class="text-sm text-gray-600 mt-2 px-4">
+              {@html cleanDescription(courseCompetencies?.find(comp => 
+                comp.competency.shortname === shortname
+              )?.competency?.description)}
+            </p>
+          {/if}
+        </div>
+      </div>
+    </div>
+  {/if}
+{/each}
         <h2 class="text-2xl font-codec-pro text-gray-800 mb-6">Modules</h2>
         {#each modules as module}
           {#if courseCompetencies?.find(comp => comp.competency.shortname === module)}
@@ -149,6 +174,6 @@ function cleanModuleDescription(html) {
           {/if}
         {/each}
       </div>
-    </div>
+    
   </div>
 </div>

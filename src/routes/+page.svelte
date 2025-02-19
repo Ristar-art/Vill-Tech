@@ -4,47 +4,113 @@
   import { goto } from "$app/navigation";
   import { collection, getDocs, query } from "firebase/firestore";
   import { db } from "$lib/firebase/firebase";
-  import { Button } from "@/components/ui/button"
+  import { Button } from "@/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
   import * as Card from "$lib/components/ui/card";
-
+  import { moodleClient } from '$lib/moodle';
+  import { createRedisStore } from '$lib/redisStore';
 
   let visible = false;
   let loading = true;
+  let courses = [];
+  let totalCourses = 0;
+  let limit = 3;
+  let page = 1;
+  let totalPages = 1;
+  let error = null;
+
+  const redisStore = createRedisStore();
+
+  // Load cached data from localStorage on initialization
   onMount(() => {
     visible = true;
-    fetchCourseImages();
+    // Fetch data in parallel
+    Promise.all([fetchCourseImages(), fetchCourses()])
+      .catch((e) => {
+        console.error('Error fetching data:', e);
+        error = e;
+      })
+      .finally(() => {
+        loading = false;
+      });
   });
 
-const benefits = [
-  "Learn at your own pace",
-  "Access to expert instructors",
-  "Diverse range of courses",
-  "Interactive learning experience",
-  "Certificates upon completion",
-  "Lifetime access to course materials",
-]
-  export let data;
-  $: ({ courses, totalCourses, limit, page, totalPages, error } = data);
+  const benefits = [
+    "Learn at your own pace",
+    "Access to expert instructors",
+    "Diverse range of courses",
+    "Interactive learning experience",
+    "Certificates upon completion",
+    "Lifetime access to course materials",
+  ];
+
   let courseImagesData = [];
+  let loadedCourses = courses;
+
   $: {
     // Merge course images with loaded courses when both are available
-    if (courses && courseImagesData.length > 0) {
-      courses = courses.map((course) => {
+    if (loadedCourses && courseImagesData.length > 0) {
+      loadedCourses = loadedCourses.map(course => {
         // Find matching image by comparing displayname with title
         const matchingImage = courseImagesData.find(
-          (image) => image.title === course.displayname,
+          image => image.title === course.displayname
         );
-
+        
         // If a matching image is found, add its imageUrl to the course
-        return matchingImage
+        return matchingImage 
           ? { ...course, courseimage: matchingImage.imageUrl }
           : course;
       });
     }
   }
 
+ 
+
+  async function fetchCourses() {
+    try {
+      const cacheKey = `moodle:courses`;
+      let allCourses = redisStore.get(cacheKey);
+
+      if (!allCourses) {
+        allCourses = await moodleClient.getCourses();
+        redisStore.set(cacheKey, allCourses, 60 * 60); // Cache for 1 hour
+      }
+
+      if (!Array.isArray(allCourses)) {
+        console.error('Unexpected response format:', allCourses);
+        throw new Error('Unexpected response format from Moodle API');
+      }
+
+      totalCourses = allCourses.length;
+      const startIndex = (page - 1) * limit;
+      const endIndex = startIndex + limit;
+
+      // Pre-merge courses with images to avoid reactive overhead
+      courses = allCourses.slice(startIndex, endIndex).map((course) => {
+        const matchingImage = courseImagesData.find(
+          (image) => image.title === course.displayname,
+        );
+        return matchingImage
+          ? { ...course, courseimage: matchingImage.imageUrl }
+          : course;
+      });
+
+      totalPages = Math.ceil(totalCourses / limit);
+    } catch (e) {
+      console.error('Failed to fetch Moodle courses:', e);
+      error = e;
+    }
+  }
+
   async function fetchCourseImages() {
+    const cacheKey = `firebase:courseImages`;
+    let cachedImages = redisStore.get(cacheKey);
+
+    if (cachedImages) {
+      courseImagesData = cachedImages;
+      return;
+    }
+
     const imageCollection = collection(db, "courses");
     const q = query(imageCollection);
 
@@ -54,204 +120,172 @@ const benefits = [
         id: doc.id,
         ...doc.data(),
       }));
+      redisStore.set(cacheKey, courseImagesData, 60 * 60); // Cache for 1 hour
     } catch (err) {
       console.error("Error fetching course images: ", err);
-      if (err.code) {
-        console.error("Error code:", err.code);
-      }
-      if (err.name) {
-        console.error("Error name:", err.name);
-      }
-    } finally {
-      loading = false;
+      if (err.code) console.error("Error code:", err.code);
+      if (err.name) console.error("Error name:", err.name);
     }
   }
+
+  const testimonials = [
+  {
+    id: 1,
+    name: "John Doe",
+    role: "Web Developer",
+    content:
+      "The courses on EduOnline have been instrumental in advancing my career. The quality of instruction is top-notch!",
+    avatar: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    role: "Data Analyst",
+    content:
+      "I love the flexibility of learning at my own pace. EduOnline has helped me acquire new skills while balancing my full-time job.",
+    avatar: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 3,
+    name: "Mike Johnson",
+    role: "Marketing Manager",
+    content:
+      "The digital marketing courses on EduOnline are up-to-date with the latest trends. It's been a game-changer for my business.",
+    avatar: "/placeholder.svg?height=100&width=100",
+  },
+]
 </script>
 
 <svelte:head>
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/optimized-background.webp" as="image" />
 </svelte:head>
+
 <div class="min-h-screen">
   {#if visible}
-   
-    <!-- <section in:fade={{ duration: 1000, delay: 400 }} class="py-16">
-
-      <div class="grid gap-8 p-8">
-        <div class="grid grid-cols-1 gap-8 md:hidden">
-          <div class="text-center">
-            <h1 class="text-5xl font-bold">
-              <span class="text-blue-400">Individual </span>
-              <span class="text-white">& Corporate</span>
-              <span class="text-red-500">Training</span>
-            </h1>
-            <p class="text-xl text-white/80">
-              Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off site or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications and ETQA guidelines and qualification stipulations.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4 pt-8">
-              <button class="px-8 py-3 bg-red-500 text-white rounded-full font-medium hover:scale-105 hover:bg-red-600 focus:ring-2 focus:ring-red-500">
-                Explore Courses
-              </button>
-              <button class="px-8 py-3 bg-white/10 text-white rounded-full font-medium hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white">
-                Learn More
-              </button>
-            </div>
-          </div>
-          <div class="w-full relative" id="girl">
-            <img class="w-10/12 mx-auto" src="girl.png" />
-          </div>
-        </div>
-      
-        <div class="hidden md:grid grid-cols-12 gap-8">
-          <div class="col-start-2 md:col-span-6 lg:col-span-5 order-2 md:order-1 bg-slate-300">
-            <div class="max-w-7xl mx-auto text-center relative z-10">
-              <h1 class="text-5xl md:text-6xl font-bold">
-                <span class="text-blue-400">Individual </span>
-                <span class="text-white">& Corporate</span>
-                <span class="text-red-500">Training</span>
-              </h1>
-              <p class="text-xl text-white/80 max-w-2xl mx-auto">
-                Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
-              </p>
-              <div class="flex flex-wrap justify-center gap-4 pt-8">
-                <button class="px-8 py-3 bg-red-500 text-white rounded-full font-medium hover:scale-105 hover:bg-red-600 focus:ring-2 focus:ring-red-500">
-                  Explore Courses
-                </button>
-                <button class="px-8 py-3 bg-white/10 text-white rounded-full font-medium hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white">
-                  Learn More
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-start-8 md:col-span-6 lg:col-span-7 order-1 md:order-2 bg-slate-300">
-            <div class="w-full lg:w-6/12 mx-auto lg:-mt-10 relative" id="girl">
-              <img class="w-10/12 mx-auto 2xl:-mb-20" src="girl.png" />
-            </div>
-          </div>
-        </div>
-        
-      </div>
-     
-      
-    </section> -->
-
-    <section class="pt-20  bg-gradient-to-transparent from-primary to-primary-foreground text-primary-foreground">
-      <div class="w-full mx-auto text-center ">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">Join  our <span class="text-blue-400">Individual </span>
-          <span class="text-white">& Corporate</span>
-          <span class="text-red-500">Training</span></h1>
-        <p class="text-xl mb-8 max-w-2xl mx-auto">
-          Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our
-          cutting-edge online courses.
+    <section class="relative flex items-center justify-center h-[75vh] overflow-hidden bg-[#21409a] text-primary-foreground">
+      <!-- Optimized background image (WebP, lazy-loaded) -->
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80" style="background-image: url('/optimized-background.webp');"></div>
+    
+      <!-- Content -->
+      <div class="relative z-30 w-full text-center px-6">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white">
+          Join our <span class="text-blue-400">Individual</span> 
+          <span class="text-white">& Corporate</span> 
+          <span class="text-red-500">Training</span>
+        </h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
+          Discover a world of knowledge at your fingertips. Learn from industry 
+          experts and advance your career with our cutting-edge online courses.
         </p>
         <button
-            class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-            on:click={() => goto("/Courses")}
-          >
+          class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          on:click={() => goto('/Courses')}
+        >
           Explore Courses
-          </button>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f3f4f5" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path></svg>
+        </button>
       </div>
-      
+    
+      <!-- Simplified floating stars (reduced animations) -->
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <div class="absolute inset-0 flex items-center justify-center section-banner">
+          <div id="star-1" class="curved-corner-star"></div>
+          <div id="star-2" class="curved-corner-star"></div>
+          <div id="star-3" class="curved-corner-star"></div>
+        </div>
+      </div>
+    
+      <!-- Bottom SVG Wave -->
+      <svg class="absolute bottom-0 left-0 w-full z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#f3f4f5" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path>
+      </svg>
     </section>
-   
-    <div class="w-full  pb-4 grid grid-cols-2 md:grid-cols-4 bg-[#f3f4f5]">
-      {#if data}
-      {#each [{ title: "Students", value: "1000+" }, { title: "Courses", value: totalCourses }, { title: "Graduates", value: "5000+" }, { title: "Success Rate", value: "95%" }] as stat, i}
-      <div
-        class="text-center"
-        in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
-      >
-        <h3 class="text-4xl font-bold text-blue-400 mb-2">{stat.value}</h3>
-        <p class="text-black">{stat.title}</p>
-      </div>
-    {/each}
+
+    <div class="w-full pb-4 grid grid-cols-2 md:grid-cols-4 bg-[#f3f4f5]">
+      {#if courses}
+        {#each [{ title: "Students", value: "1000+" }, { title: "Courses", value: totalCourses }, { title: "Graduates", value: "5000+" }, { title: "Success Rate", value: "95%" }] as stat, i (stat.title)}
+          <div
+            class="text-center"
+            in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
+          >
+            <h3 class="text-4xl font-bold text-blue-400 mb-2">{stat.value}</h3>
+            <p class="text-black">{stat.title}</p>
+          </div>
+        {/each}
       {/if}
-     
     </div>
-    <div class=" mx-auto py-14 bg-[#f3f4f5]">
-      <h1 class="text-center text-2xl mb-6 mt-4  text-[#21409a] font-medium">
-       We are Supported and credited by these Companies
+
+    <div class="mx-auto py-14 bg-[#f3f4f5]">
+      <h1 class="text-center text-2xl mb-6 mt-4 text-[#21409a] font-medium">
+        We are Supported and credited by these Companies
       </h1>
       <div class="grid grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center">
-        <img class="h-10 transform translate-y-2" src="image1.jpg" />
-        <img class="h-10 transform translate-y-2" src="image2.png" />
-        <img class="h-10 transform translate-y-2" src="image3.png" />
-        <img class="h-10 transform translate-y-2" src="image4.PNG" />
-        <img class="h-10 transform translate-y-2" src="image5.PNG" />
+        <!-- Optimized images (WebP, lazy-loaded) -->
+        <img class="h-10 transform translate-y-2" src="/image1.jpg" loading="lazy" alt="Company 1" />
+        <img class="h-10 transform translate-y-2" src="/image2.png" loading="lazy" alt="Company 2" />
+        <img class="h-10 transform translate-y-2" src="/image3.png" loading="lazy" alt="Company 3" />
+        <img class="h-10 transform translate-y-2" src="/image4.PNG" loading="lazy" alt="Company 4" />
+        <img class="h-10 transform translate-y-2" src="/image5.PNG" loading="lazy" alt="Company 5" />
       </div>
     </div>
 
-     <section class="p-4 md:p-8 lg:p-10">
+    <section class="p-4 md:p-8 lg:p-10">
       <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
-        <!-- Image Section -->
-        <div class="md:col-start-4 md:col-span-3 md:row-span-4 flex justify-center items-center ">
-          <img src="girl.png" class="w-10/12 mx-auto 2xl:-mb-20"/>
+        <div class="md:col-start-4 md:col-span-3 md:row-span-4 flex justify-center items-center">
+          <img src="/girl.png" class="w-10/12 mx-auto 2xl:-mb-20" loading="lazy" alt="Learning methods" />
         </div>
-        
-        <!-- Heading Section -->
+
         <div class="md:col-span-3 bg-gradient-to-r text-white p-6 rounded-lg justify-start">
-          <h1 class="text-4xl font-bold">
-            Discover Our Learning Methods
-          </h1>
+          <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
         </div>
-        
-        <!-- Learning Methods Cards -->
+
         <div class="grid grid-cols-3 md:col-span-3 gap-4 p-8">
           <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
-            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg" alt="Online" class="w-10 h-10 mb-3 " />
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg"
+              alt="Online"
+              class="w-10 h-10 mb-3"
+              loading="lazy"
+            />
             <h3 class="text-xl font-semibold text-gray-800">Online</h3>
           </div>
           <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
-            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg" alt="Hybrid" class="w-10 h-10 mb-3" />
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg"
+              alt="Hybrid"
+              class="w-10 h-10 mb-3"
+              loading="lazy"
+            />
             <h3 class="text-xl font-semibold text-gray-800">Hybrid</h3>
           </div>
           <div class="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center hover:bg-blue-50">
-            <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg" alt="Class" class="w-10 h-10 mb-3" />
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg"
+              alt="Class"
+              class="w-10 h-10 mb-3"
+              loading="lazy"
+            />
             <h3 class="text-xl font-semibold text-gray-800">Classroom</h3>
           </div>
         </div>
-        
+
         <div class="md:col-span-3 p-6">
           <p class="text-lg text-white font-medium leading-relaxed">
-            Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+            Our inclusive learning approach and project management principles
+            are professionally implemented and seamlessly structured for
+            conducting on-site, off-site, or virtual distance learning, adhering
+            to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines
+            and qualification stipulations.
           </p>
         </div>
       </div>
-     </section>
-   
-    
-    <!-- <section id="courses" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Featured Courses</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <Card key={course.id}>
-              <CardContent className="p-0">
-                <Image
-                  src={course.image || "/placeholder.svg"}
-                  alt={course.title}
-                  width={300}
-                  height={200}
-                  className="w-full h-48 object-cover"
-                />
-              </CardContent>
-              <CardFooter className="flex flex-col items-start p-4">
-                <Badge className="mb-2">{course.category}</Badge>
-                <h3 className="text-lg font-semibold">{course.title}</h3>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </section> -->
-      
+    </section>
+
     <section class="py-16 px-4">
       <div class="max-w-7xl mx-auto">
-        <div
-          class="flex justify-between items-center mb-12"
-          in:fly={{ x: -50, duration: 800 }}
-        >
+        <div class="flex justify-between items-center mb-12" in:fly={{ x: -50, duration: 800 }}>
           <h2 class="text-3xl font-bold text-white">Featured Courses</h2>
           <button
             class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -261,39 +295,33 @@ const benefits = [
           </button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {#each courses as course, i}
-            <Card.Root key={course.id}>
+          {#each courses as course (course.id)}
+            <Card.Root>
               <Card.Content class="p-0">
-                <img
-                  src={course.courseimage || "/placeholder.svg"}
-                  alt={course.fullname}
-                  width={300}
-                  height={200}
-                  class="w-full h-48 object-cover rounded-md"
-                />
+                <a href="/Courses/{course.id}" class="cursor-pointer">
+                  <img
+                    src={course.courseimage || "/placeholder.svg"}
+                    alt={course.fullname}
+                    width={300}
+                    height={200}
+                    class="w-full h-48 object-cover rounded-md"
+                    loading="lazy"
+                  />
+                </a>
               </Card.Content>
               <Card.Footer class="flex flex-col items-start p-4">
-                <!-- <Badge class="mb-2">{course.category}</Badge> -->
                 <h3 class="text-lg font-semibold">{course.fullname}</h3>
                 <p class="text-gray-600 text-xs mb-3 line-clamp-2">
                   {@html course.summary || "No description available."}
                 </p>
 
                 <div class="flex flex-wrap gap-1 mb-2">
-                  <span
-                    class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full"
-                  >
-                    Start: {new Date(
-                      course.startdate * 1000,
-                    ).toLocaleDateString()}
+                  <span class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full">
+                    Start: {new Date(course.startdate * 1000).toLocaleDateString()}
                   </span>
                   {#if course.enddate}
-                    <span
-                      class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full"
-                    >
-                      End: {new Date(
-                        course.enddate * 1000,
-                      ).toLocaleDateString()}
+                    <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                      End: {new Date(course.enddate * 1000).toLocaleDateString()}
                     </span>
                   {/if}
                 </div>
@@ -301,9 +329,7 @@ const benefits = [
                 <div class="flex flex-wrap gap-2 mt-2 text-xs">
                   {#if course.showactivitydates}
                     <div class="flex items-center space-x-1">
-                      <div
-                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                      >
+                      <div class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           class="h-3 w-3 text-white"
@@ -322,9 +348,7 @@ const benefits = [
                   {/if}
                   {#if course.showcompletionconditions}
                     <div class="flex items-center space-x-1">
-                      <div
-                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                      >
+                      <div class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           class="h-3 w-3 text-white"
@@ -346,191 +370,38 @@ const benefits = [
             </Card.Root>
           {/each}
         </div>
-        <!-- <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-          {#each courses as course, i}
-            <div
-              in:fly={{ y: 50, duration: 800, delay: i * 100 }}
-              class="group bg-white rounded-tl-[40px] rounded-br-[40px] overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-            >
-              <div
-                on:click={() => goto(`/Courses/${course.id}`)}
-                class="cursor-pointer"
-              >
-                <img
-                  src={course.courseimage}
-                  alt={course.fullname}
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-
-              <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">
-                  {course.fullname}
-                </h3>
-
-                <p class="text-gray-600 text-xs mb-3 line-clamp-2">
-                  {@html course.summary || "No description available."}
-                </p>
-
-                <div class="flex flex-wrap gap-1 mb-2">
-                  <span
-                    class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full"
-                  >
-                    Start: {new Date(
-                      course.startdate * 1000,
-                    ).toLocaleDateString()}
-                  </span>
-                  {#if course.enddate}
-                    <span
-                      class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full"
-                    >
-                      End: {new Date(
-                        course.enddate * 1000,
-                      ).toLocaleDateString()}
-                    </span>
-                  {/if}
-                </div>
-
-                <div class="flex flex-wrap gap-2 mt-2 text-xs">
-                  {#if course.showactivitydates}
-                    <div class="flex items-center space-x-1">
-                      <div
-                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-3 w-3 text-white"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <span>Activity Dates</span>
-                    </div>
-                  {/if}
-                  {#if course.showcompletionconditions}
-                    <div class="flex items-center space-x-1">
-                      <div
-                        class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-3 w-3 text-white"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <span>Completion Tracking</span>
-                    </div>
-                  {/if}
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div> -->
       </div>
     </section>
-    	<div class="container px-4 lg:px-8 mx-auto max-w-screen-xl text-white overflow-x-hidden">
 
-
-
-
-
-
-<!-- <div data-aos="zoom-in" class="mt-16 text-center">
-  <h1 class="text-darken text-2xl font-semibold">Latest News and Resources</h1>
-  <p class="text-gray-500 my-5">See the developments that have occurred to Skillines in the world</p>
-</div>
-<div data-aos="zoom-in-up" class="my-14 flex flex-col lg:flex-row lg:space-x-20">
-  <div class="lg:w-6/12">
-    <img class="w-full mb-6" src="work readiness.png">
-    <span class="bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full">NEWS</span>
-    <h1 class="text-gray-800 font-semibold my-3 text-xl">Class adds $30 million to its balance sheet for a Zoom-friendly edtech solution</h1>
-    <p class="text-gray-500 mb-3">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates exclusively...</p>
-    <a href="" class="underline">Read more</a>
-  </div>
-  <div class="lg:w-7/12 flex flex-col justify-between mt-12 space-y-5 lg:space-y-0 lg:mt-0">
-    <div class="flex space-x-5">
-      <div class="w-4/12">
-        <div class="relative">
-          <img class="rounded-xl w-full" src="System.svg">
-          <span class="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">PRESS RELEASE</span>
-        </div>
-      </div>
-      <div class="w-8/12">
-        <h1 class="text-gray-800 text-sm sm:text-lg font-semibold">Class Technologies Inc. Closes $30 Million Series A Financing to Meet High Demand</h1>
-        <p class="text-gray-500 my-2 sm:my-4 text-xs sm:text-md">Class Technologies Inc., the company that created Class,...</p>
-      </div>
-    </div>
-    <div class="flex space-x-5">
-      <div class="w-4/12">
-        <div class="relative">
-          <img class="rounded-xl w-full" src="Itro to PCs.png">
-          <span class="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">NEWS</span>
-        </div>
-      </div>
-      <div class="w-8/12">
-        <h1 class="text-gray-800 text-sm sm:text-lg font-semibold">Zoom’s earliest investors are betting millions on a better Zoom for schools</h1>
-        <p class="text-gray-500 my-2 sm:my-4 text-xs sm:text-md">Zoom was never created to be a consumer product. Nonetheless, the...</p>
-      </div>
-    </div>
-    <div class="flex space-x-5">
-      <div class="w-4/12">
-        <div class="relative">
-          <img class="rounded-xl w-full" src="IT.png">
-          <span class="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">NEWS</span>
-        </div>
-      </div>
-      <div class="w-8/12">
-        <h1 class="text-gray-800 text-sm sm:text-lg font-semibold">Former Blackboard CEO Raises $16M to Bring LMS Features to Zoom Classrooms</h1>
-        <p class="text-gray-500 my-2 sm:my-4 text-xs sm:text-md">This year, investors have reaped big financial returns from betting on Zoom...</p>
-      </div>
-    </div>
-  </div>
-</div> -->
-      </div>
-
-      <section id="benefits" class="pt-20 bg-[#f3f4f5]">
-      <div class=" mx-auto ">
-        <h2 class="text-3xl text-blue-400 font-bold text-center mb-12">Why Choose Village Tech?</h2>
+    <section id="benefits" class="pt-20 bg-[#f3f4f5]">
+      <div class="mx-auto">
+        <h2 class="text-3xl text-blue-400 font-bold text-center mb-12">
+          Why Choose Village Tech?
+        </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
-          {#each benefits as benefit}
-          <div key={benefit} class="flex items-center space-x-2">
-            <!-- / <CheckCircle className="text-primary flex-shrink-0" /> -->
+          {#each benefits as benefit (benefit)}
+            <div class="flex items-center space-x-2">
               <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="black"
-              class="h-5 w-5 animate-bounce"
-          >
-              <path
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="black"
+                class="h-5 w-5 animate-bounce"
+              >
+                <path
                   fillRule="evenodd"
                   d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
                   clipRule="evenodd"
-              />
-          </svg>
+                />
+              </svg>
               <p class="text-lg">{benefit}</p>
             </div>
           {/each}
         </div>
       </div>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#21409a" fill-opacity="1" d="M0,320L1440,32L1440,320L0,320Z"></path></svg>
-
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#21409a" fill-opacity="1" d="M0,320L1440,32L1440,320L0,320Z"></path>
+      </svg>
     </section>
-     
-   
-   
   {/if}
 </div>
 
@@ -696,177 +567,41 @@ const benefits = [
 
   /*primary color*/
 
-.floating { 
-    animation-name: floating; 
-    animation-duration: 3s; 
-    animation-iteration-count: infinite; 
+  .floating {
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-} 
-@keyframes floating { 
-    0% { transform: translate(0, 0px); } 
-    50% { transform: translate(0, 8px); } 
-    100% { transform: translate(0, -0px); }  
-} 
-.floating-4 { 
-    animation-name: floating; 
-    animation-duration: 4s; 
-    animation-iteration-count: infinite; 
+  }
+  @keyframes floating {
+    0% {
+      transform: translate(0, 0px);
+    }
+    50% {
+      transform: translate(0, 8px);
+    }
+    100% {
+      transform: translate(0, -0px);
+    }
+  }
+  .floating-4 {
+    animation-name: floating;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-} 
-@keyframes floating-4 { 
-    0% { transform: translate(0, 0px); } 
-    50% { transform: translate(0, 8px); } 
-    100% { transform: translate(0, -0px); }  
-}
-.text-darken {
-    color: #2F327D;
-}
+  }
+  @keyframes floating-4 {
+    0% {
+      transform: translate(0, 0px);
+    }
+    50% {
+      transform: translate(0, 8px);
+    }
+    100% {
+      transform: translate(0, -0px);
+    }
+  }
+  .text-darken {
+    color: #2f327d;
+  }
 </style>
-
-        <!-- Banner Decoration Section -->
-        <!-- <div class="absolute inset-0 flex items-center justify-center section-banner">
-  <div id="star-1">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-2">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-3">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-4">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-5">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-6">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-      
-        <div id="star-7">
-          <div class="curved-corner-star">
-            <div id="curved-corner-bottomright"></div>
-            <div id="curved-corner-bottomleft"></div>
-          </div>
-          <div class="curved-corner-star">
-            <div id="curved-corner-topright"></div>
-            <div id="curved-corner-topleft"></div>
-          </div>
-        </div>
-</div> -->
-  <!-- <div
-        class="max-w-screen-xl pt-24 px-4  mx-auto flex flex-col lg:flex-row items-start"
-      >
-        <div class="max-w-7xl mx-auto text-center relative z-10">
-          <h1
-            class="text-5xl md:text-6xl font-bold"
-            in:fly={{ y: -50, duration: 800 }}
-          >
-            <span class="text-blue-400">Individual </span>
-            <span class="text-white">& Corporate</span>
-            <span class="text-red-500">Training</span>
-          </h1>
-
-          <p
-            class="text-xl text-white/80 max-w-2xl mx-auto"
-            in:fly={{ y: 50, duration: 800, delay: 200 }}
-          >
-            Our inclusive learning approach and project management principles
-            are professionally implemented and seamlessly structured for
-            conducting on-site, off site or virtual distance learning, adhering
-            to all SAQA, QCTO Occupational Qualifications and ETQA guidelines
-            and qualification stipulations.
-          </p>
-
-          <div
-            class="flex flex-wrap justify-center gap-4 pt-8"
-            in:fly={{ y: 50, duration: 800, delay: 400 }}
-          >
-            <button
-              class="px-8 py-3 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              on:click={() => goto("/Courses")}
-            >
-              Explore Courses
-            </button>
-            <button
-              class="px-8 py-3 bg-white/10 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-              on:click={() => goto("/about")}
-            >
-              Learn More
-            </button>
-          </div>
-        </div>
-
-       <div class="w-full lg:w-6/12 lg:-mt-10 relative" id="girl">
-          <img
-            data-aos="fade-up"
-            data-aos-once="true"
-            class="w-10/12 mx-auto 2xl:-mb-20"
-            src="girl.png"
-          />
-         
-        </div>
-      </div> -->
-
-        <!-- <div class="grid grid-rows-3 grid-cols-1 md:grid-cols-6 gap-8 p-8 ">
-        <div class="col-start-2 row-start-1 col-span-2 row-span-3  ">
-          <img src="girl.png" class="w-10/12 mx-auto 2xl:-mb-20" />
-        </div>
-        <div class="col-start-4 row-start-2 col-span-2 row-span-2 ">
-          <h1 class="text-4xl font-bold text-white">
-            ICT Skill Training
-          </h1>
-          <p class="text-lg text-white font-medium leading-relaxed">
-            Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off-site, or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
-          </p>
-        </div>
-      </div> -->
-  

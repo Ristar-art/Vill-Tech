@@ -5,11 +5,16 @@
   import { collection, getDocs, query, where } from "firebase/firestore";
   import { db } from "$lib/firebase/firebase";
   import { onMount } from "svelte";
-  
+  import { goto } from "$app/navigation";
   /** @type {import('./$types').PageData} */
   export let data;
   export let streamed;
-
+$:console.log('courses is: ',data.course)
+const startDate = new Date(data.course.startdate*1000)
+$:console.log('startDate is ',startDate)
+const options = { year: 'numeric', month: 'long', day: 'numeric' };
+const formattedStartDate = startDate.toLocaleDateString('en-za', options);
+ 
   onMount(() => {
     fetchCourseImages(data.course.fullname);
   });
@@ -92,21 +97,91 @@
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
 </svelte:head>
-<body class="font-sans bg-[#21409A]">
+<body class="font-sans  bg-[#21409A] max-w-7xl mx-auto flex justify-center items-center min-h-screen">
   {#if course}
-    <div class="relative">
-      <div class="max-h-screen" in:fade={{ duration: 1000 }}>
-        <div class="flex items-start">
-          <div class="absolute inset-0">
+    <div class="w-full max-w-5xl  ">
+      <div class="h-screen flex flex-col justify-center items-center" in:fade={{ duration: 1000 }}>
+        <div class="grid gap-6 md:grid-cols-2 items-center">
+          <div>
+            {#if courseImagesData.length > 0}
+              <img
+                src={courseImagesData[0].imageUrl}
+                alt={courseImagesData[0].title}
+                width={600}
+                height={400}
+                class="rounded-lg object-cover"
+              />
+            {/if}
+          </div>
+          <div class="space-y-4 text-center md:text-left">
+            <h1 class="text-3xl font-bold text-white">{course.fullname}</h1>
+            {#if data}
+              <p class="text-white">
+                {@html data.course.summary}
+              </p>
+            {/if}
+            <div class="flex justify-center md:justify-start space-x-2 text-white">
+              <p>Start Date: {formattedStartDate}</p>
+            </div>
+            <div class="flex justify-center md:justify-start space-x-2 text-white">
+              <span>12 weeks</span> 
+            </div>
+            <div class="flex justify-center md:justify-start space-x-2 font-bold text-2xl">
+              <span>R 1,999</span>
+            </div>
+            <button on:click={()=>goto('/Signup')} class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition w-full md:w-auto">
+              Sing up
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {#if courseCompetencies}
+        <CourseCompetencies {courseCompetencies} />
+      {:else}
+        <div class="space-y-6">
+          {#each Array(6) as _}
+            <div class="bg-white/20 rounded-lg p-6 animate-pulse">
+              <div class="h-6 bg-gray-200 w-1/2 mb-4"></div>
+              <div class="h-4 bg-gray-200 w-3/4"></div>
+            </div>
+          {/each}
+        </div>
+      {/if}
+    </div>
+  {:else}
+    <p class="error text-white text-center">Course not found</p>
+  {/if}
+</body>
+
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+ 
+ 
+</style>
+ <!-- <div class="py-15">
+                  <div class="flex items-center space-x-3 mb-4">
+                     </div>
+                  <h1 class="text-4xl font-codec-pro font-bold text-[#222222] mb-4">
+                    {course.fullname}:
+                    {@html cleanDescription(
+                      PorogrammeOvervie?.competency?.shortname,
+                    )}
+                  </h1>
+                </div> -->
+                  <!-- <div class=" ">
             {#if courseImagesData.length > 0}
             <img
               src={courseImagesData[0].imageUrl}
               alt={courseImagesData[0].title}
-              class="object-cover w-full h-full"
+              class="object-cover w-full h-56"
             />
             {/if}
-          </div>
-          <div class="relative z-10 flex items-center justify-center h-screen">
+          </div> -->
+          <!-- <div class="relative z-10 flex items-center justify-center h-screen">
             <div
               class="bg-white bg-opacity-90 rounded-tl-[60px] rounded-br-[60px] p-16 mx-4 shadow-xl max-w-4xl"
             >
@@ -160,7 +235,6 @@
                   </div>
                 </div>
               {:else}
-                <!-- Skeleton Loader for Course Header -->
                 <div class="animate-pulse">
                   <div class="h-6 bg-gray-200 w-1/4 mb-4"></div>
                   <div class="h-12 bg-gray-200 w-3/4 mb-4"></div>
@@ -172,39 +246,5 @@
                 </div>
               {/if}
             </div>
-          </div>
-        </div>
-      </div>
-      {#if courseCompetencies}
-          <CourseCompetencies {courseCompetencies} />
-        {:else}
-          <!-- Skeleton Loaders for Sections -->
-          <div class="space-y-6">
-            {#each Array(6) as _}
-              <div class="bg-white/20 rounded-lg p-6 animate-pulse">
-                <div class="h-6 bg-gray-200 w-1/2 mb-4"></div>
-                <div class="h-4 bg-gray-200 w-3/4"></div>
-              </div>
-            {/each}
-          </div>
-        {/if}
-    </div>
-  {:else}
-    <p class="error">Course not found</p>
-  {/if}
-</body>
-
-<style>
-  :global(html) {
-    scroll-behavior: smooth;
-  }
-  img {
-    max-width: 100%; /* Responsive image */
-    height: auto;
-  }
-  .absolute.inset-0 img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-  }
-</style>
+          </div> -->
+    

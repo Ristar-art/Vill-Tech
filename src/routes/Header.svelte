@@ -220,16 +220,12 @@
         <Info class="h-5 w-5" />
         <span>About Us</span>
       </a>
-      <a href="/Blog" class:active={$page.url.pathname === "/Blog"} 
+      <!-- <a href="/Blog" class:active={$page.url.pathname === "/Blog"} 
         class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
         <FileText class="h-5 w-5" />
         <span>Blog</span>
-      </a>
-      <a href="/contact" class:active={$page.url.pathname === "/contact"} 
-        class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
-        <MessageCircle class="h-5 w-5" />
-        <span>Contact</span>
-      </a>
+      </a> -->
+      
     </nav>
 
     <!-- Search Bar -->
@@ -244,9 +240,13 @@
         <Search class="absolute left-3 top-3 text-gray-400" />
       </div>
     </div> -->
-
+    <a href="/contact" class:active={$page.url.pathname === "/contact"} 
+    class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
+    <MessageCircle class="h-5 w-5" />
+    <span>Contact</span>
+  </a>
     <!-- CTA Buttons -->
-    <div class="hidden lg:flex items-center space-x-4">
+    <!-- <div class="hidden lg:flex items-center space-x-4">
       {#if userData}
         <button 
           on:click={() => goto("/Profile")}
@@ -271,7 +271,7 @@
           Create an Account
         </a>
       {/if}
-    </div>
+    </div> -->
 
     <!-- Mobile Menu Button -->
     <button

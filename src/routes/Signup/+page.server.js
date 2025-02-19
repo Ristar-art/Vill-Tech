@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '$lib/firebase/firebase';
 import { fail } from '@sveltejs/kit';
-import { rateLimit } from '$lib/server/rateLimit';
+// import { rateLimit } from '$lib/server/rateLimit';
 import { moodleClient } from '$lib/moodle';
 import * as crypto from 'crypto';
 
@@ -29,20 +29,20 @@ function hashToInteger(hash) {
 
 export const actions = {
     default: async ({ request, getClientAddress }) => {
-        const ip = getClientAddress();
+        // const ip = getClientAddress();
 
-        const rateLimitResult = await rateLimit({
-            ip,
-            limit: 3,
-            windowMs: 60 * 60 * 1000
-        });
+        // const rateLimitResult = await rateLimit({
+        //     ip,
+        //     limit: 3,
+        //     windowMs: 60 * 60 * 1000
+        // });
 
-        if (rateLimitResult.isLimited) {
-            return fail(429, {
-                error: 'Too many signup attempts. Please try again later.',
-                retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
-            });
-        }
+        // if (rateLimitResult.isLimited) {
+        //     return fail(429, {
+        //         error: 'Too many signup attempts. Please try again later.',
+        //         retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
+        //     });
+        // }
 
         try {
             const data = await request.formData();
