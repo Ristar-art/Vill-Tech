@@ -6,23 +6,92 @@
   import { db } from "$lib/firebase/firebase";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  /** @type {import('./$types').PageData} */
-  export let data;
-  export let streamed;
-$:console.log('courses is: ',data.course)
-const startDate = new Date(data.course.startdate*1000)
-$:console.log('startDate is ',startDate)
-const options = { year: 'numeric', month: 'long', day: 'numeric' };
-const formattedStartDate = startDate.toLocaleDateString('en-za', options);
- 
-  onMount(() => {
-    fetchCourseImages(data.course.fullname);
-  });
-  // let courseDetails =  params.details
-  // $:console.log ("courseDetails is ", courseDetails)
+  import { moodleClient } from '$lib/moodle';
 
+  const cache = new Map();
+  let loading = true;
+  let course = null;
+  let courseByField = [];
+  let courseContents = [];
+  let courseCompetencies = [];
   let courseImagesData = [];
-  let loading = true; // Define loading variable
+  let error = null;
+
+  $: courseId = parseInt($page.params.details);
+
+  $: startDate = course ? new Date(course.startdate * 1000) : new Date();
+  $: console.log('startDate is ', startDate);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  $: formattedStartDate = startDate.toLocaleDateString('en-za', options);
+
+  onMount(async () => {
+    if (!isNaN(courseId)) {
+      await loadCourseData();
+    } else {
+      error = { status: 400, message: 'Invalid course ID' };
+      loading = false;
+    }
+  });
+
+  async function loadCourseData() {
+    try {
+      console.log(`Loading course data for ID: ${courseId}`);
+      const cacheKey = `moodle:course:${courseId}`;
+      let cachedCourseData = cache.get(cacheKey);
+
+      if (cachedCourseData) {
+        course = cachedCourseData.course;
+        courseByField = cachedCourseData.courseByField;
+        courseContents = cachedCourseData.courseContents;
+        courseCompetencies = cachedCourseData.courseCompetencies;
+        console.log('Using cached data:', cachedCourseData);
+      } else {
+        console.log('Fetching courses from Moodle...');
+        const allCourses = await moodleClient.getCourses();
+        course = allCourses.find(c => c.id === courseId);
+
+        if (!course) {
+          throw new Error(`Course with ID ${courseId} not found`);
+        }
+        console.log('Found course:', course);
+
+        console.log('Fetching additional course data...');
+        [courseByField, courseContents, courseCompetencies] = await Promise.all([
+          moodleClient.getCourseByField('id', courseId.toString()).catch(err => {
+            console.error('Failed to fetch course by field:', err.message);
+            return [];
+          }),
+          moodleClient.getCourseContents(courseId).catch(err => {
+            console.error('Failed to fetch course contents:', err.message);
+            if (err.message.includes('Access control exception')) {
+              console.warn('Access denied to course contents. User may need enrollment or higher privileges.');
+            }
+            return [];
+          }),
+          moodleClient.getCourseCompetencies(courseId).catch(err => {
+            console.error('Failed to fetch course competencies:', err.message);
+            return [];
+          })
+        ]);
+
+        const cacheData = { course, courseByField, courseContents, courseCompetencies };
+        cache.set(cacheKey, cacheData);
+        setTimeout(() => cache.delete(cacheKey), 60 * 60 * 1000);
+        console.log('Cached data:', cacheData);
+      }
+
+      await fetchCourseImages(course.fullname);
+    } catch (e) {
+      console.error('Failed to fetch course data:', e.message);
+      error = { status: e.message.includes('not found') ? 404 : 500, message: e.message };
+      course = null;
+      courseByField = [];
+      courseContents = [];
+      courseCompetencies = [];
+    } finally {
+      loading = false;
+    }
+  }
 
   async function fetchCourseImages(courseFullName) {
     const imageCollection = collection(db, "courses");
@@ -35,48 +104,10 @@ const formattedStartDate = startDate.toLocaleDateString('en-za', options);
         ...doc.data(),
       }));
     } catch (err) {
-      console.error("Error fetching course images: ", err);
-      if (err.code) {
-        console.error("Error code:", err.code);
-      }
-      if (err.name) {
-        console.error("Error name:", err.name);
-      }
-    } finally {
-      loading = false;
+      console.error("Error fetching course images: ", err.message);
     }
   }
 
-  // Reactive variables to handle streamed data
-  $: course = data.course;
-  $: courseContents = data.courseContents;
-  $: courseCompetencies = data.courseCompetencies;
-  $: courseByField = data.courseByField;
-
-  // Update streamed data when it arrives
-  $: {
-    if (streamed?.courseContents) {
-      streamed.courseContents
-        .then((contents) => {
-          courseContents = contents;
-        })
-        .catch((error) => {
-          console.error("Error loading streamed course contents:", error);
-        });
-    }
-
-    if (streamed?.courseCompetencies) {
-      streamed.courseCompetencies
-        .then((competencies) => {
-          courseCompetencies = competencies;
-        })
-        .catch((error) => {
-          console.error("Error loading streamed course competencies:", error);
-        });
-    }
-  }
-
-  $: courseId = $page.params.details;
   $: PorogrammeOvervie = courseCompetencies?.find(
     (comp) => comp.competency.shortname === "Learning Objective",
   );
@@ -84,22 +115,44 @@ const formattedStartDate = startDate.toLocaleDateString('en-za', options);
   function cleanDescription(html) {
     if (!html) return "";
     return html
-      .replace(/dir="ltr"/g, "") // Remove dir="ltr" attributes
-      .replace(/>\s+(?=\w)/g, "") // Remove remaining > followed by whitespace before words
-      .replace(/<p><\/p>/g, ""); // Remove empty paragraphs
+      .replace(/dir="ltr"/g, "")
+      .replace(/>\s+(?=\w)/g, "")
+      .replace(/<p><\/p>/g, "");
   }
 
-  // Dynamically manage section toggle states
   let sections = {};
   $: courseContents.forEach((content) => (sections[content.id] = false));
 </script>
+
 <svelte:head>
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
 </svelte:head>
-<body class="font-sans  bg-[#21409A] max-w-7xl mx-auto flex justify-center items-center min-h-screen">
-  {#if course}
-    <div class="w-full max-w-5xl  ">
+
+<body class="font-sans bg-[#21409A] max-w-7xl mx-auto flex justify-center items-center min-h-screen">
+  {#if loading}
+    <div class="w-full max-w-5xl">
+      <div class="h-screen flex flex-col justify-center items-center">
+        <div class="grid gap-6 md:grid-cols-2 items-center animate-pulse">
+          <div class="bg-white/20 rounded-lg h-96 w-full"></div>
+          <div class="space-y-4">
+            <div class="h-8 bg-white/20 w-3/4 mx-auto md:mx-0"></div>
+            <div class="h-4 bg-white/20 w-full"></div>
+            <div class="h-4 bg-white/20 w-1/2 mx-auto md:mx-0"></div>
+            <div class="h-8 bg-white/20 w-1/3 mx-auto md:mx-0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {:else if error}
+    <p class="error text-white text-center">
+      {error.message} (Status: {error.status})
+      {#if error.message.includes('Access control exception')}
+        <br />Please ensure you are logged in or have the necessary permissions.
+      {/if}
+    </p>
+  {:else if course}
+    <div class="w-full max-w-5xl">
       <div class="h-screen flex flex-col justify-center items-center" in:fade={{ duration: 1000 }}>
         <div class="grid gap-6 md:grid-cols-2 items-center">
           <div>
@@ -115,29 +168,31 @@ const formattedStartDate = startDate.toLocaleDateString('en-za', options);
           </div>
           <div class="space-y-4 text-center md:text-left">
             <h1 class="text-3xl font-bold text-white">{course.fullname}</h1>
-            {#if data}
+            {#if course.summary}
               <p class="text-white">
-                {@html data.course.summary}
+                {@html course.summary}
               </p>
             {/if}
             <div class="flex justify-center md:justify-start space-x-2 text-white">
               <p>Start Date: {formattedStartDate}</p>
             </div>
             <div class="flex justify-center md:justify-start space-x-2 text-white">
-              <span>12 weeks</span> 
+              <span>12 weeks</span>
             </div>
             <div class="flex justify-center md:justify-start space-x-2 font-bold text-2xl">
               <span>R 1,999</span>
             </div>
-            <button on:click={()=>goto('/Signup')} class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition w-full md:w-auto">
-              Sing up
+            <button on:click={() => goto('/Signup')} class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition w-full md:w-auto">
+              Sign up
             </button>
           </div>
         </div>
       </div>
 
-      {#if courseCompetencies}
+      {#if courseCompetencies?.length > 0}
         <CourseCompetencies {courseCompetencies} />
+      {:else if courseContents.length === 0}
+        <p class="text-white text-center">Course contents not available due to access restrictions.</p>
       {:else}
         <div class="space-y-6">
           {#each Array(6) as _}
@@ -154,97 +209,8 @@ const formattedStartDate = startDate.toLocaleDateString('en-za', options);
   {/if}
 </body>
 
-
 <style>
   :global(html) {
     scroll-behavior: smooth;
   }
- 
- 
 </style>
- <!-- <div class="py-15">
-                  <div class="flex items-center space-x-3 mb-4">
-                     </div>
-                  <h1 class="text-4xl font-codec-pro font-bold text-[#222222] mb-4">
-                    {course.fullname}:
-                    {@html cleanDescription(
-                      PorogrammeOvervie?.competency?.shortname,
-                    )}
-                  </h1>
-                </div> -->
-                  <!-- <div class=" ">
-            {#if courseImagesData.length > 0}
-            <img
-              src={courseImagesData[0].imageUrl}
-              alt={courseImagesData[0].title}
-              class="object-cover w-full h-56"
-            />
-            {/if}
-          </div> -->
-          <!-- <div class="relative z-10 flex items-center justify-center h-screen">
-            <div
-              class="bg-white bg-opacity-90 rounded-tl-[60px] rounded-br-[60px] p-16 mx-4 shadow-xl max-w-4xl"
-            >
-              {#if course}
-                <div class="flex-1">
-                  <div class="flex items-center space-x-3 mb-4">
-                     </div>
-                  <h1 class="text-4xl font-codec-pro font-bold text-[#222222] mb-4">
-                    {course.fullname}:
-                    {@html cleanDescription(
-                      PorogrammeOvervie?.competency?.shortname,
-                    )}
-                  </h1>
-
-                  {#if course.summary}
-                    <div class="text-lg text-gray-700 mb-4 font-codec-pro">
-                      {@html cleanDescription(
-                        PorogrammeOvervie?.competency?.description,
-                      )}
-                    </div>
-                  {/if}
-
-                  <div class="flex space-x-4">
-                    <div class="flex items-center space-x-4">
-                      <a
-                        href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1"
-                        class="bg-red-500 text-white font-semibold py-3 px-8 rounded-full hover:bg-red-600 transform transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2"
-                      >
-                        <span>Start Learning</span>
-                        <svg
-                          class="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                    <a
-                      href="#"
-                      class="bg-gray-100 text-blue-500 font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition transform hover:scale-105 flex items-center"
-                    >
-                      Contact Us
-                    </a>
-                  </div>
-                </div>
-              {:else}
-                <div class="animate-pulse">
-                  <div class="h-6 bg-gray-200 w-1/4 mb-4"></div>
-                  <div class="h-12 bg-gray-200 w-3/4 mb-4"></div>
-                  <div class="h-4 bg-gray-200 w-1/2 mb-2"></div>
-                  <div class="flex space-x-4">
-                    <div class="h-10 bg-gray-200 w-1/3"></div>
-                    <div class="h-10 bg-gray-200 w-1/3"></div>
-                  </div>
-                </div>
-              {/if}
-            </div>
-          </div> -->
-    
