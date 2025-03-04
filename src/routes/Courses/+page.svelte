@@ -1,73 +1,53 @@
-<script>
+<!-- CoursesPage.svelte -->
+<script lang="ts">
   import { onMount } from "svelte";
-  import { fade, fly } from 'svelte/transition';
-  import { page } from "$app/stores";
-  import { collection, getDocs, query } from 'firebase/firestore';
-  import { db } from '$lib/firebase/firebase'; 
-  import { moodleClient } from '$lib/moodle';
-  import { createRedisStore } from '$lib/redisStore'; // Import the redis store
-  import { Button } from "@/components/ui/button";
-  import { Badge } from "$lib/components/ui/badge";
+  import { fade, fly } from "svelte/transition";
+  import { collection, getDocs, query } from "firebase/firestore";
+  import { db } from "$lib/firebase/firebase";
   import * as Card from "$lib/components/ui/card";
+  import { createRedisStore } from "$lib/redisStore"; // Import the redis store
+
+  // Initialize the redis-like store
+  const cache = createRedisStore();
 
   let loading = true;
-  let loadedCourses = [];
-  let courseImagesData = [];
-  const cache = createRedisStore(); // Initialize the redis-like store
-
-  // Reactive statement to merge courses with images
-  $: {
-    if (loadedCourses && courseImagesData.length > 0) {
-      loadedCourses = loadedCourses.map(course => {
-        const matchingImage = courseImagesData.find(
-          image => image.title === course.displayname
-        );
-        return matchingImage 
-          ? { ...course, courseimage: matchingImage.imageUrl }
-          : course;
-      });
-    }
-  }
-
-  onMount(async () => {      
-    await loadData();
-    loading = false;
+  let loadedCourses: any[] = []; // Will hold courses from Firebase
+  $: console.log("loadedCourses is :",loadedCourses)
+  // Fetch courses from Firebase or cache on mount
+  onMount(async () => {
+    await fetchCourses();
   });
 
-  async function loadData() {
+  async function fetchCourses() {
+    const cacheKey = "courses";
+
+    // Try to get data from cache first
+    const cachedCourses = cache.get(cacheKey);
+    if (cachedCourses) {
+      loadedCourses = cachedCourses; // Use cached data if available
+      loading = false; // Set loading to false immediately for cached data
+      return; // Exit early if cache hit
+    }
+
+    // If no cache, fetch from Firebase
+    const coursesCollection = collection(db, "courses");
+    const q = query(coursesCollection);
+
     try {
-      const cacheKey = `moodle:courses`;
-      let allCourses = cache.get(cacheKey);
-
-      if (!allCourses) {
-        // Fetch courses from Moodle API
-        allCourses = await moodleClient.getCourses();
-        cache.set(cacheKey, allCourses, 3600); // Cache for 1 hour (3600 seconds)
-      }
-
-      const courseImagesCacheKey = `firebase:courseImages`;
-      let courseImages = cache.get(courseImagesCacheKey);
-
-      if (!courseImages) {
-        // Fetch course images from Firestore
-        const imageCollection = collection(db, "courses");
-        const q = query(imageCollection);
-        const imageSnapshot = await getDocs(q);
-        courseImages = imageSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        cache.set(courseImagesCacheKey, courseImages, 3600); // Cache for 1 hour (3600 seconds)
-      }
-
-      // Set the data
-      courseImagesData = courseImages;
-      loadedCourses = allCourses;
-
-    } catch (error) {
-      console.error('Failed to load data:', error);
-      loadedCourses = [];
-      courseImagesData = [];
+      const coursesSnapshot = await getDocs(q);
+      loadedCourses = coursesSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      // Cache the fetched data for 1 hour (3600 seconds)
+      cache.set(cacheKey, loadedCourses, 3600);
+    } catch (err) {
+      console.error("Error fetching courses: ", err);
+      if (err.code) console.error("Error code:", err.code);
+      if (err.name) console.error("Error name:", err.name);
+      loadedCourses = []; // Fallback to empty array on error
+    } finally {
+      loading = false; // Ensure loading is false whether success or fail
     }
   }
 </script>
@@ -77,7 +57,7 @@
   <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409A]">
+<div class="min-h-screen bg-[#21409a]">
   <div class="h-[60vh] flex flex-col items-center justify-center pt-20 text-center">
     <h1 class="text-4xl font-bold text-blue-400">Our Courses</h1>
     <p class="text-xl mt-5 text-white max-w-2xl mx-auto">
@@ -85,12 +65,12 @@
       can get involved.
     </p>
   </div>
-  
-  {#if loading || !loadedCourses || loadedCourses.length === 0}
+
+  {#if loading || loadedCourses.length === 0}
     <!-- Skeleton Loader -->
     <div class="max-w-7xl mx-auto px-4 pb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {#each Array(6) as _} 
+        {#each Array(6) as _}
           <div class="bg-white/20 rounded-tl-[40px] rounded-br-[40px] animate-pulse">
             <div class="h-48 bg-white/10 rounded-t-[40px]"></div>
             <div class="p-6">
@@ -115,78 +95,34 @@
               <a href="/Courses/{course.id}" data-sveltekit-preload-data="false">
                 <div class="relative">
                   <img
-                    src={course.courseimage}
-                    alt={course.fullname}
+                    src={course.imageUrl || "/placeholder-image.jpg"}
+                    alt={course.title}
                     class="w-full h-48 object-cover rounded-md"
                   />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"/>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
               </a>
             </Card.Content>
             <Card.Footer class="flex flex-col items-start p-4">
-              <h3 class="text-lg font-semibold">{course.fullname}</h3>
+              <h3 class="text-lg font-semibold">{course.title}</h3>
               <p class="text-gray-600 text-xs mb-3 line-clamp-2">
-                {@html course.summary || "No description available."}
+                {@html course.description || "No description available."}
               </p>
 
-              <div class="flex flex-wrap gap-1 mb-2">
-                <span
-                  class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full"
-                >
-                  Start: {new Date(course.startdate * 1000).toLocaleDateString()}
-                </span>
-                {#if course.enddate}
-                  <span
-                    class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full"
-                  >
-                    End: {new Date(course.enddate * 1000).toLocaleDateString()}
-                  </span>
-                {/if}
-              </div>
+             
 
-              <div class="flex flex-wrap gap-2 mt-2 text-xs">
-                {#if course.showactivitydates}
-                  <div class="flex items-center space-x-1">
-                    <div
-                      class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3 w-3 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span>Activity Dates</span>
-                  </div>
-                {/if}
-                {#if course.showcompletionconditions}
-                  <div class="flex items-center space-x-1">
-                    <div
-                      class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3 w-3 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span>Completion Tracking</span>
-                  </div>
-                {/if}
+              <!-- {#if course.programmeOverviewDuration}
+                <div class="flex items-center space-x-1 text-xs">
+                  <span>Overview: {@html course.programmeOverviewDuration}</span>
+                </div>
+              {/if} -->
+              <div class="flex flex-wrap gap-1 mb-2">
+                <span class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full">
+                  Duration: {course.duration || "Not specified"}
+                </span>
+                <span class="inline-block px-2 py-1 bg-green-500 text-white text-xs rounded-full">
+                  Price: R{(course.price ?? 0).toFixed(2)}
+                </span>
               </div>
             </Card.Footer>
           </Card.Root>
