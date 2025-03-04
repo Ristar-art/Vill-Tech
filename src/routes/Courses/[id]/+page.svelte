@@ -76,7 +76,7 @@
 <div class="min-h-screen bg-[#21409a] text-white">
   <!-- Header Section with Background Image -->
   <header 
-    class="h-[50vh] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
+    class="h-[70vh] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
     style={course && course.imageUrl && !imageError ? `background-image: url('${course.imageUrl}');` : 'background-color: #21409a;'}
   >
     <!-- Overlay for better text readability -->
