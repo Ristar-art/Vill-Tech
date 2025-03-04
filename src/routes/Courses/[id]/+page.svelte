@@ -7,14 +7,13 @@
   import * as Card from "$lib/components/ui/card";
   import { page } from "$app/stores";
 
-  export let data: { id: string }; // SvelteKit provides this from URL params
+  export let data: { id: string }; 
 
   let loading = true;
   let course: any = null;
   let error: string | null = null;
-  let imageError = false; // Track image-specific errors
+  let imageError = false;
 
-  // Fallback to $page.params.id if data.id is missing
   $: id = data.id || $page.params.id;
   $: console.log("Resolved ID:", id);
 
@@ -36,9 +35,9 @@
 
       if (courseSnap.exists()) {
         course = { id: courseSnap.id, ...courseSnap.data() };
-        console.log("Fetched course:", course); // Debug course data
+        console.log("Fetched course:", course);
         if (course.imageUrl) {
-          console.log("Image URL:", course.imageUrl); // Debug image URL
+          console.log("Image URL:", course.imageUrl);
         } else {
           console.warn("No imageUrl found in course data");
         }
@@ -55,7 +54,6 @@
     }
   }
 
-  // Handle image load errors
   function handleImageError() {
     imageError = true;
     console.error("Failed to load image for course:", course?.title);
@@ -67,7 +65,7 @@
     <title>{course.title} - Village Tech</title>
     <meta name="description" content={course.description || "Course details for " + course.title} />
     {#if course.imageUrl}
-      <link rel="preload" href={course.imageUrl} as="image" /> <!-- Preload image -->
+      <link rel="preload" href={course.imageUrl} as="image" />
     {/if}
   {:else}
     <title>Course Details - Village Tech</title>
@@ -75,18 +73,37 @@
   {/if}
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409a]0 text-white">
-  <!-- Header Section -->
-  <header class="h-[50vh] flex flex-col items-center justify-center pt-20 text-center px-6">
-    {#if loading}
-      <h1 class="text-5xl font-extrabold tracking-tight animate-pulse text-indigo-300">Loading...</h1>
-    {:else if error}
-      <h1 class="text-5xl font-extrabold tracking-tight text-red-400">{error}</h1>
-    {:else}
-      <h1 class="text-5xl font-extrabold tracking-tight text-indigo-200">{course.title}</h1>
-      <p class="mt-6 text-lg text-gray-200 max-w-3xl leading-relaxed">
-        {@html course.description || "No description available."}
-      </p>
+<div class="min-h-screen bg-[#21409a] text-white">
+  <!-- Header Section with Background Image -->
+  <header 
+    class="h-[50vh] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
+    style={course && course.imageUrl && !imageError ? `background-image: url('${course.imageUrl}');` : 'background-color: #21409a;'}
+  >
+    <!-- Overlay for better text readability -->
+    <div class="absolute inset-0 bg-black/50 z-0"></div>
+    
+    <div class="relative z-10">
+      {#if loading}
+        <h1 class="text-5xl font-extrabold tracking-tight animate-pulse text-indigo-300">Loading...</h1>
+      {:else if error}
+        <h1 class="text-5xl font-extrabold tracking-tight text-red-400">{error}</h1>
+      {:else}
+        <h1 class="text-5xl font-extrabold tracking-tight text-indigo-200">{course.title}</h1>
+        <p class="mt-6 text-lg text-gray-200 max-w-3xl leading-relaxed">
+          {@html course.description || "No description available."}
+        </p>
+      {/if}
+    </div>
+
+    <!-- Fallback image handling -->
+    {#if course && course.imageUrl}
+      <img
+        src={course.imageUrl}
+        alt=""
+        class="hidden"
+        on:error={handleImageError}
+        loading="eager"
+      />
     {/if}
   </header>
 
@@ -110,13 +127,8 @@
       </a>
     </div>
   {:else}
-    <div class="max-w-5xl mx-auto px-6 pb-20 bg-[#21409a]">
-      <div class=" rounded-xl backdrop-blur-lg  overflow-hidden">
-        <img
-          src={course.imageUrl}
-          alt={course.title}
-          class="w-full h-72 object-cover"
-        />
+    <div class="max-w-5xl mx-auto px-6 pb-20">
+      <div class="rounded-xl backdrop-blur-lg overflow-hidden">
         <div class="p-8 space-y-8">
           <!-- Core Details -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -187,14 +199,14 @@
 </div>
 
 <style>
-  /* Smooth image fade-in */
-  img {
-    transition: opacity 0.3s ease-in-out;
+  header {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease-in-out;
   }
-  img[loading="eager"] {
-    opacity: 0;
-  }
-  img[loading="eager"]:not([loading]) {
-    opacity: 1;
+
+  /* Ensure text is readable over the background */
+  .relative {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 </style>
