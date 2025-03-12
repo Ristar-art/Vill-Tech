@@ -18,7 +18,8 @@
 
 	
 
-	<footer class="bg-[#21409a] py-10">
+	<footer class="bg-[#21409a] py-10"
+    >
         <div class="container mx-auto px-4 bg-white bg-opacity-70 shadow-md z-50 rounded-lg rounded-lg">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <!-- Social Media Icons -->
@@ -77,7 +78,13 @@
 		flex-direction: column;
 		min-height: 100vh;
 	} */
-
+@font-face {
+    font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('$lib/font/barlow-semi-condensed-latin-400-normal.ttf') , 
+	}
 	main {
 		/* flex: 1;
 		display: flex; */
@@ -87,7 +94,13 @@
 		/* max-width: 64rem; */
 		/* margin: 0 auto; */
 		/* box-sizing: border-box; */
+        font-family: 'Barlow Semi Condensed', sans-serif;
+
 	}
+    Header{
+        font-family: 'Barlow Semi Condensed', sans-serif;
+
+    }
 
 	footer {
 		display: flex;
@@ -95,6 +108,8 @@
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
+        font-family: 'Barlow Semi Condensed', sans-serif;
+
 	}
 
 	footer a {

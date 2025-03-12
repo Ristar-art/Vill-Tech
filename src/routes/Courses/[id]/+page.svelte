@@ -15,7 +15,6 @@
   let imageError = false;
 
   $: id = data.id || $page.params.id;
-  $: console.log("Resolved ID:", id);
 
   onMount(async () => {
     console.log("onMount - Fetching course with ID:", id);

@@ -12,7 +12,6 @@
 
   let loading = true;
   let loadedCourses: any[] = []; // Will hold courses from Firebase
-  $: console.log("loadedCourses is :",loadedCourses)
   // Fetch courses from Firebase or cache on mount
   onMount(async () => {
     await fetchCourses();
@@ -71,8 +70,8 @@
     <div class="max-w-7xl mx-auto px-4 pb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {#each Array(6) as _}
-          <div class="bg-white/20 rounded-tl-[40px] rounded-br-[40px] animate-pulse">
-            <div class="h-48 bg-white/10 rounded-t-[40px]"></div>
+          <div class="bg-white/20 rounded-xl animate-pulse">
+            <div class="h-48 bg-white/10 rounded-xl"></div>
             <div class="p-6">
               <div class="h-6 bg-white/20 mb-4 w-3/4"></div>
               <div class="h-4 bg-white/10 mb-2 w-full"></div>
@@ -87,35 +86,26 @@
       </div>
     </div>
   {:else}
-    <div class="max-w-7xl mx-auto px-4 pb-16 pt-5">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    
+      <div class=" flex flex-row flex-wrap justify-center">
         {#each loadedCourses as course}
-          <Card.Root key={course.id}>
-            <Card.Content class="p-0">
-              <a href="/Courses/{course.id}" data-sveltekit-preload-data="false">
-                <div class="relative">
-                  <img
-                    src={course.imageUrl || "/placeholder-image.jpg"}
-                    alt={course.title}
-                    class="w-full h-48 object-cover rounded-md"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
-              </a>
-            </Card.Content>
-            <Card.Footer class="flex flex-col items-start p-4">
+        <Card.Root class = 'w-[20rem] m-4'>
+          <Card.Content class="p-0 ">
+            <a href="/Courses/{course.id}" class="cursor-pointer">
+              <img
+                src={course.imageUrl || "/placeholder-image.jpg"}
+                alt={course.title}
+              
+                class="w-full h-[18rem] object-cover rounded-md"
+              />
+            </a>
+          </Card.Content>
+          <Card.Footer class="flex flex-col items-start p-4">
               <h3 class="text-lg font-semibold">{course.title}</h3>
               <p class="text-gray-600 text-xs mb-3 line-clamp-2">
                 {@html course.description || "No description available."}
               </p>
 
-             
-
-              <!-- {#if course.programmeOverviewDuration}
-                <div class="flex items-center space-x-1 text-xs">
-                  <span>Overview: {@html course.programmeOverviewDuration}</span>
-                </div>
-              {/if} -->
               <div class="flex flex-wrap gap-1 mb-2">
                 <span class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full">
                   Duration: {course.duration || "Not specified"}
@@ -127,7 +117,9 @@
             </Card.Footer>
           </Card.Root>
         {/each}
-      </div>
+      
     </div>
+      
+    
   {/if}
 </div>

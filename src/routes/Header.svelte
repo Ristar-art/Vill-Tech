@@ -362,5 +362,17 @@
   header {
     -webkit-backdrop-filter: blur(10px); /* Safari */
     backdrop-filter: blur(10px); /* Standard */
+    font-family: 'Barlow Semi Condensed', sans-serif;
+
   }
+  @font-face {
+    font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('$lib/font/barlow-semi-condensed-latin-100-italic.ttf') , 
+	}
+	
+
+    
 </style>
