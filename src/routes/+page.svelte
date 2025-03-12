@@ -210,7 +210,7 @@
 
     <section class="py-16 bg-white flex justify-center w-full">
       <div
-        class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-blue-400 md:max-w-5xl"
+        class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gray-400 md:max-w-5xl"
       >
         <div
           class=" w-full md:w-[36rem] flex flex-end transition-all duration-300"
