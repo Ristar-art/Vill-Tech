@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import * as crypto from 'crypto';
-import { moodleClient } from '$lib/moodle';
+// import { moodleClient } from '$lib/moodle';
 
 export function cn(...inputs) {
 	return twMerge(clsx(inputs));

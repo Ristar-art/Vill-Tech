@@ -7,7 +7,7 @@
   import { Button } from "@/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
   import * as Card from "$lib/components/ui/card";
-  import { moodleClient } from "$lib/moodle";
+  // import { moodleClient } from "$lib/moodle";
   import { createRedisStore } from "$lib/redisStore"; // Import the redis store
 
   // Initialize the redis-like store
@@ -102,7 +102,7 @@
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
   <!-- Preload critical assets -->
-  <link rel="preload" href="/optimized-background.webp" as="image" />
+  <link rel="preload" href="/VTlogo.svg" as="image" />
   <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </svelte:head>
 
@@ -112,10 +112,10 @@
       class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-primary-foreground"
     >
       <!-- Optimized background image (WebP, lazy-loaded) -->
-      <div
+      <!-- <div
         class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
         style="background-image: url('/optimized-background.webp');"
-      ></div>
+      ></div> -->
 
       <!-- Content -->
       <div class="relative z-30 w-full text-center px-6">
@@ -132,7 +132,7 @@
         </p>
         <a
         href="/Courses"
-        sveltekit:prefetch
+        sveltekit prefetch
         class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center"
       >
         Explore Courses
