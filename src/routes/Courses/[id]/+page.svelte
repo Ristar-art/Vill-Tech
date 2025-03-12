@@ -17,7 +17,6 @@
   $: id = data.id || $page.params.id;
 
   onMount(async () => {
-    console.log("onMount - Fetching course with ID:", id);
     if (!id) {
       error = "No course ID provided";
       loading = false;
@@ -72,14 +71,11 @@
   {/if}
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409a] text-white">
+<div class="min-h-screen bg-white">
   <!-- Header Section with Background Image -->
-  <header 
-    class="h-[70vh] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
-    style={course && course.imageUrl && !imageError ? `background-image: url('${course.imageUrl}');` : 'background-color: #21409a;'}
-  >
-    <!-- Overlay for better text readability -->
-    <div class="absolute inset-0 bg-black/50 z-0"></div>
+
+  <div class="h-[70vh] flex items-center justify-center">
+    <div class="absolute inset-0 bg-gray-400 z-0"></div>
     
     <div class="relative z-10">
       {#if loading}
@@ -93,6 +89,14 @@
         </p>
       {/if}
     </div>
+  </div>
+  <div class=" flex items-center justify-center">
+    <div 
+    class="h-[100vh] w-full md:w-[65vw] rounded-sm flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
+    style={course && course.imageUrl && !imageError ? `background-image: url('${course.imageUrl}');` : 'background-color: #21409a;'}
+  >
+    <!-- Overlay for better text readability -->
+    
 
     <!-- Fallback image handling -->
     {#if course && course.imageUrl}
@@ -104,7 +108,10 @@
         loading="eager"
       />
     {/if}
-  </header>
+</div>
+  </div>
+
+  
 
   <!-- Course Details Section -->
   {#if loading}
@@ -131,13 +138,13 @@
         <div class="p-8 space-y-8">
           <!-- Core Details -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white/10 p-4 rounded-lg">
-              <h2 class="text-xl font-semibold text-indigo-300">Price</h2>
-              <p class="mt-2 text-gray-200">R{(course.price ?? 0).toFixed(2)}</p>
+            <div class="bg-gray-400 p-4 rounded-lg">
+              <h2 class="text-xl font-semibold text-white">Price</h2>
+              <p class="mt-2 ">R{(course.price ?? 0).toFixed(2)}</p>
             </div>
-            <div class="bg-white/10 p-4 rounded-lg">
-              <h2 class="text-xl font-semibold text-indigo-300">Duration</h2>
-              <p class="mt-2 text-gray-200">{course.duration || "Not specified"}</p>
+            <div class="bg-gray-400 p-4 rounded-lg">
+              <h2 class="text-xl font-semibold text-white">Duration</h2>
+              <p class="mt-2 ">{course.duration || "Not specified"}</p>
             </div>
           </div>
 
@@ -146,43 +153,43 @@
             {#if course.accreditation}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Accreditation</h2>
-                <p class="mt-2 text-gray-200">{@html course.accreditation}</p>
+                <p class="mt-2 ">{@html course.accreditation}</p>
               </div>
             {/if}
             {#if course.programmeOverviewDuration}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Programme Overview Duration</h2>
-                <p class="mt-2 text-gray-200">{@html course.programmeOverviewDuration}</p>
+                <p class="mt-2 ">{@html course.programmeOverviewDuration}</p>
               </div>
             {/if}
             {#if course.targetAudience}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Target Audience</h2>
-                <p class="mt-2 text-gray-200">{@html course.targetAudience}</p>
+                <p class="mt-2 ">{@html course.targetAudience}</p>
               </div>
             {/if}
             {#if course.entryRequirements}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Entry Requirements</h2>
-                <p class="mt-2 text-gray-200">{@html course.entryRequirements}</p>
+                <p class="mt-2 ">{@html course.entryRequirements}</p>
               </div>
             {/if}
             {#if course.courseStructureModules}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Course Structure and Modules</h2>
-                <p class="mt-2 text-gray-200">{@html course.courseStructureModules}</p>
+                <p class="mt-2 ">{@html course.courseStructureModules}</p>
               </div>
             {/if}
             {#if course.trainingMethodology}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Training Methodology</h2>
-                <p class="mt-2 text-gray-200">{@html course.trainingMethodology}</p>
+                <p class="mt-2 ">{@html course.trainingMethodology}</p>
               </div>
             {/if}
             {#if course.careerOpportunities}
               <div>
                 <h2 class="text-xl font-semibold text-indigo-300">Career Opportunities</h2>
-                <p class="mt-2 text-gray-200">{@html course.careerOpportunities}</p>
+                <p class="mt-2 ">{@html course.careerOpportunities}</p>
               </div>
             {/if}
           </div>

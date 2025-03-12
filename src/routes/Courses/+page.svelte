@@ -52,7 +52,7 @@
 </script>
 
 <svelte:head>
-  <title>Courses - Village Tech</title>
+  <title>Village Tech - Courses</title>
   <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
 
