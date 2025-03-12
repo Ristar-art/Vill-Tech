@@ -245,7 +245,7 @@
       </div>
     </section>
  <!-- New Course Categories Section -->
- <section class="py-20 bg-white flex justify-center w-full">
+ <section class="py-6 bg-white flex justify-center w-full">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">
       Course Categories
