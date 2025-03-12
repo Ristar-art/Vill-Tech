@@ -56,10 +56,10 @@
   <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409a]">
+<div class="min-h-screen bg-white">
   <div class="h-[60vh] flex flex-col items-center justify-center pt-20 text-center">
     <h1 class="text-4xl font-bold text-blue-400">Our Courses</h1>
-    <p class="text-xl mt-5 text-white max-w-2xl mx-auto">
+    <p class="text-xl mt-5  max-w-2xl mx-auto">
       At Village Tech, we believe in making a positive impact beyond education. Explore the courses we offer and how you
       can get involved.
     </p>

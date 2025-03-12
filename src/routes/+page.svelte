@@ -36,17 +36,6 @@
     "Lifetime access to course materials",
   ];
 
-  const courseCatergories = [
-    "Foundational IT Skills",
-    "Office Productivity Software",
-    "Systems Development (Software & App Development)",
-    "IT Systems Support & Administration",
-    "Cybersecurity & Hardware Certifications",
-    "Educational Technology Support",
-    "ICT Entrepreneurship & Work Readiness",
-    "Community & Specialized IT",
-  ];
-
   async function fetchCourses() {
     const cacheKey = "courses";
 
@@ -114,9 +103,10 @@
   <meta name="description" content="Village tech" />
   <!-- Preload critical assets -->
   <link rel="preload" href="/optimized-background.webp" as="image" />
+  <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </svelte:head>
 
-<div class="min-h-screen">
+<div class="min-h-screen bg-white">
   {#if visible}
     <section
       class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-primary-foreground"
@@ -140,12 +130,14 @@
           Discover a world of knowledge at your fingertips. Learn from industry
           experts and advance your career with our cutting-edge online courses.
         </p>
-        <button
-          class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-          on:click={() => goto("/Courses")}
-        >
-          Explore Courses
-        </button>
+        <a
+        href="/Courses"
+        sveltekit:prefetch
+        class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center"
+      >
+        Explore Courses
+      </a>
+      
       </div>
 
       <!-- Simplified floating stars (reduced animations) -->
@@ -252,7 +244,35 @@
         </div>
       </div>
     </section>
-
+ <!-- New Course Categories Section -->
+ <section class="py-20 bg-white flex justify-center w-full">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">
+      Course Categories
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {#each [
+        { name: "Foundational IT Skills", icon: "cpu-chip" },
+        { name: "Office Productivity Software", icon: "document-text" },
+        { name: "Systems Development (Software & App Development)", icon: "code-bracket" },
+        { name: "IT Systems Support & Administration", icon: "cog" },
+        { name: "Cybersecurity & Hardware Certifications", icon: "shield-check" },
+        { name: "Educational Technology Support", icon: "book-open" },
+        { name: "ICT Entrepreneurship & Work Readiness", icon: "briefcase" },
+        { name: "Community & Specialized IT", icon: "users" }
+      ] as category}
+        <div class="group bg-blue-400 p-6 rounded-2xl  flex flex-col items-center text-center space-y-4">
+          <div class="bg-[#21409a] text-white p-3 rounded-full shadow-inner group-hover:bg-[#192f6a] transition-colors">
+            <span class="iconify w-8 h-8" data-icon="heroicons:{category.icon}"></span>
+          </div>
+          <p class="text-lg font-semibold text-gray-700 group-hover:text-[#21409a] transition-colors">
+            {category.name}
+          </p>
+        </div>
+      {/each}
+    </div>
+  </div>
+</section>
     <section class="py-16 bg-white flex justify-center w-full">
       <div
         class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl"
@@ -328,19 +348,25 @@
       </div>
     </section>
 
-    <section class="py-16 px-4">
+   
+    
+   
+    
+
+    <section class="py-16  bg-white">
       <div class="max-w-5xl mx-auto">
         <div
           class="flex justify-between items-center mb-12"
           in:fly={{ x: -50, duration: 800 }}
         >
-          <h2 class="text-3xl font-bold text-white">Featured Courses</h2>
-          <button
-            class="px-6 py-2 bg-red-500 text-white rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-            on:click={() => goto("/Courses")}
-          >
-            View All Courses
-          </button>
+          <h2 class="text-3xl font-bold ">Featured Courses</h2>
+          <a
+          href="/Courses"
+          sveltekit:prefetch
+          class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center"
+        >
+        View All Courses
+              </a>
         </div>
         {#if courses}
         <div class = 'flex justify-center'>
@@ -352,7 +378,6 @@
                     <img
                       src={course.imageUrl || "/placeholder-image.jpg"}
                       alt={course.title}
-                    
                       class="w-full h-[18rem] object-cover rounded-md"
                     />
                   </a>
@@ -425,23 +450,31 @@
         {/if}
       </div>
     </section>
-    <section class="w-full bg-[#f3f4f5] flex justify-center -mb-1">
-      <div class="w-full py-4 md:max-w-6xl flex justify-between">
-        {#if courses}
-          {#each [{ title: "Students", value: "1000+" }, { title: "Courses" ,value: "22"}, { title: "Graduates", value: "5000+" }, { title: "Success Rate", value: "95%" }] as stat, i (stat.title)}
-            <div
-              class="text-center"
-              in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
-            >
-              <h3 class="text-4xl font-bold text-blue-400 mb-2">
-                {stat.value}
-              </h3>
-              <p class="text-black">{stat.title}</p>
-            </div>
-          {/each}
-        {/if}
+    <section class="w-full bg-white flex justify-center">
+      <div class="md:max-w-7xl w-full  -mb-1">
+        <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
+          {#if courses}
+            {#each [
+              { title: "Students", value: "1000+" },
+              { title: "Courses", value: "22" },
+              { title: "Graduates", value: "5000+" },
+              { title: "Success Rate", value: "95%" }
+            ] as stat, i (stat.title)}
+              <div
+                class="text-center min-w-[140px]"
+                in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
+              >
+                <h3 class="text-4xl font-bold text-blue-400 mb-1">
+                  {stat.value}
+                </h3>
+                <p class=" text-lg">{stat.title}</p>
+              </div>
+            {/each}
+          {/if}
+        </div>
       </div>
     </section>
+    
   {/if}
 </div>
 
