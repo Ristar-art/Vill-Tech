@@ -283,9 +283,7 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     {/if}
   </div>
 
-  <a href="/educator-training" class="{$page.url.pathname === '/educator-training' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-    <span>Educator Training</span>
-  </a>
+  
   <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Learnerships</span>
   </a>
@@ -293,11 +291,12 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     <span>Apply/Enquire Now</span>
   </a>
   <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-    <MessageCircle class="h-5 w-5" />
     <span>Contact</span>
   </a>
 </nav>
-
+<a href="/login" class="{$page.url.pathname === '/login' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+  <span>Log in</span>
+</a>
     <!-- Mobile Menu Button -->
     <button class="lg:hidden flex items-center text-gray-700" on:click={toggleMenu}>
       {#if mobileMenuOpen}

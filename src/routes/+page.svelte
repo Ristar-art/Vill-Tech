@@ -132,12 +132,12 @@
     </section>
 
     <section class="py-16 bg-[#21409a] flex justify-center w-full">
-      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-red-500 md:max-w-5xl">
+      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
           <img src="/Village Tech ~ SM_Facebook.webp" class="w-full mx-auto 2xl:-mb-20 rounded-tl-xl rounded-bl-xl" loading="lazy" alt="Learning methods" />
         </div>
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
-          <div class="md:col-span-3 bg-red-500 text-white p-6 rounded-lg justify-start">
+          <div class="md:col-span-3 text-white p-6 rounded-lg justify-start">
             <h1 class="text-4xl font-bold">Why Choose Village Tech?</h1>
           </div>
           <div class="space-y-6  flex flex-col justify-between">
@@ -185,7 +185,7 @@
 
     <section class="py-16  flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl">
-        <div class="rounded-tl-xl rounded-bl-xl bg-red-500 w-full md:w-[36rem] flex flex-col justify-between">
+        <div class="rounded-tl-xl rounded-bl-xl bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 w-full md:w-[36rem] flex flex-col justify-between">
           <div class="md:col-span-3 text-white h-[8rem] px-6 rounded-lg flex items-end">
             <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
           </div>
