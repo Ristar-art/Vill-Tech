@@ -7,10 +7,8 @@
   import { Button } from "@/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
   import * as Card from "$lib/components/ui/card";
-  // import { moodleClient } from "$lib/moodle";
-  import { createRedisStore } from "$lib/redisStore"; // Import the redis store
+  import { createRedisStore } from "$lib/redisStore";
 
-  // Initialize the redis-like store
   const cache = createRedisStore();
   let visible = false;
   let loading = true;
@@ -20,10 +18,8 @@
   let totalPages = 1;
   let error = null;
 
-  // Load cached data from localStorage on initialization
   onMount(() => {
     visible = true;
-    // Fetch data in parallel
     fetchCourses();
   });
 
@@ -38,35 +34,27 @@
 
   async function fetchCourses() {
     const cacheKey = "courses";
-
-    // Try to get data from cache first
     const cachedCourses = cache.get(cacheKey);
     if (cachedCourses) {
-      courses = cachedCourses; // Use cached data if available
-      loading = false; // Set loading to false immediately for cached data
-      return; // Exit early if cache hit
+      courses = cachedCourses;
+      loading = false;
+      return;
     }
 
-    // If no cache, fetch from Firebase with a limit of 3
     const coursesCollection = collection(db, "courses");
-    const q = query(coursesCollection, limit(3)); 
-
+    const q = query(coursesCollection, limit(3));
     try {
       const coursesSnapshot = await getDocs(q);
       courses = coursesSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(courses)
-      // Cache the fetched data for 1 hour (3600 seconds)
       cache.set(cacheKey, courses, 3600);
     } catch (err) {
       console.error("Error fetching courses: ", err);
-      if (err.code) console.error("Error code:", err.code);
-      if (err.name) console.error("Error name:", err.name);
-      courses = []; // Fallback to empty array on error
+      courses = [];
     } finally {
-      loading = false; // Ensure loading is false whether success or fail
+      loading = false;
     }
   }
 
@@ -75,24 +63,21 @@
       id: 1,
       name: "John Doe",
       role: "Web Developer",
-      content:
-        "The courses on EduOnline have been instrumental in advancing my career. The quality of instruction is top-notch!",
+      content: "The courses on EduOnline have been instrumental in advancing my career. The quality of instruction is top-notch!",
       avatar: "/placeholder.svg?height=100&width=100",
     },
     {
       id: 2,
       name: "Jane Smith",
       role: "Data Analyst",
-      content:
-        "I love the flexibility of learning at my own pace. EduOnline has helped me acquire new skills while balancing my full-time job.",
+      content: "I love the flexibility of learning at my own pace. EduOnline has helped me acquire new skills while balancing my full-time job.",
       avatar: "/placeholder.svg?height=100&width=100",
     },
     {
       id: 3,
       name: "Mike Johnson",
       role: "Marketing Manager",
-      content:
-        "The digital marketing courses on EduOnline are up-to-date with the latest trends. It's been a game-changer for my business.",
+      content: "The digital marketing courses on EduOnline are up-to-date with the latest trends. It's been a game-changer for my business.",
       avatar: "/placeholder.svg?height=100&width=100",
     },
   ];
@@ -101,357 +86,188 @@
 <svelte:head>
   <title>Village Tech</title>
   <meta name="description" content="Village tech" />
-  <!-- Preload critical assets -->
   <link rel="preload" href="/VTlogo.svg" as="image" />
   <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </svelte:head>
 
-<div class="min-h-screen bg-white">
+<div class="min-h-screen bg-[#21409a]">
   {#if visible}
-    <section
-      class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-primary-foreground"
-    >
-      <!-- Optimized background image (WebP, lazy-loaded) -->
-      <!-- <div
-        class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style="background-image: url('/optimized-background.webp');"
-      ></div> -->
-
-      <!-- Content -->
+    <section class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-white">
       <div class="relative z-30 w-full text-center px-6">
-        <h1
-          class="text-4xl sm:text-5xl md:text-6xl font-bold-2xl mb-6 text-white"
-        >
-          Join our <span class="text-blue-400">Individual</span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold-2xl mb-6 text-white">
+          Join our <span class="text-white">Individual</span>
           <span class="text-white">& Corporate</span>
           <span class="text-red-500">Training</span>
         </h1>
         <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
-          Discover a world of knowledge at your fingertips. Learn from industry
-          experts and advance your career with our cutting-edge online courses.
+          Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our cutting-edge online courses.
         </p>
-        <a
-        href="/Courses"
-        sveltekit prefetch
-        class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center"
-      >
-        Explore Courses
-      </a>
-      
+        <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+          Explore Courses
+        </a>
       </div>
-
-      <!-- Simplified floating stars (reduced animations) -->
       <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <div
-          class="absolute inset-0 flex items-center justify-center section-banner"
-        >
+        <div class="absolute inset-0 flex items-center justify-center section-banner">
           <div id="star-1" class="curved-corner-star"></div>
           <div id="star-2" class="curved-corner-star"></div>
           <div id="star-3" class="curved-corner-star"></div>
         </div>
       </div>
-
-      <!-- Bottom SVG Wave -->
-      <svg
-        class="absolute bottom-[-1px] left-0 w-full z-10 block -mb-1"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path fill="white" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"
-        ></path>
+      <svg class="absolute bottom-[-1px] left-0 w-full z-10 block -mb-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#21409a" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path>
       </svg>
     </section>
 
-    <section class="mx-auto bg-white -mb-1 flex flex-col items-center">
-      <h1 class="text-2xl mb-6 mt-4 text-[#21409a] font-medium">
-        We are Supported and credited by these Companies
+    <section class="mx-auto bg-[#21409a] -z-10 -mb-1 flex flex-col items-center">
+      <h1 class="text-2xl mb-6 mt-4 text-white font-medium">
+        Our Enabling Partners
       </h1>
       <div class="flex justify-between md:max-w-5xl gap-x-[5rem]">
-        <img
-          class="h-10 block align-middle"
-          src="/image1.jpg"
-          loading="lazy"
-          alt="Company 1"
-        />
-        <img
-          class="h-10 block align-middle"
-          src="/image2.png"
-          loading="lazy"
-          alt="Company 2"
-        />
-        <img
-          class="h-10 block align-middle"
-          src="/image3.png"
-          loading="lazy"
-          alt="Company 3"
-        />
-        <img
-          class="h-10 block align-middle"
-          src="/image4.PNG"
-          loading="lazy"
-          alt="Company 4"
-        />
-        <img
-          class="h-10 block align-middle"
-          src="/image5.PNG"
-          loading="lazy"
-          alt="Company 5"
-        />
+        <img class="h-10 block align-middle" src="/image1.jpg" loading="lazy" alt="Company 1" />
+        <img class="h-10 block align-middle" src="/image2.png" loading="lazy" alt="Company 2" />
+        
+        <img class="h-10 block align-middle" src="/image4.PNG" loading="lazy" alt="Company 4" />
+        <img class="h-10 block align-middle" src="/image5.PNG" loading="lazy" alt="Company 5" />
       </div>
     </section>
 
-    <section class="py-16 bg-white flex justify-center w-full">
-      <div
-        class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gray-400 md:max-w-5xl"
-      >
-        <div
-          class=" w-full md:w-[36rem] flex flex-end transition-all duration-300"
-        >
-          <img
-            src="/Village Tech ~ SM_Facebook.webp"
-            class="w-full mx-auto 2xl:-mb-20 rounded-tl-xl rounded-bl-xl"
-            loading="lazy"
-            alt="Learning methods"
-          />
+    <section class="py-16 bg-[#21409a] flex justify-center w-full">
+      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-red-500 md:max-w-5xl">
+        <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
+          <img src="/Village Tech ~ SM_Facebook.webp" class="w-full mx-auto 2xl:-mb-20 rounded-tl-xl rounded-bl-xl" loading="lazy" alt="Learning methods" />
         </div>
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
-          <div
-            class="md:col-span-3 bg-gradient-to-r text-white p-6 rounded-lg justify-start"
-          >
+          <div class="md:col-span-3 bg-red-500 text-white p-6 rounded-lg justify-start">
             <h1 class="text-4xl font-bold">Why Choose Village Tech?</h1>
           </div>
-          <div class="space-y-6 flex flex-col justify-between">
-            <!-- Email -->
-
+          <div class="space-y-6  flex flex-col justify-between">
             {#each benefits as benefit (benefit)}
               <div class="flex items-center space-x-2 px-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="white"
-                  class="h-5 w-5 animate-bounce"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
-                    clipRule="evenodd"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white" class="h-5 w-5 animate-bounce">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
                 </svg>
-                <p class="text-lg">{benefit}</p>
+                <p class="text-lg text-white">{benefit}</p>
               </div>
             {/each}
           </div>
         </div>
       </div>
     </section>
- <!-- New Course Categories Section -->
- <section class="py-6 bg-white flex justify-center w-full">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">
-      Course Categories
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      {#each [
-        { name: "Foundational IT Skills", icon: "cpu-chip" },
-        { name: "Office Productivity Software", icon: "document-text" },
-        { name: "Systems Development (Software & App Development)", icon: "code-bracket" },
-        { name: "IT Systems Support & Administration", icon: "cog" },
-        { name: "Cybersecurity & Hardware Certifications", icon: "shield-check" },
-        { name: "Educational Technology Support", icon: "book-open" },
-        { name: "ICT Entrepreneurship & Work Readiness", icon: "briefcase" },
-        { name: "Community & Specialized IT", icon: "users" }
-      ] as category}
-        <div class="group bg-blue-400 p-6 rounded-2xl  flex flex-col items-center text-center space-y-4">
-          <div class="bg-[#21409a] text-white p-3 rounded-full shadow-inner group-hover:bg-[#192f6a] transition-colors">
-            <span class="iconify w-8 h-8" data-icon="heroicons:{category.icon}"></span>
-          </div>
-          <p class="text-lg font-semibold text-gray-700 group-hover:text-[#21409a] transition-colors">
-            {category.name}
-          </p>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
-    <section class="py-16 bg-white flex justify-center w-full">
-      <div
-        class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl"
-      >
-        <!-- Contact Details Card -->
-        <div
-          class=" rounded-tl-xl rounded-bl-xl w-full md:w-[36rem] flex flex-col justify-between"
-        >
-          <div
-            class="md:col-span-3 bg-gradient-to-r text-black h-[8rem] px-6 rounded-lg flex items-end"
-          >
-            <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
-          </div>
-          <div class="space-y-6 h-[20rem] flex items-end pb-6">
-            <!-- Email -->
 
-            <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
-              <div>
-                <p class="text-lg text-black font-medium leading-relaxed">
-                  Our inclusive learning approach and project management
-                  principles are professionally implemented and seamlessly
-                  structured for conducting:
-                </p>
-                <div class="flex flex-row items-center space-x-2">
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg"
-                    alt="Class"
-                    class="h-5 w-5"
-                    fill="white"
-                    loading="lazy"
-                  />
-                  <p class="text-lg">On-site</p>
-                </div>
-                <div class="flex flex-row items-center space-x-2">
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg"
-                    alt="Class"
-                    class="h-5 w-5"
-                    loading="lazy"
-                  />
-                  <p class="text-lg">Virtual distance</p>
-                </div>
-                <div class="flex flex-row items-center space-x-2">
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg"
-                    alt="Class"
-                    class="h-5 w-5"
-                    loading="lazy"
-                  />
-                  <p class="text-lg">Off-site</p>
-                </div>
+    <section class="py-6 bg-[#21409a] flex justify-center w-full">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-white mb-12 text-center">
+          Course Categories
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {#each [
+            { name: "Foundational IT Skills", icon: "cpu-chip" },
+            { name: "Office Productivity Software", icon: "document-text" },
+            { name: "Systems Development (Software & App Development)", icon: "code-bracket" },
+            { name: "IT Systems Support & Administration", icon: "cog" },
+            { name: "Cybersecurity & Hardware Certifications", icon: "shield-check" },
+            { name: "Educational Technology Support", icon: "book-open" },
+            { name: "ICT Entrepreneurship & Work Readiness", icon: "briefcase" },
+            { name: "Community & Specialized IT", icon: "users" }
+          ] as category}
+            <div class="group bg-white p-6 rounded-xl flex flex-col items-center text-center space-y-4">
+              <div class=" bg-[#21409a] text-white p-3 rounded-full shadow-inner group-hover:bg-[#769bfe] transition-colors">
+                <span class="iconify w-8 h-8" data-icon="heroicons:{category.icon}"></span>
               </div>
-
-              <p class="text-lg font-medium leading-relaxed">
-                We adhear to all SAQA, QCTO Occupational Qualifications, and
-                ETQA guidelines and qualification stipulations.
+              <p class="text-lg font-semibold text-[#21409a]  ">
+                {category.name}
               </p>
             </div>
-          </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div
-          class=" w-full md:w-[30rem] flex flex-end transition-all duration-300"
-        >
-          <img
-            src="/girl.webp"
-            class="w-10/12 mx-auto 2xl:-mb-20"
-            loading="lazy"
-            alt="Learning methods"
-          />
+          {/each}
         </div>
       </div>
     </section>
 
-   
-    
-   
-    
+    <section class="py-16  flex justify-center w-full">
+      <div class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl">
+        <div class="rounded-tl-xl rounded-bl-xl bg-red-500 w-full md:w-[36rem] flex flex-col justify-between">
+          <div class="md:col-span-3 text-white h-[8rem] px-6 rounded-lg flex items-end">
+            <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
+          </div>
+          <div class="space-y-6 h-[20rem] flex items-end pb-6">
+            <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
+              <div>
+                <p class="text-lg text-white font-medium leading-relaxed">
+                  Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting:
+                </p>
+                <div class="flex flex-row items-center space-x-2">
+                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg" alt="Class" class="h-5 w-5" fill="white" loading="lazy" />
+                  <p class="text-lg text-white">On-site</p>
+                </div>
+                <div class="flex flex-row items-center space-x-2">
+                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg" alt="Class" class="h-5 w-5" loading="lazy" />
+                  <p class="text-lg text-white">Virtual distance</p>
+                </div>
+                <div class="flex flex-row items-center space-x-2">
+                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg" alt="Class" class="h-5 w-5" loading="lazy" />
+                  <p class="text-lg text-white">Off-site</p>
+                </div>
+              </div>
+              <p class="text-lg font-medium text-white leading-relaxed">
+                We adhere to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-[30rem] bg-white rounded-tr-xl rounded-br∫-xl flex flex-end transition-all duration-300">
+          <img src="/girl.webp" class="w-10/12 mx-auto 2xl:-mb-20" loading="lazy" alt="Learning methods" />
+        </div>
+      </div>
+    </section>
 
-    <section class="py-16  bg-white">
+    <section class="py-16 bg-[#21409a]">
       <div class="max-w-5xl mx-auto">
-        <div
-          class="flex justify-between items-center mb-12"
-          in:fly={{ x: -50, duration: 800 }}
-        >
-          <h2 class="text-3xl font-bold ">Featured Courses</h2>
-          <a
-          href="/Courses"
-          sveltekit:prefetch
-          class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center"
-        >
-        View All Courses
-              </a>
+        <div class="flex justify-between items-center mb-12" in:fly={{ x: -50, duration: 800 }}>
+          <h2 class="text-3xl font-bold text-white">Featured Courses</h2>
+          <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+            View All Courses
+          </a>
         </div>
         {#if courses}
-        <div class = 'flex justify-center'>
-          <div class="max-w-5xl flex flex-row ">
-            {#each courses as course (course.id)}
-              <Card.Root class = 'w-[22rem] m-4'>
+          <div class="flex justify-center">
+            <div class="max-w-5xl flex flex-row">
+              {#each courses as course (course.id)}
+              <Card.Root class = 'w-[20rem] m-4 bg-white'>
                 <Card.Content class="p-0 ">
                   <a href="/Courses/{course.id}" class="cursor-pointer">
                     <img
                       src={course.imageUrl || "/placeholder-image.jpg"}
                       alt={course.title}
+                    
                       class="w-full h-[18rem] object-cover rounded-md"
                     />
                   </a>
                 </Card.Content>
                 <Card.Footer class="flex flex-col items-start p-4">
-                  <h3 class="text-lg font-semibold">{course.title}</h3>
-                  <p class="text-gray-600 text-xs mb-3 line-clamp-2">
-                    {@html course.summary || "No description available."}
-                  </p>
-  
-                  <div class="flex flex-wrap gap-1 mb-2">
-                    <span class="inline-block px-2 py-1 bg-blue-400 text-white text-xs rounded-full">
-                      Duration: {course.duration || "Not specified"}
-                    </span>
-                    <span class="inline-block px-2 py-1 bg-green-500 text-white text-xs rounded-full">
-                      Price: R{(course.price ?? 0).toFixed(2)}
-                    </span>
-                  </div>
-  
-                  <div class="flex flex-wrap gap-2 mt-2 text-xs">
-                    {#if course.showactivitydates}
-                      <div class="flex items-center space-x-1">
-                        <div
-                          class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-3 w-3 text-white"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <span>Activity Dates</span>
-                      </div>
-                    {/if}
-                    {#if course.showcompletionconditions}
-                      <div class="flex items-center space-x-1">
-                        <div
-                          class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-3 w-3 text-white"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <span>Completion Tracking</span>
-                      </div>
-                    {/if}
-                  </div>
-                </Card.Footer>
-              </Card.Root>
-            {/each}
+                    <h3 class="text-lg font-semibold">{course.title}</h3>
+                    <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                      {@html course.description || "No description available."}
+                    </p>
+      
+                    <div class="flex flex-wrap gap-1 mb-2">
+                      <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                        Duration: {course.duration || "Not specified"}
+                      </span>
+                      <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                        Price: R{(course.price ?? 0).toFixed(2)}
+                      </span>
+                    </div>
+                  </Card.Footer>
+                </Card.Root>
+              {/each}
+            </div>
           </div>
-        </div>
-       
         {/if}
       </div>
     </section>
-    <section class="w-full bg-white flex justify-center">
-      <div class="md:max-w-7xl w-full  -mb-1">
+
+    <section class="w-full bg-[#21409a] flex justify-center">
+      <div class="md:max-w-7xl w-full -mb-1">
         <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
           {#if courses}
             {#each [
@@ -460,21 +276,15 @@
               { title: "Graduates", value: "5000+" },
               { title: "Success Rate", value: "95%" }
             ] as stat, i (stat.title)}
-              <div
-                class="text-center min-w-[140px]"
-                in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}
-              >
-                <h3 class="text-4xl font-bold text-blue-400 mb-1">
-                  {stat.value}
-                </h3>
-                <p class=" text-lg">{stat.title}</p>
+              <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
+                <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
+                <p class="text-lg text-white">{stat.title}</p>
               </div>
             {/each}
           {/if}
         </div>
       </div>
     </section>
-    
   {/if}
 </div>
 
@@ -483,27 +293,9 @@
     scroll-behavior: smooth;
   }
 
-  .bg-blue {
-    background-color: #1a365d;
-  }
 
-  /* Add gradient animation to the background */
-  .bg-gradient {
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-  }
 
-  @keyframes gradientAnimation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+ 
   .section-banner {
     height: 250px;
     width: 250px;
@@ -533,57 +325,9 @@
     }
   }
 
-  .curved-corner-star {
-    display: flex;
-    position: relative;
-  }
+  
 
-  #curved-corner-bottomleft,
-  #curved-corner-bottomright,
-  #curved-corner-topleft,
-  #curved-corner-topright {
-    width: 4px;
-    height: 5px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  #curved-corner-bottomleft:before,
-  #curved-corner-bottomright:before,
-  #curved-corner-topleft:before,
-  #curved-corner-topright:before {
-    content: "";
-    display: block;
-    width: 200%;
-    height: 200%;
-    position: absolute;
-    border-radius: 50%;
-  }
-
-  #curved-corner-bottomleft:before {
-    bottom: 0;
-    left: 0;
-    box-shadow: -5px 5px 0 0 white;
-  }
-
-  #curved-corner-bottomright:before {
-    bottom: 0;
-    right: 0;
-    box-shadow: 5px 5px 0 0 white;
-  }
-
-  #curved-corner-topleft:before {
-    top: 0;
-    left: 0;
-    box-shadow: -5px -5px 0 0 white;
-  }
-
-  #curved-corner-topright:before {
-    top: 0;
-    right: 0;
-    box-shadow: 5px -5px 0 0 white;
-  }
-
+  
   @keyframes twinkling {
     0%,
     100% {
@@ -640,12 +384,7 @@
 
   /*primary color*/
 
-  .floating {
-    animation-name: floating;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-  }
+ 
   @keyframes floating {
     0% {
       transform: translate(0, 0px);
@@ -657,24 +396,5 @@
       transform: translate(0, -0px);
     }
   }
-  .floating-4 {
-    animation-name: floating;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-  }
-  @keyframes floating-4 {
-    0% {
-      transform: translate(0, 0px);
-    }
-    50% {
-      transform: translate(0, 8px);
-    }
-    100% {
-      transform: translate(0, -0px);
-    }
-  }
-  .text-darken {
-    color: #2f327d;
-  }
+  
 </style>

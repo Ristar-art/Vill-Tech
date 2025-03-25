@@ -18,23 +18,7 @@
     visible = true;
 
     // Initialize OpenStreetMap
-    if (typeof window !== 'undefined') {
-      // Wait for the map container to be available
-      setTimeout(() => {
-        map = L.map('map').setView([-26.2067439, 28.0378841], 15); // Village Tech location in Johannesburg
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Add a marker for the location
-        const marker = L.marker([-26.2067439, 28.0378841]).addTo(map);
-        marker
-          .bindPopup(
-            "<b>Village Tech</b><br>85 Main Street Groundfloor, Marshalltown, Johannesburg, 2107"
-          )
-          .openPopup();
-      }, 0);
-    }
+   
   });
 
   const handleSubmit = async (e) => {
@@ -75,7 +59,7 @@
     <div class="py-16 px-4" in:fade={{ duration: 1000 }}>
       <div class="max-w-7xl mx-auto">
         <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4 mt-24">
-          <span class="text-blue-400">Contact</span> <span class="text-red-500">Us</span>
+          <span class="text-white">Contact</span> <span class="text-red-500">Us</span>
         </h1>
         <p class="text-white/80 text-center max-w-2xl mx-auto">
           Have questions about our programmes? Want to partner with us? We'd love to hear from you!
@@ -88,7 +72,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Contact Information -->
         <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
-          <div class="bg-white/10 rounded-tl-[40px] rounded-br-[40px] p-6 text-white">
+          <div class="bg-white/10 rounded-2xl p-6 text-white">
             <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
             <div class="space-y-4">
               <div class="flex items-center space-x-4">
@@ -119,7 +103,7 @@
         </div>
 
         <!-- Contact Form -->
-        <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-tl-[40px] rounded-br-[40px] p-6 shadow-xl">
+        <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-2xl p-6 shadow-xl">
           <form on:submit={handleSubmit} class="space-y-4">
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -178,10 +162,23 @@
       </div>
 
       <!-- Map Section -->
-      <div in:fly={{ y: 50, duration: 800, delay: 200 }} class="mt-12 bg-white rounded-tl-[40px] rounded-br-[40px] p-6 shadow-xl">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Find Us</h2>
-        <div id="map" class="h-[400px] w-full rounded-lg"></div>
-      </div>
+    
+      <section class="py-16 ">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-white text-center mb-8">Find Us on the Map</h2>
+          <div class="rounded-xl overflow-hidden shadow-2xl">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.690664644885!2d28.037884174799636!3d-26.206739164076115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950ea242cbb1e3%3A0xea12498442f6848e!2sVillage%20Tech%20Training%20Solutions!5e0!3m2!1sen!2sza!4v1742235660215!5m2!1sen!2sza"
+              title="Our office on the map"
+              width="100%"
+              height="450"
+              style="border:0;"
+              allowfullscreen
+              loading="lazy"
+              class="w-full h-96"
+            ></iframe>
+          </div>
+        </div>
+      </section>
     </div>
   {/if}
 </div>

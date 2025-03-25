@@ -1,19 +1,13 @@
 <script>
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
-  import { auth, db } from "$lib/firebase/firebase";
-  import { onAuthStateChanged } from 'firebase/auth';
+  import { auth } from "$lib/firebase/firebase";
+  import { onAuthStateChanged, signOut } from "firebase/auth";
   import { onMount } from "svelte";
-  import { collection, query, where, onSnapshot, getDoc, doc } from "firebase/firestore";
-  // import { signOut } from "firebase/auth";
-  import { Home, BookOpen, Info, FileText, MessageCircle, Search, User, LogOut, Menu, X } from "lucide-svelte";
+  import { Home, BookOpen, Info, FileText, MessageCircle, Menu, X } from "lucide-svelte";
 
-  let user = null;  
-  let userData = null;
-  let loading = true;
-  let error = null;
+  let user = null;
   let mobileMenuOpen = false;
-  let searchQuery = '';
 
   async function handleLogout() {
     try {
@@ -30,41 +24,54 @@
   }
 
   onMount(() => {
-    auth.onAuthStateChanged(async (currentUser) => {
+    onAuthStateChanged(auth, (currentUser) => {
       user = currentUser;
-      if (user) {
-        fetchUserData(user.uid);
-      }
     });
   });
 
-  async function fetchUserData(userId) {
-    try {
-      const userDoc = await getDoc(doc(db, "users", userId));
-      if (userDoc.exists()) {
-        userData = { id: userDoc.id, ...userDoc.data() };
-      } else {
-        error = "User not found";
-      }
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-      error = err.message;
-    } finally {
-      loading = false;
+  // Desktop Dropdown States
+  let desktopDropdownState = {
+    isCoursesOpen: false,
+    isAboutOpen: false,
+    isBookingsOpen: false,
+    isExploreOpen: false,
+    timeoutId: null,
+  };
+
+  // Mobile Dropdown States
+  let mobileDropdownState = {
+    isCoursesOpen: false,
+    isBookingsOpen: false,
+  };
+
+  function toggleDesktopDropdown(menu, show) {
+    if (desktopDropdownState.timeoutId) {
+      clearTimeout(desktopDropdownState.timeoutId);
+    }
+    desktopDropdownState[menu] = show;
+    if (!show) {
+      desktopDropdownState.timeoutId = setTimeout(() => {
+        desktopDropdownState[menu] = false;
+      }, 200);
     }
   }
 
-  function handleSearch() {
-    // Implement search functionality
-    console.log('Searching for:', searchQuery);
+  function handleButtonMouseLeave(event, menu) {
+    const relatedTarget = event.relatedTarget;
+    if (!relatedTarget || !relatedTarget.closest(".dropdown-content")) {
+      toggleDesktopDropdown(menu, false);
+    }
+  }
+
+  function toggleMobileDropdown(menu) {
+    mobileDropdownState[menu] = !mobileDropdownState[menu];
   }
 </script>
 
-<header class="fixed top-0 left-1/2 bg-white transform -translate-x-1/2  shadow-md z-50 backdrop-filter backdrop-blur-lg w-full">
+<header class="fixed top-0 left-0 w-full bg-white shadow-md z-50 backdrop-filter backdrop-blur-lg">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <a href="/"  class="flex items-center space-x-2">
-      
+    <a href="/" class="flex items-center space-x-2">
       <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 526 663"
@@ -208,38 +215,91 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     </svg>
     </a>
 
-    <!-- Navigation Links (Desktop) -->
-    <nav class="hidden lg:flex space-x-6">
-      <a href="/Courses" class:active={$page.url.pathname === "/Courses"} 
-        class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
-        <BookOpen class="h-5 w-5" />
-        <span>Courses</span>
-      </a>
-      <a href="/about" class:active={$page.url.pathname === "/about"} 
-        class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
-        <Info class="h-5 w-5" />
-        <span>About Us</span>
-      </a>
-      <!-- <a href="/Blog" class:active={$page.url.pathname === "/Blog"} 
-        class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
-        <FileText class="h-5 w-5" />
-        <span>Blog</span>
-      </a> -->
-      
-    </nav>
+    <!-- Desktop Navigation -->
+    <!-- Desktop Navigation -->
+<nav class="hidden lg:flex space-x-6 items-center">
+  <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Home</span>
+  </a>
 
-   
-    <a href="/contact" class:active={$page.url.pathname === "/contact"} 
-    class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A] transition duration-300">
+  <!-- Courses Dropdown -->
+  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isCoursesOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isCoursesOpen")}>
+    <a class="{$page.url.pathname === '/Courses' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <span>Courses</span>
+    </a>
+    {#if desktopDropdownState.isCoursesOpen}
+      <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
+        <a href="/Courses/all-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">All Courses</a>
+        <a href="/Courses/seta" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Seta Courses</a>
+        <a href="/Courses/international" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">International Courses</a>
+        <a href="/Courses/trades" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Trades Courses</a>
+        <a href="/Courses/educator-training" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Educator Training</a>
+        <a href="/Courses/short-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Short Courses</a>
+      </div>
+    {/if}
+  </div>
+
+  <!-- About Us Dropdown -->
+  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isAboutOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isAboutOpen")}>
+    <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <span>About Us</span>
+    </a>
+    {#if desktopDropdownState.isAboutOpen}
+      <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
+        <a href="/accreditations" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Accreditations</a>
+        <a href="/services" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
+      </div>
+    {/if}
+  </div>
+
+  <!-- Bookings Dropdown -->
+  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isBookingsOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isBookingsOpen")}>
+    <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <span>Bookings</span>
+    </a>
+    {#if desktopDropdownState.isBookingsOpen}
+      <div class="dropdown-content absolute bg-white shadow-lg rounded-md  min-w-[200px] z-50">
+        <a href="/bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Bookings</a>
+        <a href="/pearson-vue-exam-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pearson Vue Exam Bookings</a>
+        <a href="/training-room-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Training Room Bookings</a>
+        <a href="/qcto-exam-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">QCTO Exam Bookings</a>
+      </div>
+    {/if}
+  </div>
+
+  <!-- Explore Village Tech Dropdown -->
+  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
+    <a href="/explore-village-tech" class="{$page.url.pathname === '/explore-village-tech' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <span>Explore Village Tech</span>
+    </a>
+    {#if desktopDropdownState.isExploreOpen}
+      <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
+        <a href="/explore-village-tech" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Explore Village Tech</a>
+        <a href="/news-and-media" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">News and Media</a>
+        <a href="/payment-methods" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Payment Methods</a>
+        <a href="/payment-terms" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Payment Terms</a>
+        <a href="/fqas" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">FAQ's</a>
+      </div>
+    {/if}
+  </div>
+
+  <a href="/educator-training" class="{$page.url.pathname === '/educator-training' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Educator Training</span>
+  </a>
+  <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Learnerships</span>
+  </a>
+  <a href="/Apply-or-Enquire-Now" class="{$page.url.pathname === '/Apply-or-Enquire-Now' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Apply/Enquire Now</span>
+  </a>
+  <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <MessageCircle class="h-5 w-5" />
     <span>Contact</span>
   </a>
-   
+</nav>
+
     <!-- Mobile Menu Button -->
-    <button
-      class="lg:hidden flex items-center text-gray-700"
-      on:click={toggleMenu}
-    >
+    <button class="lg:hidden flex items-center text-gray-700" on:click={toggleMenu}>
       {#if mobileMenuOpen}
         <X class="h-6 w-6" />
       {:else}
@@ -248,85 +308,89 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     </button>
   </div>
 
-  <!-- Mobile Menu (Initially Hidden) -->
+  <!-- Mobile Menu -->
   {#if mobileMenuOpen}
-    <div class="lg:hidden" transition>
-      <nav class="flex flex-col space-y-4 px-6 py-4 bg-gray-50">
-        <a href="/Courses" class:active={$page.url.pathname === "/Courses"} 
-          class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]">
-          <BookOpen class="h-5 w-5" />
-          <span>Courses</span>
+    <div class="lg:hidden bg-gray-50 px-6 py-4">
+      <nav class="flex flex-col space-y-4">
+        <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+          <Home class="h-5 w-5" />
+          <span>Home</span>
         </a>
-        <a href="/about" class:active={$page.url.pathname === "/about"} 
-          class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]">
+
+        <!-- Courses Mobile Dropdown -->
+        <div class="flex flex-col">
+          <button on:click={() => toggleMobileDropdown("isCoursesOpen")} class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A]">
+            <BookOpen class="h-5 w-5" />
+            <span>Courses</span>
+          </button>
+          {#if mobileDropdownState.isCoursesOpen}
+            <div class="ml-8 flex flex-col space-y-2 mt-2">
+              <a href="/Courses" class="text-gray-600 hover:text-[#21409A]">Courses</a>
+              <a href="/seta-courses" class="text-gray-600 hover:text-[#21409A]">Seta Courses</a>
+              <a href="/international-courses" class="text-gray-600 hover:text-[#21409A]">International Courses</a>
+              <a href="/trade-courses" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
+              <a href="/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
+              <a href="/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
+            </div>
+          {/if}
+        </div>
+
+        <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <Info class="h-5 w-5" />
           <span>About Us</span>
         </a>
-        <a href="/Blog" class:active={$page.url.pathname === "/Blog"} 
-          class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]">
-          <FileText class="h-5 w-5" />
-          <span>Blog</span>
+
+        <!-- Bookings Mobile Dropdown -->
+        <div class="flex flex-col">
+          <button on:click={() => toggleMobileDropdown("isBookingsOpen")} class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A]">
+            <span>Bookings</span>
+          </button>
+          {#if mobileDropdownState.isBookingsOpen}
+            <div class="ml-8 flex flex-col space-y-2 mt-2">
+              <a href="/bookings" class="text-gray-600 hover:text-[#21409A]">Bookings</a>
+              <a href="/pearson-vue-exam-bookings" class="text-gray-600 hover:text-[#21409A]">Pearson Vue Exam Bookings</a>
+              <a href="/training-room-bookings" class="text-gray-600 hover:text-[#21409A]">Training Room Bookings</a>
+              <a href="/qcto-exam-bookings" class="text-gray-600 hover:text-[#21409A]">QCTO Exam Bookings</a>
+            </div>
+          {/if}
+        </div>
+
+        <!-- <a href="/explore-village-tech" class={$page.url.pathname === "/explore-village-tech" ? "text-[#21409A]" : "text-gray-700"} class="flex items-center space-x-2 hover:text-[#21409A]">
+          <span>Explore Village Tech</span>
         </a>
-        <a href="/contact" class:active={$page.url.pathname === "/contact"} 
-          class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]">
+        <a href="/learnerships" class={$page.url.pathname === "/learnerships" ? "text-[#21409A]" : "text-gray-700"} class="flex items-center space-x-2 hover:text-[#21409A]">
+          <span>Learnerships</span>
+        </a>
+        <a href="/Apply-or-Enquire-Now" class={$page.url.pathname === "/Apply-or-Enquire-Now" ? "text-[#21409A]" : "text-gray-700"} class="flex items-center space-x-2 hover:text-[#21409A]">
+          <span>Apply/Enquire Now</span>
+        </a>
+        <a href="/contact" class={$page.url.pathname === "/contact" ? "text-[#21409A]" : "text-gray-700"} class="flex items-center space-x-2 hover:text-[#21409A]">
           <MessageCircle class="h-5 w-5" />
           <span>Contact</span>
         </a>
-
-       
-
-        <!-- {#if userData}
-          <button 
-            on:click={() => goto("/Profile")}
-            class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]"
-          >
-            <User class="h-5 w-5" />
-            <span>{userData.username}</span>
-          </button>
-          <button
-            on:click={handleLogout}
-            class="flex items-center justify-center space-x-3 bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-          >
-            <LogOut class="h-5 w-5 mr-2" />
-            Sign Out
-          </button>
-        {:else}
-          <a 
-            href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" 
-            class="flex items-center space-x-3 text-gray-700 hover:text-[#21409A]"
-          >
-            <User class="h-5 w-5" />
-            <span>Login</span>
-          </a>
-          <a
-            href="/Signup" 
-            class:active={$page.url.pathname === "/Signup"}
-            class="flex items-center justify-center space-x-3 bg-[#21409A] text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-          >
-            Create an Account
-          </a>
-        {/if} -->
-      </nav>
+      </nav> -->
     </div>
   {/if}
 </header>
 
 <style>
-  /* Ensuring full browser support for backdrop-filter */
   header {
-    -webkit-backdrop-filter: blur(10px); /* Safari */
-    backdrop-filter: blur(10px); /* Standard */
-    font-family: 'Barlow Semi Condensed', sans-serif;
-
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-family: "Barlow Semi Condensed", sans-serif;
   }
-  @font-face {
-    font-family: 'Barlow Semi Condensed';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url('$lib/font/barlow-semi-condensed-latin-100-italic.ttf') , 
-	}
-	
 
-    
+  .dropdown-content {
+    min-width: 200px;
+    z-index: 50;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  @font-face {
+    font-family: "Barlow Semi Condensed";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url("$lib/font/barlow-semi-condensed-latin-100-italic.ttf");
+  }
 </style>

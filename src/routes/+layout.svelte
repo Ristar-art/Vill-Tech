@@ -8,14 +8,14 @@
 	<Header />
     
 
-	<main class="bg-[#21409a]">
+	<main class="">
 
 		<slot />
 	</main>
 
 	
 
-	<footer class="bg-[#21409a] py-10"
+	<footer class=" py-10"
     >
         <div class="container mx-auto px-4z-50 ">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -53,7 +53,6 @@
                   
                     <div class="flex justify-center md:justify-end items-center mt-4 space-x-4">
                         <div class=" p-2 rounded-full shadow-md">
-                            <img src="/covid19.webp" alt="COVID-19 Logo" >
                         </div>
                        
                     </div>
