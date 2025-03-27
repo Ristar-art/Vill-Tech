@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   import { selectedPost } from '$lib/stores/stores';
   import { onMount } from 'svelte';
 
@@ -13,7 +13,7 @@
         // Cleanup the subscription
         return () => unsubscribe();
     });
-</script>
+</script> -->
   
 <main class="container mx-auto min-h-screen max-w-3xl p-8">
     <!-- <article>
@@ -49,7 +49,7 @@
             <p>Loading post...</p>
         {/if}
     </article> -->
-    <div class="py-16">
+    <!-- <div class="py-16">
         {#if post}
             <h1>{post.title}</h1>
 
@@ -58,5 +58,5 @@
         {:else}
             <p>Loading...</p>
         {/if}
-    </div>
+    </div> -->
 </main>
