@@ -77,16 +77,25 @@
 </svelte:head>
 
 <div class="min-h-screen bg-[#21409a]">
-  <div
-    class="h-[60vh] flex flex-col items-center justify-center pt-20 text-center bg-cover bg-center"
-    style="background-image: url('https://picsum.photos/500/300?random=9');"
-  >
-    <h1 class="text-4xl font-bold text-white">Our Courses</h1>
-    <p class="text-xl mt-5 text-white max-w-2xl mx-auto">
-      At Village Tech, we believe in making a positive impact beyond education. Explore the courses we offer and how you
-      can get involved.
-    </p>
+  <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
+    <!-- Background Image -->
+    <div 
+      class="absolute inset-0 bg-cover bg-center" 
+      style="background-image: url('https://picsum.photos/800/600?random=9');"
+    ></div>
+  
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-slate-50 opacity-90"></div>
+  
+    <!-- Content -->
+    <div class="relative z-10 max-w-2xl px-6">
+      <h1 class="text-4xl font-bold">Our Courses</h1>
+      <p class="text-xl mt-5">
+        At Village Tech, we believe in making a positive impact beyond education. Explore the courses we offer and how you
+        can get involved.      </p>
+    </div>
   </div>
+ 
 
   {#if loading || loadedCourses.length === 0}
     <!-- Skeleton Loader -->

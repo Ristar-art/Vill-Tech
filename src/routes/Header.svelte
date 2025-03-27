@@ -287,7 +287,7 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
   <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Learnerships</span>
   </a>
-  <a href="/Apply-or-Enquire-Now" class="{$page.url.pathname === '/Apply-or-Enquire-Now' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+  <a href="/apply" class="{$page.url.pathname === '/Apply-or-Enquire-Now' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Apply/Enquire Now</span>
   </a>
   <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">

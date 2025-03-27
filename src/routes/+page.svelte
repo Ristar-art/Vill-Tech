@@ -81,6 +81,7 @@
       avatar: "/placeholder.svg?height=100&width=100",
     },
   ];
+  
 </script>
 
 <svelte:head>
@@ -131,6 +132,9 @@
       </div>
     </section>
 
+   
+
+    
     <section class="py-16 bg-[#21409a] flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
@@ -153,69 +157,110 @@
         </div>
       </div>
     </section>
-
-    <section class="py-6 bg-[#21409a] flex justify-center w-full">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-white mb-12 text-center">
-          Course Categories
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {#each [
-            { name: "Foundational IT Skills", icon: "cpu-chip" },
-            { name: "Office Productivity Software", icon: "document-text" },
-            { name: "Systems Development (Software & App Development)", icon: "code-bracket" },
-            { name: "IT Systems Support & Administration", icon: "cog" },
-            { name: "Cybersecurity & Hardware Certifications", icon: "shield-check" },
-            { name: "Educational Technology Support", icon: "book-open" },
-            { name: "ICT Entrepreneurship & Work Readiness", icon: "briefcase" },
-            { name: "Community & Specialized IT", icon: "users" }
-          ] as category}
-            <div class="group bg-white p-6 rounded-xl flex flex-col items-center text-center space-y-4">
-              <div class=" bg-[#21409a] text-white p-3 rounded-full shadow-inner group-hover:bg-[#769bfe] transition-colors">
-                <span class="iconify w-8 h-8" data-icon="heroicons:{category.icon}"></span>
-              </div>
-              <p class="text-lg font-semibold text-[#21409a]  ">
-                {category.name}
-              </p>
-            </div>
-          {/each}
-        </div>
-      </div>
-    </section>
-
-    <section class="py-16  flex justify-center w-full">
-      <div class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl">
-        <div class="rounded-tl-xl rounded-bl-xl bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 w-full md:w-[36rem] flex flex-col justify-between">
-          <div class="md:col-span-3 text-white h-[8rem] px-6 rounded-lg flex items-end">
-            <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
+    <section class="py-16 bg-white flex justify-center w-full">
+      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-5xl">
+        <div class="w-full md:w-[36rem] flex flex-col">
+          <div class="md:col-span-3  h-[8rem] px-6 rounded-lg flex items-end">
+            <h1 class="text-4xl font-bold">Services we specialize in</h1>
           </div>
           <div class="space-y-6 h-[20rem] flex items-end pb-6">
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
               <div>
-                <p class="text-lg text-white font-medium leading-relaxed">
-                  Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting:
+                <p class="text-lg  font-medium leading-relaxed">
+                  Village Tech offers end to end training and skills development services to corporates, clients and the community at large.
                 </p>
-                <div class="flex flex-row items-center space-x-2">
-                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/people.svg" alt="Class" class="h-5 w-5" fill="white" loading="lazy" />
-                  <p class="text-lg text-white">On-site</p>
-                </div>
-                <div class="flex flex-row items-center space-x-2">
-                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/person-video3.svg" alt="Class" class="h-5 w-5" loading="lazy" />
-                  <p class="text-lg text-white">Virtual distance</p>
-                </div>
-                <div class="flex flex-row items-center space-x-2">
-                  <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/laptop.svg" alt="Class" class="h-5 w-5" loading="lazy" />
-                  <p class="text-lg text-white">Off-site</p>
-                </div>
+               
+                <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+                  View All Courses
+                </a>
               </div>
-              <p class="text-lg font-medium text-white leading-relaxed">
-                We adhere to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
-              </p>
+             
             </div>
           </div>
         </div>
-        <div class="w-full md:w-[30rem] bg-white rounded-tr-xl rounded-br∫-xl flex flex-end transition-all duration-300">
-          <img src="/girl.webp" class="w-10/12 mx-auto 2xl:-mb-20" loading="lazy" alt="Learning methods" />
+        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
+          
+          <div class="flex flex-row flex-wrap justify-center">
+            
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('https://picsum.photos/600/800?random=10')">
+                <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>`
+                  <h2 class="text-xl font-bold mb-3 text-red-400">ICT skills training</h2>
+              </div>
+             
+              </div>
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('https://picsum.photos/600/800?random=11')">
+                <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>`
+                  <h2 class="text-xl font-bold mb-3 text-red-400">Primary Focus</h2>
+              </div>
+              </div>
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('https://picsum.photos/600/800?random=12'); background-size: cover; background-position: center;">
+                <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <h2 class="text-xl font-bold mb-3 text-red-400">Skills development</h2>
+                </div>
+              </div>
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('https://picsum.photos/600/800?random=13');background-size: cover; background-position: center;">
+                <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
+                  </svg>`
+                  <h2 class="text-xl font-bold mb-3 text-red-400">ICT skills training</h2>
+              </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 flex justify-center w-full bg-gray-100">
+      <div class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl w-full">
+        <!-- Left Column: Text Content -->
+        <div class="w-full md:w-[36rem] flex flex-col justify-between bg-gradient-to-t from-blue-900 via-blue-900/80 to-red-500 rounded-tl-xl rounded-bl-xl text-white">
+          <div class="h-[8rem] px-6 flex items-end">
+            <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
+          </div>
+          <div class="flex-1 px-6 pb-6 flex flex-col justify-between">
+            <div class="space-y-6">
+              <p class="text-lg font-medium leading-relaxed">
+                Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting:
+              </p>
+              <div class="space-y-4">
+                <div class="flex flex-row items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 1.857h10M12 4a4 4 0 100 8 4 4 0 000-8z" />
+                  </svg>
+                  <p class="text-lg">On-site</p>
+                </div>
+                <div class="flex flex-row items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <p class="text-lg">Virtual Distance</p>
+                </div>
+                <div class="flex flex-row items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <p class="text-lg">Off-site</p>
+                </div>
+              </div>
+            </div>
+            <p class="text-lg font-medium leading-relaxed">
+              We adhere to all SAQA, QCTO Occupational Qualifications, and ETQA guidelines and qualification stipulations.
+            </p>
+          </div>
+        </div>
+    
+        <!-- Right Column: Image -->
+        <div class="w-full md:w-[30rem] bg-white rounded-tr-xl rounded-br-xl flex items-center justify-center">
+          <img src="/girl.webp" class="w-10/12 mx-auto max-h-[28rem] object-cover" loading="lazy" alt="Learning methods" />
         </div>
       </div>
     </section>

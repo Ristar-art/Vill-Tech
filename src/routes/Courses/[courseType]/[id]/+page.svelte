@@ -7,7 +7,7 @@
   import * as Card from "$lib/components/ui/card";
   import { page } from "$app/stores";
 
-  export let data: { id: string }; 
+  export let data: { id: string };
 
   let loading = true;
   let course: any = null;
@@ -61,13 +61,19 @@
 <svelte:head>
   {#if course}
     <title>{course.title} - Village Tech</title>
-    <meta name="description" content={course.description || "Course details for " + course.title} />
+    <meta
+      name="description"
+      content={course.description || "Course details for " + course.title}
+    />
     {#if course.imageUrl}
       <link rel="preload" href={course.imageUrl} as="image" />
     {/if}
   {:else}
     <title>Course Details - Village Tech</title>
-    <meta name="description" content="Explore our tech training course details" />
+    <meta
+      name="description"
+      content="Explore our tech training course details"
+    />
   {/if}
 </svelte:head>
 
@@ -75,15 +81,23 @@
   <!-- Header Section with Background Image -->
 
   <div class="h-[70vh] flex items-center justify-center">
-    <div class="absolute inset-0 bg-gray-400 z-0"></div>
-    
+    <div class="absolute inset-0 bg-[#21409a] z-0"></div>
+
     <div class="relative z-10">
       {#if loading}
-        <h1 class="text-5xl font-extrabold tracking-tight animate-pulse text-indigo-300">Loading...</h1>
+        <h1
+          class="text-5xl font-extrabold tracking-tight animate-pulse text-indigo-300"
+        >
+          Loading...
+        </h1>
       {:else if error}
-        <h1 class="text-5xl font-extrabold tracking-tight text-red-400">{error}</h1>
+        <h1 class="text-5xl font-extrabold tracking-tight text-red-400">
+          {error}
+        </h1>
       {:else}
-        <h1 class="text-5xl font-extrabold tracking-tight text-indigo-200">{course.title}</h1>
+        <h1 class="text-5xl font-extrabold tracking-tight text-indigo-200">
+          {course.title}
+        </h1>
         <p class="mt-6 text-lg text-gray-200 max-w-3xl leading-relaxed">
           {@html course.description || "No description available."}
         </p>
@@ -91,27 +105,21 @@
     </div>
   </div>
   <div class=" flex items-center justify-center">
-    <div 
-    class="h-[100vh] w-full md:w-[65vw] rounded-sm flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
-    style={course && course.imageUrl && !imageError ? `background-image: url('${course.imageUrl}');` : 'background-color: #21409a;'}
-  >
-    <!-- Overlay for better text readability -->
-    
-
-    <!-- Fallback image handling -->
-    {#if course && course.imageUrl}
-      <img
-        src={course.imageUrl}
-        alt=""
-        class="hidden"
-        on:error={handleImageError}
-        loading="eager"
-      />
-    {/if}
-</div>
+    <div
+      class="h-[100vh] w-full md:w-[65vw] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
+    >
+      <!-- Fallback image handling -->
+      {#if course && course.imageUrl}
+        <img
+          src={course.imageUrl}
+          alt=""
+          class=" rounded-xl"
+          on:error={handleImageError}
+          loading="eager"
+        />
+      {/if}
+    </div>
   </div>
-
-  
 
   <!-- Course Details Section -->
   {#if loading}
@@ -128,23 +136,26 @@
   {:else if error}
     <div class="max-w-5xl mx-auto px-6 pb-20 text-center">
       <p class="text-red-400 text-lg">{error}</p>
-      <a href="/Courses" class="mt-6 inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline">
+      <a
+        href="/Courses"
+        class="mt-6 inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline"
+      >
         Back to Courses
       </a>
     </div>
   {:else}
     <div class="max-w-5xl mx-auto px-6 pb-20">
-      <div class="rounded-xl backdrop-blur-lg overflow-hidden">
+      <div class="rounded-xl backdrop-blur-sm overflow-hidden">
         <div class="p-8 space-y-8">
           <!-- Core Details -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-400 p-4 rounded-lg">
+            <div class="bg-[#21409a] p-4 rounded-lg">
               <h2 class="text-xl font-semibold text-white">Price</h2>
-              <p class="mt-2 ">R{(course.price ?? 0).toFixed(2)}</p>
+              <p class="mt-2">R{(course.price ?? 0).toFixed(2)}</p>
             </div>
-            <div class="bg-gray-400 p-4 rounded-lg">
+            <div class="bg-[#21409a] p-4 rounded-lg">
               <h2 class="text-xl font-semibold text-white">Duration</h2>
-              <p class="mt-2 ">{course.duration || "Not specified"}</p>
+              <p class="mt-2">{course.duration || "Not specified"}</p>
             </div>
           </div>
 
@@ -152,50 +163,67 @@
           <div class="space-y-6">
             {#if course.accreditation}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Accreditation</h2>
-                <p class="mt-2 ">{@html course.accreditation}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Accreditation
+                </h2>
+                <p class="mt-2">{@html course.accreditation}</p>
               </div>
             {/if}
             {#if course.programmeOverviewDuration}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Programme Overview Duration</h2>
-                <p class="mt-2 ">{@html course.programmeOverviewDuration}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Programme Overview Duration
+                </h2>
+                <p class="mt-2">{@html course.programmeOverviewDuration}</p>
               </div>
             {/if}
             {#if course.targetAudience}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Target Audience</h2>
-                <p class="mt-2 ">{@html course.targetAudience}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Target Audience
+                </h2>
+                <p class="mt-2">{@html course.targetAudience}</p>
               </div>
             {/if}
             {#if course.entryRequirements}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Entry Requirements</h2>
-                <p class="mt-2 ">{@html course.entryRequirements}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Entry Requirements
+                </h2>
+                <p class="mt-2">{@html course.entryRequirements}</p>
               </div>
             {/if}
             {#if course.courseStructureModules}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Course Structure and Modules</h2>
-                <p class="mt-2 ">{@html course.courseStructureModules}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Course Structure and Modules
+                </h2>
+                <p class="mt-2">{@html course.courseStructureModules}</p>
               </div>
             {/if}
             {#if course.trainingMethodology}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Training Methodology</h2>
-                <p class="mt-2 ">{@html course.trainingMethodology}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Training Methodology
+                </h2>
+                <p class="mt-2">{@html course.trainingMethodology}</p>
               </div>
             {/if}
             {#if course.careerOpportunities}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">Career Opportunities</h2>
-                <p class="mt-2 ">{@html course.careerOpportunities}</p>
+                <h2 class="text-xl font-semibold text-indigo-300">
+                  Career Opportunities
+                </h2>
+                <p class="mt-2">{@html course.careerOpportunities}</p>
               </div>
             {/if}
           </div>
 
           <!-- Back Button -->
-          <a href="/Courses" class="inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline">
+          <a
+            href="/Courses"
+            class="inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline"
+          >
             Back to Courses
           </a>
         </div>

@@ -57,7 +57,7 @@
 		{#each cards as card, i}
 		  <div
 			in:fly={{ y: 50, duration: 800, delay: i * 200 }}
-			class="group relative bg-white rounded-tl-[60px] rounded-br-[60px] overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl h-[280px]"
+			class="group relative bg-white rounded-xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl h-[280px]"
 		  >
 			<!-- Background Pattern -->
 			<div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-red-50 opacity-50"></div>
