@@ -63,32 +63,32 @@
                 <h3 class="text-xl font-bold text-vtRed mb-4">Quick Links</h3>
                 <ul>
                     <li>
-                        <a href="/about#accreditations" class="hover:text-vtRed"
+                        <a href="/" class="hover:text-vtRed"
                             >Accreditations</a
                         >
                     </li>
                     <li>
-                        <a href="/courses" class="hover:text-vtRed">Courses</a>
+                        <a href="/Courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
-                        <a href="/explore#faqs" class="hover:text-vtRed"
+                        <a href="#" class="hover:text-vtRed"
                             >FAQ’s</a
                         >
                     </li>
                     <li>
                         <a
-                            href="/explore#payment-methods"
+                            href="#"
                             class="hover:text-vtRed">Payment Methods</a
                         >
                     </li>
                     <li>
                         <a
-                            href="/explore#payment-terms"
+                            href="#"
                             class="hover:text-vtRed">Payment Terms</a
                         >
                     </li>
                     <li>
-                        <a href="/prospectus.pdf" class="hover:text-vtRed"
+                        <a href="#" class="hover:text-vtRed"
                             >Prospectus</a
                         >
                     </li>
@@ -100,7 +100,7 @@
                 <h3 class="text-xl font-bold text-vtRed mb-4">Talk to Us</h3>
                 <p>Village Tech Training Solutions
                     85 Main St, Groundfloor, Johannesburg, 2107</p>
-                <p>WhatsApp: [Number]</p>
+                <!-- <p>WhatsApp: [Number]</p> -->
                 <p>Tel: 087 135 1313</p>
                 <p>
                     Email: <a
@@ -162,13 +162,13 @@
 
         <div class="mt-8 text-center">
             <p>
-                Policies: <a href="/privacy-policy" class="hover:text-vtRed"
+                Policies: <a href="#" class="hover:text-vtRed"
                     >Privacy Policy</a
                 >
                 |
-                <a href="/terms" class="hover:text-vtRed">Terms & Conditions</a>
+                <a href="#" class="hover:text-vtRed">Terms & Conditions</a>
                 |
-                <a href="/payment-terms" class="hover:text-vtRed"
+                <a href="#" class="hover:text-vtRed"
                     >Payment Terms</a
                 >
             </p>

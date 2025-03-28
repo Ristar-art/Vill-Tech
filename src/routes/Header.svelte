@@ -246,14 +246,14 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     </a>
     {#if desktopDropdownState.isAboutOpen}
       <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
-        <a href="/accreditations" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Accreditations</a>
+        <!-- <a href="/accreditations" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Accreditations</a> -->
         <a href="/services" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
       </div>
     {/if}
   </div>
 
   <!-- Bookings Dropdown -->
-  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isBookingsOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isBookingsOpen")}>
+  <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isBookingsOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isBookingsOpen")}>
     <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
       <span>Bookings</span>
     </a>
@@ -265,10 +265,10 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
         <a href="/qcto-exam-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">QCTO Exam Bookings</a>
       </div>
     {/if}
-  </div>
+  </div> -->
 
   <!-- Explore Village Tech Dropdown -->
-  <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
+  <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
     <a href="/explore-village-tech" class="{$page.url.pathname === '/explore-village-tech' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
       <span>Explore Village Tech</span>
     </a>
@@ -281,20 +281,20 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
         <a href="/fqas" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">FAQ's</a>
       </div>
     {/if}
-  </div>
+  </div> -->
 
   
   <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Learnerships</span>
   </a>
-  <a href="/apply" class="{$page.url.pathname === '/Apply-or-Enquire-Now' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+  <!-- <a href="/apply" class="{$page.url.pathname === '/Apply-or-Enquire-Now' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Apply/Enquire Now</span>
-  </a>
+  </a> -->
   <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Contact</span>
   </a>
 </nav>
-<a href="/login" class="{$page.url.pathname === '/login' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+<a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="text-gray-700 flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
   <span>Log in</span>
 </a>
     <!-- Mobile Menu Button -->
