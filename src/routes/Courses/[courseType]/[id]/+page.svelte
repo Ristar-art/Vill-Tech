@@ -163,7 +163,7 @@
           <div class="space-y-6">
             {#if course.accreditation}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Accreditation
                 </h2>
                 <p class="mt-2">{@html course.accreditation}</p>
@@ -171,7 +171,7 @@
             {/if}
             {#if course.programmeOverviewDuration}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Programme Overview Duration
                 </h2>
                 <p class="mt-2">{@html course.programmeOverviewDuration}</p>
@@ -179,7 +179,7 @@
             {/if}
             {#if course.targetAudience}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Target Audience
                 </h2>
                 <p class="mt-2">{@html course.targetAudience}</p>
@@ -187,7 +187,7 @@
             {/if}
             {#if course.entryRequirements}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Entry Requirements
                 </h2>
                 <p class="mt-2">{@html course.entryRequirements}</p>
@@ -195,7 +195,7 @@
             {/if}
             {#if course.courseStructureModules}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Course Structure and Modules
                 </h2>
                 <p class="mt-2">{@html course.courseStructureModules}</p>
@@ -203,7 +203,7 @@
             {/if}
             {#if course.trainingMethodology}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Training Methodology
                 </h2>
                 <p class="mt-2">{@html course.trainingMethodology}</p>
@@ -211,7 +211,7 @@
             {/if}
             {#if course.careerOpportunities}
               <div>
-                <h2 class="text-xl font-semibold text-indigo-300">
+                <h2 class="text-xl font-semibold text-[#21409A]">
                   Career Opportunities
                 </h2>
                 <p class="mt-2">{@html course.careerOpportunities}</p>
@@ -222,7 +222,7 @@
           <!-- Back Button -->
           <a
             href="/Courses"
-            class="inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline"
+            class="inline-block text-[#21409A] hover:text-indigo-200 transition-colors duration-200 underline"
           >
             Back to Courses
           </a>
