@@ -266,7 +266,9 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
       </div>
     {/if}
   </div> -->
-
+  <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Bookings</span>
+  </a>
   <!-- Explore Village Tech Dropdown -->
   <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
     <a href="/explore-village-tech" class="{$page.url.pathname === '/explore-village-tech' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">

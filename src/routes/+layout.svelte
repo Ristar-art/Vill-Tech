@@ -121,9 +121,9 @@
                     >
                         <a href="https://seta.org" alt="seta"
                             ><img
-                                src="https://picsum.photos/80/80?random=10"
+                                src="/MICT-SETA-logo.webp"
                                 alt="SETA"
-                                class="rounded-full"
+                                class=" h-5"
                             /></a
                         >
                         <p>seta</p>
@@ -134,9 +134,9 @@
                         <a href="https://comptia.org" alt="comptia"
                             >
                             <img
-                                src="https://picsum.photos/80/80?random=11"
+                                src="/comptia-logo-large_png.webp"
                                 alt="CompTIA"
-                                class="rounded-full"
+                                class=" h-5"
                             />
                             </a
                         >
@@ -148,9 +148,9 @@
                     >
                         <a href="https://qcto.org.za" alt="qcto"
                             ><img
-                                src="https://picsum.photos/80/80?random=12"
+                                src="/QCTO-logo2.webp"
                                 alt="QCTO"
-                                class="rounded-full"
+                                class=" h-5"
                             /></a
                         >
                         <p>QCTO</p>

@@ -119,23 +119,25 @@
       </svg>
     </section>
 
-    <section class="mx-auto bg-[#21409a] -z-10 -mb-1 flex flex-col items-center">
-      <h1 class="text-2xl mb-6 mt-4 text-white font-medium">
-        Our Enabling Partners
-      </h1>
-      <div class="flex justify-between md:max-w-5xl gap-x-[5rem]">
-        <img class="h-10 block align-middle" src="/image1.jpg" loading="lazy" alt="Company 1" />
-        <img class="h-10 block align-middle" src="/image2.png" loading="lazy" alt="Company 2" />
-        
-        <img class="h-10 block align-middle" src="/image4.PNG" loading="lazy" alt="Company 4" />
-        <img class="h-10 block align-middle" src="/image5.PNG" loading="lazy" alt="Company 5" />
-      </div>
-    </section>
+   
 
    
 
-    
-    <section class="py-16 bg-[#21409a] flex justify-center w-full">
+    <section class="mx-auto bg-white -z-10 -mb-1 flex flex-col items-center">
+      <h1 class="text-2xl mb-6 mt-4 text-[#21409a] font-medium">
+        Our Enabling Partners
+      </h1>
+      <div class="flex justify-between md:max-w-5xl gap-x-[5rem]">
+        <img class="h-10 block align-middle" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
+        <img class="h-12 block align-middle" src="/MICT-SETA-logo.webp" loading="lazy" alt="Company 2" />
+        
+        <img class="h-10 block align-middle" src="/logoNetAcad-TwoColor.webp" loading="lazy" alt="Company 4" />
+        <img class="h-10 block align-middle" src="/comptia-logo-large_png.webp" loading="lazy" alt="Company 5" />
+        <img class="h-10 block align-middle" src="/QCTO-logo2.webp" loading="lazy" alt="Company 5" />
+        
+      </div>
+    </section>
+    <section class="py-16 bg-white flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
           <img src="/Village Tech ~ SM_Facebook.webp" class="w-full mx-auto 2xl:-mb-20 rounded-tl-xl rounded-bl-xl" loading="lazy" alt="Learning methods" />
@@ -157,16 +159,17 @@
         </div>
       </div>
     </section>
-    <section class="py-16 bg-white flex justify-center w-full">
+   
+    <section class="py-16 bg-[#21409a] flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-col">
           <div class="md:col-span-3  h-[8rem] px-6 rounded-lg flex items-end">
-            <h1 class="text-4xl font-bold">Services we specialize in</h1>
+            <h1 class="text-4xl text-white font-bold">Services we specialize in</h1>
           </div>
           <div class="space-y-6 h-[20rem] flex items-end pb-6">
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
               <div>
-                <p class="text-lg  font-medium leading-relaxed">
+                <p class="text-lg text-white font-medium leading-relaxed">
                   Village Tech offers end to end training and skills development services to corporates, clients and the community at large.
                 </p>
                
