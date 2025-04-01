@@ -81,15 +81,15 @@
     <!-- Background Image -->
     <div 
       class="absolute inset-0 bg-cover bg-center" 
-      style="background-image: url('https://picsum.photos/800/600?random=9');"
+      style="background-image: url('/VT1.webp');"
     ></div>
   
     <!-- Gradient Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-slate-50 opacity-90"></div>
+    <div class="absolute inset-0  opacity-90"></div>
   
     <!-- Content -->
     <div class="relative z-10 max-w-2xl px-6">
-      <h1 class="text-4xl font-bold">Our Courses</h1>
+      <h1 class="text-4xl font-bold ">Our Courses</h1>
       <p class="text-xl mt-5">
         At Village Tech, we believe in making a positive impact beyond education. Explore the courses we offer and how you
         can get involved.      </p>

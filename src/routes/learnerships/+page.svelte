@@ -12,7 +12,8 @@
             },
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>` // Icon: Desktop Computer
+            </svg>` ,
+            image:'/VT7.webp'
         },
         {
             title: "New Venture Creation",
@@ -22,7 +23,8 @@
             },
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>` // Icon: Trending Up
+            </svg>`,
+            image:'/VT9.webp'
         },
     ];
 
@@ -95,8 +97,8 @@
 </svelte:head>
 
 <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://picsum.photos/800/600?random=9');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-slate-50 opacity-90"></div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('VT2.webp');"></div>
+    <div class="absolute inset-0  opacity-90"></div>
     <div class="relative z-10 max-w-2xl px-6">
         <h1 class="text-4xl font-bold">Learnerships</h1>
         <p class="text-xl mt-5">
@@ -119,7 +121,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-[36rem] transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('https://picsum.photos/600/800?random=8');"></div>
+        <div class="w-full md:w-[36rem] transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('/VT4.webp');"></div>
     </div>
 </section>
 
@@ -128,7 +130,7 @@
         <div
             in:fly={{ y: 50, duration: 800, delay: i * 200 }}
             class="group relative bg-white rounded-xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl h-[400px] flex flex-col"
-            style="background-image: url('https://picsum.photos/110/110?random=11'); background-size: cover;"
+            style="background-image: url('{card.image}'); background-size: cover;"
         >
             <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                 {@html card.icon}
@@ -148,7 +150,7 @@
 
 <section class="bg-[#21409a] min-h-[50vh] py-16 flex justify-center w-full">
     <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-6xl">
-        <div class="w-full md:w-[34rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('https://picsum.photos/600/800?random=9');"></div>
+        <div class="w-full md:w-[34rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('VT6.webp');"></div>
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[34rem]">
             <h2 class="text-start px-6 text-4xl md:text-4xl font-bold text-white mb-6">Benefits of Village Tech’s Learnerships:</h2>
             <div class="space-y-8 px-6">
@@ -186,7 +188,7 @@
                 {/each}
             </div>
         </div>
-        <div class="w-full md:w-[36rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('https://picsum.photos/600/800?random=10');"></div>
+        <div class="w-full md:w-[36rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('/VT8.webp');"></div>
     </div>
 </section>
 
