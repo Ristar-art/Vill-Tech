@@ -84,8 +84,8 @@
 </svelte:head>
 
 <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://picsum.photos/800/600?random=9');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-slate-50 opacity-90"></div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/8.webp');"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
     <div class="relative z-10 max-w-2xl px-6">
         <h1 class="text-4xl font-bold">Services</h1>
         <p class="text-xl mt-5">

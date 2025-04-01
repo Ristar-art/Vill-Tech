@@ -81,11 +81,11 @@
     <!-- Background Image -->
     <div 
       class="absolute inset-0 bg-cover bg-center" 
-      style="background-image: url('/VT1.webp');"
+      style="background-image: url('/9.webp');"
     ></div>
   
     <!-- Gradient Overlay -->
-    <div class="absolute inset-0  opacity-90"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
   
     <!-- Content -->
     <div class="relative z-10 max-w-2xl px-6">

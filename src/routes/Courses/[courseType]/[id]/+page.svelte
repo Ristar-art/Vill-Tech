@@ -95,7 +95,7 @@
           {error}
         </h1>
       {:else}
-        <h1 class="text-5xl font-extrabold tracking-tight text-indigo-200">
+        <h1 class="text-5xl font-extrabold tracking-tight text-white">
           {course.title}
         </h1>
         <p class="mt-6 text-lg text-gray-200 max-w-3xl leading-relaxed">
