@@ -36,7 +36,7 @@
           
         </div>
         <!-- Duplicate set for seamless looping -->
-        <div class="carousel-items">
+        <div class="carousel-items ml-16">
             <a href = "">
                 <img class="h-10" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
 

@@ -151,11 +151,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-[#21409a] p-4 rounded-lg">
               <h2 class="text-xl font-semibold text-white">Price</h2>
-              <p class="mt-2">R{(course.price ?? 0).toFixed(2)}</p>
+              <p class="mt-2 text-white">R{(course.price ?? 0).toFixed(2)}</p>
             </div>
             <div class="bg-[#21409a] p-4 rounded-lg">
               <h2 class="text-xl font-semibold text-white">Duration</h2>
-              <p class="mt-2">{course.duration || "Not specified"}</p>
+              <p class="mt-2 text-white">{course.duration || "Not specified"}</p>
             </div>
           </div>
 
