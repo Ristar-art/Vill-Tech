@@ -8,7 +8,7 @@
   import { Badge } from "$lib/components/ui/badge";
   import * as Card from "$lib/components/ui/card";
   import { createRedisStore } from "$lib/redisStore";
-
+  import Carousel from './Carousel.svelte';
   const cache = createRedisStore();
   let visible = false;
   let loading = true;
@@ -119,24 +119,29 @@
       </svg>
     </section>
 
-   
-
-   
-
-    <section class="mx-auto bg-white -z-10 -mb-1 flex flex-col items-center">
-      <h1 class="text-2xl mb-6 mt-4 text-[#21409a] font-medium">
-        Our Enabling Partners
-      </h1>
-      <div class="flex justify-between md:max-w-5xl gap-x-[5rem]">
-        <img class="h-10 block align-middle" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
-        <img class="h-12 block align-middle" src="/MICT-SETA-logo.webp" loading="lazy" alt="Company 2" />
-        
-        <img class="h-10 block align-middle" src="/logoNetAcad-TwoColor.webp" loading="lazy" alt="Company 4" />
-        <img class="h-10 block align-middle" src="/comptia-logo-large_png.webp" loading="lazy" alt="Company 5" />
-        <img class="h-10 block align-middle" src="/QCTO-logo2.webp" loading="lazy" alt="Company 5" />
-        
+    <section class="w-full bg-[#21409a] flex justify-center">
+      <div class="md:max-w-7xl w-full -mb-1">
+        <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
+          {#if courses}
+            {#each [
+              { title: "Students", value: "1000+" },
+              { title: "Courses", value: "22" },
+              { title: "Graduates", value: "5000+" },
+              { title: "Success Rate", value: "95%" }
+            ] as stat, i (stat.title)}
+              <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
+                <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
+                <p class="text-lg text-white">{stat.title}</p>
+              </div>
+            {/each}
+          {/if}
+        </div>
       </div>
     </section>
+
+   
+
+    
     <section class="py-16 bg-white flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-blue-900 via-blue-900/80  via-red-900/50 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
@@ -268,11 +273,11 @@
       </div>
     </section>
 
-    <section class="py-16 bg-[#21409a]">
-      <div class="max-w-5xl mx-auto">
-        <div class="flex justify-between items-center mb-12" in:fly={{ x: -50, duration: 800 }}>
-          <h2 class="text-3xl font-bold text-white">Featured Courses</h2>
-          <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+    <section class=" bg-[#21409a]">
+      <div class="max-w-5xl mx-auto pb-8">
+        <div class="flex justify-between items-center mt-8 mb-12" in:fly={{ x: -50, duration: 800 }}>
+          <h2 class="text-3xl font-bold text-white px-6 py-2 ">Featured Courses</h2>
+          <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white  rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
             View All Courses
           </a>
         </div>
@@ -314,28 +319,10 @@
       </div>
     </section>
 
-    <section class="w-full bg-[#21409a] flex justify-center">
-      <div class="md:max-w-7xl w-full -mb-1">
-        <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
-          {#if courses}
-            {#each [
-              { title: "Students", value: "1000+" },
-              { title: "Courses", value: "22" },
-              { title: "Graduates", value: "5000+" },
-              { title: "Success Rate", value: "95%" }
-            ] as stat, i (stat.title)}
-              <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
-                <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
-                <p class="text-lg text-white">{stat.title}</p>
-              </div>
-            {/each}
-          {/if}
-        </div>
-      </div>
-    </section>
+    
   {/if}
 </div>
-
+<Carousel speed={20} direction="left" />
 <style>
   :global(html) {
     scroll-behavior: smooth;
