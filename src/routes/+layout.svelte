@@ -65,7 +65,7 @@
                         >
                     </li>
                     <li>
-                        <a href="/Courses" class="hover:text-vtRed">Courses</a>
+                        <a href="/Courses/all-courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
                         <a href="#" class="hover:text-vtRed"
@@ -74,7 +74,7 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            href="/payment-methods"
                             class="hover:text-vtRed">Payment Methods</a
                         >
                     </li>

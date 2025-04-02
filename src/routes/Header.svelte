@@ -244,13 +244,15 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
       <span>About Us</span>
     </a>
-    {#if desktopDropdownState.isAboutOpen}
+    <!-- {#if desktopDropdownState.isAboutOpen}
       <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
-        <!-- <a href="/accreditations" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Accreditations</a> -->
         <a href="/services" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
       </div>
-    {/if}
+    {/if} -->
   </div>
+  <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+    <span>Services</span>
+  </a>
 
   <!-- Bookings Dropdown -->
   <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isBookingsOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isBookingsOpen")}>
