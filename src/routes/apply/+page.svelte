@@ -50,7 +50,7 @@
     <meta name="description" content="Get in touch with Village Tech Training Solutions" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   </svelte:head>
-  <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
+  <div class="relative h-[60vh] py-16 flex flex-col items-center justify-center pt-20 text-center text-white">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://picsum.photos/800/600?random=9');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80  to-slate-50 opacity-90"></div>
     <div class="relative z-10 max-w-2xl px-6">

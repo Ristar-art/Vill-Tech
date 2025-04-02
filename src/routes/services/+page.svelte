@@ -82,8 +82,9 @@
     <title>Services</title>
     <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
+<div class="min-h-screen py-16 bg-[#21409A]">
 
-<div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
+<div class="relative h-[60vh]  flex flex-col items-center justify-center pt-20 text-center text-white">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/8.webp');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
     <div class="relative z-10 max-w-2xl px-6">
@@ -92,7 +93,7 @@
             Village Tech offers end to end training and skills development services to corporates, clients and the community at large. We specialize in the implementation and project management of small to large scale training interventions with a strong focus on facilitation, assessment moderation and training material development.        </p>
     </div>
 </div>
-<section class="bg-[#21409a] w-full min-h-[50vh] py-16 flex justify-center">
+<section class="bg-[#21409a]  w-full min-h-[50vh] py-16 flex justify-center">
     <div class="flex flex-col md:flex-row rounded-xl transition-all duration-300 md:max-w-6xl w-full">
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem] p-6">
             <div class="space-y-8">
@@ -143,4 +144,5 @@
             </div>
         </div>
     {/each}
+</div>
 </div>

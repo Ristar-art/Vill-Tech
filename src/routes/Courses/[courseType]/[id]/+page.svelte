@@ -33,12 +33,7 @@
 
       if (courseSnap.exists()) {
         course = { id: courseSnap.id, ...courseSnap.data() };
-        console.log("Fetched course:", course);
-        if (course.imageUrl) {
-          console.log("Image URL:", course.imageUrl);
-        } else {
-          console.warn("No imageUrl found in course data");
-        }
+        
       } else {
         error = "Course not found";
         console.log("Course not found for ID:", id);

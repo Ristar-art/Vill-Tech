@@ -190,37 +190,37 @@
           
           <div class="flex flex-row flex-wrap justify-center">
             
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('https://picsum.photos/600/800?random=10')">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('/VT6.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-red-400">ICT skills training</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
               </div>
              
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('https://picsum.photos/600/800?random=11')">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('/7.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-red-400">Primary Focus</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">Primary Focus</h2>
               </div>
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('https://picsum.photos/600/800?random=12'); background-size: cover; background-position: center;">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('/10.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <h2 class="text-xl font-bold mb-3 text-red-400">Skills development</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">Skills development</h2>
                 </div>
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('https://picsum.photos/600/800?random=13');background-size: cover; background-position: center;">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('/9.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-red-400">ICT skills training</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
               </div>
               </div>
           </div>
@@ -277,7 +277,7 @@
       <div class="max-w-5xl mx-auto pb-8">
         <div class="flex justify-between items-center mt-8 mb-12" in:fly={{ x: -50, duration: 800 }}>
           <h2 class="text-3xl font-bold text-white px-6 py-2 ">Featured Courses</h2>
-          <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white  rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+          <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white  rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
             View All Courses
           </a>
         </div>
@@ -287,7 +287,7 @@
               {#each courses as course (course.id)}
               <Card.Root class = 'w-[20rem] m-4 bg-white'>
                 <Card.Content class="p-0 ">
-                  <a href="/Courses/{course.id}" class="cursor-pointer">
+                  <a href="/Courses/all-courses/{course.id}" class="cursor-pointer">
                     <img
                       src={course.imageUrl || "/placeholder-image.jpg"}
                       alt={course.title}

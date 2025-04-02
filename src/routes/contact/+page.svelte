@@ -53,12 +53,12 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409A]">
+<div class="min-h-screen py-16 bg-[#21409A]">
   {#if visible}
     <!-- Hero Section -->
     <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
-      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/VT9.webp');"></div>
-      <div class="absolute inset-0  opacity-90"></div>
+      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/10.webp');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
       <div class="relative z-10 max-w-2xl px-6">
           <h1 class="text-4xl font-bold">Contact</h1>
           <p class="text-xl mt-5">
@@ -69,8 +69,8 @@
     
 
     <!-- Contact Section -->
-    <section class="min-h-screen  flex items-center justify-center ">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <section class="min-h-screen py-16 bg-[#21409A] flex items-center justify-center ">
+      <div class="grid grid-cols-1  md:grid-cols-2 gap-8">
     <!-- Contact Information -->
     <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
       <div class="bg-white/10 rounded-2xl p-6 text-white">

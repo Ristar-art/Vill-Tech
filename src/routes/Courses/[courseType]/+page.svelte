@@ -76,7 +76,7 @@
   <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
 
-<div class="min-h-screen bg-[#21409a]">
+<div class="min-h-screen py-16 bg-[#21409a]">
   <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
     <!-- Background Image -->
     <div 

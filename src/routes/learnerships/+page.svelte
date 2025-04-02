@@ -95,6 +95,7 @@
     <title>Learnerships</title>
     <meta name="description" content="Explore our comprehensive tech training courses" />
 </svelte:head>
+<div class="min-h-screen py-16 bg-[#21409A]">
 
 <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('8.webp');"></div>
@@ -200,3 +201,4 @@
         </p>
     </div>
 </section>
+</div>
