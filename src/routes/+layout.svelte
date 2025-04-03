@@ -60,7 +60,7 @@
                 <h3 class="text-xl font-bold text-vtRed mb-4">Quick Links</h3>
                 <ul>
                     <li>
-                        <a href="/" class="hover:text-vtRed"
+                        <a href="/our-accreditations" class="hover:text-vtRed"
                             >Accreditations</a
                         >
                     </li>
