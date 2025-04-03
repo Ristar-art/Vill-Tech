@@ -14,7 +14,7 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Social Media -->
             <div>
-                <h3 class="text-xl font-bold text-vtRed m-2">Follow Us</h3>
+                <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
                 <div class="flex flex-row">
                   <a
                     href="https://instagram.com"
@@ -78,17 +78,17 @@
                             class="hover:text-vtRed">Payment Methods</a
                         >
                     </li>
-                    <li>
+                    <!-- <li>
                         <a
                             href="#"
                             class="hover:text-vtRed">Payment Terms</a
                         >
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a href="#" class="hover:text-vtRed"
                             >Prospectus</a
                         >
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
