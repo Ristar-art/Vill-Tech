@@ -1,6 +1,7 @@
 <script>
     import Header from "./Header.svelte";
     import "../app.css";
+    import Carousel from './Carousel.svelte'
 </script>
 
 <div class="app">
@@ -9,6 +10,7 @@
     <main class="">
         <slot />
     </main>
+    <Carousel speed={20} direction="left" />
 
     <footer class="bg-vtBlue p-8">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -75,7 +77,7 @@
                     <li>
                         <a
                             href="/payment-methods"
-                            class="hover:text-vtRed">Payment Methods</a
+                            class="hover:text-vtRed">Payment Terms & Methods</a
                         >
                     </li>
                     <!-- <li>

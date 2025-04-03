@@ -192,7 +192,7 @@
             
               <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('/VT6.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
-                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>`
                   <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
@@ -201,7 +201,7 @@
               </div>
               <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('/7.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
-                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>`
                   <h2 class="text-xl font-bold mb-3 text-white">Primary Focus</h2>
@@ -209,7 +209,7 @@
               </div>
               <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('/10.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <h2 class="text-xl font-bold mb-3 text-white">Skills development</h2>
@@ -217,7 +217,7 @@
               </div>
               <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('/9.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
-                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
                   </svg>`
                   <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
@@ -322,7 +322,6 @@
     
   {/if}
 </div>
-<Carousel speed={20} direction="left" />
 <style>
   :global(html) {
     scroll-behavior: smooth;
