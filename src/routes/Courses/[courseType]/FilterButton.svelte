@@ -41,9 +41,9 @@
 
   <button
     class="filter-btn"
-    class:filter-active={filter === "educator-training"}
-    aria-pressed={filter === "educator-training"}
-    on:click={() => (filter = "educator-training")}
+    class:filter-active={filter === "educator training"}
+    aria-pressed={filter === "educator training"}
+    on:click={() => (filter = "educator training")}
   >
     <span>Educator Training</span>
   </button>
