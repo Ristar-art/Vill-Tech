@@ -103,7 +103,7 @@
         <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
           Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our cutting-edge online courses.
         </p>
-        <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+        <a href="/Courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
           Explore Courses
         </a>
       </div>
