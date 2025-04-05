@@ -12,7 +12,7 @@
     </main>
     <Carousel speed={20} direction="left" />
 
-    <footer class="bg-vtBlue p-8">
+    <footer class="bg-[#21409A] p-8">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Social Media -->
             <div>
@@ -110,7 +110,7 @@
             </div>
 
             <!-- Enabling Partners -->
-            <div>
+            <!-- <div>
                 <h3 class="text-xl font-bold text-vtRed mb-4">
                     Our Enabling Partners
                 </h3>
@@ -154,9 +154,8 @@
                         >
                         <p>QCTO</p>
                     </div>
-                    <!-- Add more icons as needed -->
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="mt-8 text-center">
