@@ -96,7 +96,7 @@
     <section class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-white">
       <div class="relative z-30 w-full text-center px-6">
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold-2xl mb-6 text-white">
-          Join our <span class="text-white">Individual</span>
+          Join Our <span class="text-white">Individual</span>
           <span class="text-white">& Corporate</span>
           <span class="text-red-500">Training</span>
         </h1>
@@ -169,7 +169,7 @@
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-col">
           <div class="md:col-span-3  h-[8rem] px-6 rounded-lg flex items-end">
-            <h1 class="text-4xl text-white font-bold">Services we specialize in</h1>
+            <h1 class="text-4xl text-white font-bold">Services We Specialize In</h1>
           </div>
           <div class="space-y-6 h-[20rem] flex items-end pb-6">
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
@@ -179,7 +179,7 @@
                 </p>
                
                 <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
-                  View All Courses
+                  View Our Services
                 </a>
               </div>
              
@@ -195,7 +195,7 @@
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">ICT Skills Training</h2>
               </div>
              
               </div>
@@ -212,7 +212,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <h2 class="text-xl font-bold mb-3 text-white">Skills development</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">Skills Development</h2>
                 </div>
               </div>
               <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('/9.webp');background-size: cover; background-position: center;">
@@ -220,7 +220,7 @@
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-white">ICT skills training</h2>
+                  <h2 class="text-xl font-bold mb-3 text-white">ICT Skills Training</h2>
               </div>
               </div>
           </div>
@@ -244,7 +244,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 1.857h10M12 4a4 4 0 100 8 4 4 0 000-8z" />
                   </svg>
-                  <p class="text-lg">On-site</p>
+                  <p class="text-lg">On-Site</p>
                 </div>
                 <div class="flex flex-row items-center space-x-2">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -256,7 +256,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <p class="text-lg">Off-site</p>
+                  <p class="text-lg">Off-Site</p>
                 </div>
               </div>
             </div>

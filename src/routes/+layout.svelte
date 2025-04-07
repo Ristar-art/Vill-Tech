@@ -12,11 +12,11 @@
     </main>
     <Carousel speed={20} direction="left" />
 
-    <footer class="bg-[#21409A] p-8">
+    <footer class="bg-[#21409A] text-white p-8">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Social Media -->
             <div>
-                <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
+                <h3 class="text-xl  font-bold text-vtRed mx-2">Follow Us</h3>
                 <div class="flex flex-row">
                   <a
                     href="https://instagram.com"
@@ -42,18 +42,15 @@
                     <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" />
                   </a>
               
-                  <a
+                  <!-- <a
                     href="https://twitter.com"
                     target="_blank"
                     class="text-black hover:text-vtRed m-2"
                   >
-                    <!-- Option 1: Using inline SVG for reliability -->
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.205 2.25h3.308l-7.227 8.26 8.502 11.24h-6.64l-5.214-6.817L4.95 21.75H1.64l7.73-8.835L1.215 2.25H7.96l4.713 6.231 5.532-6.231zm-1.161 17.52h1.833L7.045 4.126H5.078L17.044 19.77z"/>
                     </svg>
-                    <!-- Option 2: Alternative hosted X logo (uncomment to use instead) -->
-                    <!-- <img src="https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png" class="w-6 h-6" alt="X logo" /> -->
-                  </a>
+                          </a> -->
                 </div>
               </div>
 
@@ -70,7 +67,7 @@
                         <a href="/Courses/all-courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-vtRed"
+                        <a href="/fqa's" class="hover:text-vtRed"
                             >FAQ’s</a
                         >
                     </li>
@@ -165,10 +162,7 @@
                 >
                 |
                 <a href="#" class="hover:text-vtRed">Terms & Conditions</a>
-                |
-                <a href="#" class="hover:text-vtRed"
-                    >Payment Terms</a
-                >
+                
             </p>
         </div>
     </footer>

@@ -6,7 +6,7 @@
   import { goto } from "$app/navigation";
   import * as Card from "$lib/components/ui/card";
   import { page } from "$app/stores";
-
+  import { fade, fly } from "svelte/transition";
   export let data: { id: string };
 
   let loading = true;
@@ -75,43 +75,61 @@
 <div class="min-h-screen bg-white">
   <!-- Header Section with Background Image -->
 
-  <div class="h-[70vh] flex items-center justify-center">
-    <div class="absolute inset-0 bg-[#21409a] z-0"></div>
-
-    <div class="relative z-10">
+  <div class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-[#1a307a] to-[#21409a]">
+    <!-- Background Overlay -->
+    <div class="absolute inset-0 bg-black/20 z-0"></div>
+  
+    <!-- Title and Description Section -->
+    <div class="relative z-10 text-center px-6 py-12 max-w-4xl">
       {#if loading}
         <h1
-          class="text-5xl font-extrabold tracking-tight animate-pulse text-indigo-300"
+          class="text-4xl md:text-5xl font-bold text-indigo-200 animate-pulse drop-shadow-lg"
         >
           Loading...
         </h1>
       {:else if error}
-        <h1 class="text-5xl font-extrabold tracking-tight text-red-400">
+        <h1
+          class="text-4xl md:text-5xl font-bold text-red-400 drop-shadow-lg"
+        >
           {error}
         </h1>
       {:else}
-        <h1 class="text-5xl font-extrabold tracking-tight text-white">
+        <h1
+          class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg"
+          in:fade={{ duration: 500 }}
+        >
           {course.title}
         </h1>
-        <p class="mt-6 text-lg text-gray-200 max-w-3xl leading-relaxed">
+        <p
+          class="mt-4 text-base md:text-lg text-white max-w-3xl leading-relaxed opacity-90"
+          in:fly={{ y: 20, duration: 600, delay: 200 }}
+        >
           {@html course.description || "No description available."}
         </p>
       {/if}
     </div>
+  
+    <!-- Image Section -->
+    
   </div>
-  <div class=" flex items-center justify-center">
+  <div class="w-full flex items-center justify-center -mt-[6rem] md:-mt-[8rem]">
     <div
-      class="h-[100vh] w-full md:w-[65vw] flex flex-col items-center justify-center pt-20 text-center px-6 bg-cover bg-center relative"
+      class="relative w-full  md:w-2/3 h-[60vh] md:h-[80vh] flex items-center justify-center bg-white  rounded-2xl overflow-hidden shadow-xl"
     >
-      <!-- Fallback image handling -->
       {#if course && course.imageUrl}
         <img
           src={course.imageUrl}
-          alt=""
-          class=" rounded-xl"
+          alt={course.title || "Course Image"}
+          class="w-full h-full object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
           on:error={handleImageError}
           loading="eager"
         />
+      {:else}
+        <div
+          class="w-full h-full flex items-center justify-center bg-gray-800/50 text-gray-400 text-lg"
+        >
+          No image available
+        </div>
       {/if}
     </div>
   </div>
@@ -196,14 +214,14 @@
                 <p class="mt-2">{@html course.courseStructureModules}</p>
               </div>
             {/if}
-            {#if course.trainingMethodology}
+            <!-- {#if course.trainingMethodology}
               <div>
                 <h2 class="text-xl font-semibold text-[#21409A]">
                   Training Methodology
                 </h2>
                 <p class="mt-2">{@html course.trainingMethodology}</p>
               </div>
-            {/if}
+            {/if} -->
             {#if course.careerOpportunities}
               <div>
                 <h2 class="text-xl font-semibold text-[#21409A]">
@@ -237,5 +255,11 @@
   /* Ensure text is readable over the background */
   .relative {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  h1 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  img {
+    transition: transform 0.3s ease-in-out;
   }
 </style>
