@@ -93,57 +93,59 @@
 
 <div class="min-h-screen bg-[#21409a]">
   {#if visible}
-    <section class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-white">
-      <div class="relative z-30 w-full text-center px-6">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold-2xl mb-6 text-white">
-          Join Our <span class="text-white">Individual</span>
-          <span class="text-white">& Corporate</span>
-          <span class="text-red-500">Training</span>
-        </h1>
-        <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
-          Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our cutting-edge online courses.
-        </p>
-        <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
-          Explore Courses
-        </a>
+  <section class="relative flex items-center justify-center h-[80vh] overflow-hidden bg-[#21409a] text-white">
+    <div class="relative z-30 w-full text-center px-6">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold-2xl mb-6 text-white">
+        Join Our <span class="text-white">Individual</span>
+        <span class="text-white">& Corporate</span>
+        <span class="text-red-500">Training</span>
+      </h1>
+      <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
+        Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our cutting-edge online courses.
+      </p>
+      <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+        Explore Courses
+      </a>
+    </div>
+    <div class="absolute inset-0 z-20 flex items-center justify-center">
+      <div class="absolute inset-0 flex items-center justify-center section-banner">
+        <div id="star-1" class="curved-corner-star"></div>
+        <div id="star-2" class="curved-corner-star"></div>
+        <div id="star-3" class="curved-corner-star"></div>
       </div>
-      <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <div class="absolute inset-0 flex items-center justify-center section-banner">
-          <div id="star-1" class="curved-corner-star"></div>
-          <div id="star-2" class="curved-corner-star"></div>
-          <div id="star-3" class="curved-corner-star"></div>
-        </div>
-      </div>
-      <svg class="absolute bottom-[-1px] left-0 w-full z-10 block -mb-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill="#21409a" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path>
-      </svg>
-    </section>
+    </div>
+    <!-- <svg class="absolute bottom-[-1px] left-0 w-full z-10 block -mb-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#21409a" fill-opacity="1" d="M0,32L1440,288L1440,320L0,320Z"></path>
+    </svg> -->
+  </section>
 
-    <section class="w-full bg-[#21409a] flex justify-center">
-      <div class="md:max-w-7xl w-full -mb-1">
-        <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
-          {#if courses}
-            {#each [
-              { title: "Students", value: "1000+" },
-              { title: "Courses", value: "22" },
-              { title: "Graduates", value: "5000+" },
-              { title: "Success Rate", value: "95%" }
-            ] as stat, i (stat.title)}
-              <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
-                <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
-                <p class="text-lg text-white">{stat.title}</p>
-              </div>
-            {/each}
-          {/if}
-        </div>
+  <section class="w-full bg-[#21409a] flex justify-center">
+    <div class="md:max-w-7xl w-full -mb-1">
+      <div class="w-full py-6 px-4 md:px-12 flex flex-wrap justify-around items-center gap-y-6">
+        {#if courses}
+          {#each [
+            { title: "Students", value: "1000+" },
+            { title: "Courses", value: "22" },
+            { title: "Graduates", value: "5000+" },
+            { title: "Success Rate", value: "95%" }
+          ] as stat, i (stat.title)}
+            <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
+              <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
+              <p class="text-lg text-white">{stat.title}</p>
+            </div>
+          {/each}
+        {/if}
       </div>
-    </section>
+    </div>
+  </section>
+
+    
 
    
 
     
     <section class="py-16 bg-white flex justify-center w-full">
-      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-red-500 md:max-w-5xl">
+      <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-red-900 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
           <img src="/Village Tech ~ SM_Facebook.webp" class="w-full mx-auto 2xl:-mb-20 rounded-tl-xl rounded-bl-xl" loading="lazy" alt="Learning methods" />
         </div>
@@ -168,14 +170,14 @@
     <section class="py-16 bg-[#21409a] flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-col">
-          <div class="md:col-span-3  h-[8rem] px-6 rounded-lg flex items-end">
+          <div class="md:col-span-3  h-[2rem] px-6 rounded-lg flex items-end">
             <h1 class="text-4xl text-white font-bold">Services We Specialize In</h1>
           </div>
           <div class="space-y-6 h-[20rem] flex items-end pb-6">
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
               <div>
                 <p class="text-lg text-white font-medium leading-relaxed">
-                  Village Tech offers end to end training and skills development services to corporates, clients and the community at large.
+                  Village Tech offers comprehensive, end-to-end training and skills development services tailored to meet the needs of corporates, individual clients, and the broader community. Our services cover the full learning journey-from skills gap assessments and customized training program design to practical facilitation, ongoing mentorship, and post-training support. Whether it's upskilling employees, empowering job seekers, or enabling community members to access new opportunities through technology, Village Tech is committed to delivering impactful, real-world learning that drives growth, development, and lasting change.
                 </p>
                
                 <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
@@ -190,7 +192,7 @@
           
           <div class="flex flex-row flex-wrap justify-center ">
             
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('/VT6.webp');background-size: cover; background-position: center;">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('/ICT skills Training2.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -199,7 +201,7 @@
               </div>
              
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('/7.webp');background-size: cover; background-position: center;">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem] bg-slate-500 rounded-md" style="background-image: url('/Primary Focus.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -207,7 +209,7 @@
                   <h2 class="text-xl font-bold mb-3 text-white">Primary Focus</h2>
               </div>
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('/10.webp');background-size: cover; background-position: center;">
+              <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('/Skills development.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -215,14 +217,7 @@
                   <h2 class="text-xl font-bold mb-3 text-white">Skills Development</h2>
                 </div>
               </div>
-              <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden" style="background-image: url('/9.webp');background-size: cover; background-position: center;">
-                <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
-                  `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
-                  </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-white">ICT Skills Training</h2>
-              </div>
-              </div>
+              
           </div>
         </div>
       </div>

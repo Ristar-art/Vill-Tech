@@ -41,9 +41,9 @@
 
   <button
     class="filter-btn"
-    class:filter-active={filter === "educator training"}
-    aria-pressed={filter === "educator training"}
-    on:click={() => (filter = "educator training")}
+    class:filter-active={filter === "educator-training"}
+    aria-pressed={filter === "educator-training"}
+    on:click={() => (filter = "educator-training")}
   >
     <span>Educator Training</span>
   </button>
@@ -55,6 +55,14 @@
     on:click={() => (filter = "short-courses")}
   >
     <span>Short Courses</span>
+  </button>
+  <button
+    class="filter-btn"
+    class:filter-active={filter === "non-accredited-skills-programmes"}
+    aria-pressed={filter === "non-accredited-skills-programmes"}
+    on:click={() => (filter = "non-accredited-skills-programmes")}
+  >
+    <span>Non-Accredited-Skills-Programmes</span>
   </button>
 </div>
 

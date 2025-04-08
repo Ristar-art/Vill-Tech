@@ -18,40 +18,18 @@
             <div>
                 <h3 class="text-xl  font-bold text-vtRed mx-2">Follow Us</h3>
                 <div class="flex flex-row">
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg" class="w-6 h-6" />
-                  </a>
-                  
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg" class="w-6 h-6" />
-                  </a>
-              
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" />
-                  </a>
-              
-                  <!-- <a
-                    href="https://twitter.com"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.205 2.25h3.308l-7.227 8.26 8.502 11.24h-6.64l-5.214-6.817L4.95 21.75H1.64l7.73-8.835L1.215 2.25H7.96l4.713 6.231 5.532-6.231zm-1.161 17.52h1.833L7.045 4.126H5.078L17.044 19.77z"/>
-                    </svg>
-                          </a> -->
-                </div>
+                    <a href="https://instagram.com" target="_blank" class="text-black hover:text-vtRed m-2">
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                    </a>
+                    
+                    <a href="https://facebook.com" target="_blank" class="text-black hover:text-vtRed m-2">
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                    </a>
+                    
+                    <a href="https://linkedin.com" target="_blank" class="text-white hover:text-vtRed m-2">
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                    </a>
+                  </div>
               </div>
 
             <!-- Quick Links -->
@@ -157,7 +135,7 @@
 
         <div class="mt-8 text-center">
             <p>
-                Policies: <a href="#" class="hover:text-vtRed"
+             <a href="#" class="hover:text-vtRed"
                     >Privacy Policy</a
                 >
                 |

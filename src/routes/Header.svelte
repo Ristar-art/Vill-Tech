@@ -235,6 +235,8 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
         <a href="/Courses/trades" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Trades Courses</a>
         <a href="/Courses/educator-training" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Educator Training</a>
         <a href="/Courses/short-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Short Courses</a>
+        <a href="/Courses/non-accredited-skills-programmes" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Non Accredited Skills Programmes</a>
+
       </div>
     {/if}
   </div>
@@ -244,48 +246,17 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
     <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
       <span>About Us</span>
     </a>
-    <!-- {#if desktopDropdownState.isAboutOpen}
-      <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
-        <a href="/services" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
-      </div>
-    {/if} -->
+   
   </div>
   <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Services</span>
   </a>
 
-  <!-- Bookings Dropdown -->
-  <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isBookingsOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isBookingsOpen")}>
-    <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-      <span>Bookings</span>
-    </a>
-    {#if desktopDropdownState.isBookingsOpen}
-      <div class="dropdown-content absolute bg-white shadow-lg rounded-md  min-w-[200px] z-50">
-        <a href="/bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Bookings</a>
-        <a href="/pearson-vue-exam-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pearson Vue Exam Bookings</a>
-        <a href="/training-room-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Training Room Bookings</a>
-        <a href="/qcto-exam-bookings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">QCTO Exam Bookings</a>
-      </div>
-    {/if}
-  </div> -->
+
   <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
     <span>Bookings</span>
   </a>
-  <!-- Explore Village Tech Dropdown -->
-  <!-- <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
-    <a href="/explore-village-tech" class="{$page.url.pathname === '/explore-village-tech' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-      <span>Explore Village Tech</span>
-    </a>
-    {#if desktopDropdownState.isExploreOpen}
-      <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
-        <a href="/explore-village-tech" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Explore Village Tech</a>
-        <a href="/news-and-media" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">News and Media</a>
-        <a href="/payment-methods" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Payment Methods</a>
-        <a href="/payment-terms" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Payment Terms</a>
-        <a href="/fqas" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">FAQ's</a>
-      </div>
-    {/if}
-  </div> -->
+ 
 
   
   <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">

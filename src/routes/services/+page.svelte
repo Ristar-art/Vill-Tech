@@ -69,13 +69,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>`
         },
-        {
-            title: "ICT skills training",
-            text: "Live virtual sessions with complete flexibility. A cost-effective learning methodology which delegates can access from anywhere on any platform or device.",
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
-                  </svg>`
-        },
+        
     ];
 </script>
 <svelte:head>
