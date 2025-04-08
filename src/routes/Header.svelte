@@ -270,7 +270,7 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
   </a>
 </nav>
 <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="text-gray-700 flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-  <span>Log in</span>
+  <span>LMS Log in</span>
 </a>
     <!-- Mobile Menu Button -->
     <button class="lg:hidden flex items-center text-gray-700" on:click={toggleMenu}>
