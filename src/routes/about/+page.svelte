@@ -59,7 +59,7 @@
 		>
 			<div
 				class="absolute inset-0 bg-cover bg-center"
-				style="background-image: url('8.webp');"
+				style="background-image: url('/About Us.webp');"
 			></div>
 			<div
 				class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"

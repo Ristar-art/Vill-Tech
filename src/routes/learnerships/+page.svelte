@@ -5,10 +5,10 @@
         {
             title: "Technology",
             content: {
-                1: "National Certificate: End User Computing: IT: End User Computing SAQA ID 61591: NQF 3 130 Credits",
-                2: "Further Education and Training Certificate: IT: Technical Support SAQA ID 78964: NQF 4 163 Credits",
-                3: "National Certificate: IT: Systems Development SAQA ID: 48872 NQF 5 131 Credits",
-                4: "National Certificate: IT: Systems Support SAQA ID 48573 NQF 5 147 Credits",
+                1: "National Certificate: End User Computing: IT: End User Computing SAQA ID 61591: NQF 3",
+                2: "Further Education and Training Certificate: IT: Technical Support SAQA ID 78964: NQF 4",
+                3: "National Certificate: IT: Systems Development SAQA ID: 48872 NQF 5",
+                4: "National Certificate: IT: Systems Support SAQA ID 48573 NQF 5",
             },
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
