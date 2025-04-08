@@ -65,8 +65,8 @@
 				class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"
 			></div>
 			<div class="relative z-10 max-w-2xl px-6">
-				<span class="text-4xl">About</span> <span class="text-red-500 text-4xl ">Village</span>
-				<span class="text-white text-4xl">Tech</span>
+				<span class="text-4xl">About</span> <span class="text-white text-4xl ">Village</span>
+				<span class="text-red-500 text-4xl">Tech</span>
 				<p class="text-xl mt-5">
 					Village Tech offers fully accredited learnerships that
 					are diverse and can be customized and applied across
@@ -88,7 +88,7 @@
 		>
 			<!-- Background Pattern -->
 			<div
-				class="absolute inset-0 bg-gradient-to-br from-blue-50 to-red-50 opacity-50"
+				class="absolute inset-0 bg-gradient-to-br from-maroon-50 to-red-50 opacity-50"
 			></div>
 
 			<!-- Default State -->
@@ -103,10 +103,10 @@
 
 			<!-- Hover State -->
 			<div
-				class="absolute inset-0 flex flex-col justify-center items-center bg-gradient-to-t from-blue-900 via-blue-900/80 to-red-900/50 text-white text-center p-6 opacity-0 transition-all duration-500 group-hover:opacity-100"
+				class="absolute inset-0 flex flex-col justify-center items-center bg-gradient-to-t from-red-900 to-red-500 text-white text-center p-6 opacity-0 transition-all duration-500 group-hover:opacity-100"
 			>
 				<h2
-					class="text-xl font-bold mb-3 transform transition-all duration-300 text-red-400"
+					class="text-xl font-bold mb-3 transform transition-all duration-300 text-white group-hover:translate-y-0"
 				>
 					{card.title}
 				</h2>

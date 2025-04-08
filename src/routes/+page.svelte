@@ -186,9 +186,9 @@
             </div>
           </div>
         </div>
-        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
+        <div class="rounded-tl-xl  rounded-bl-xl w-full md:w-[36rem]">
           
-          <div class="flex flex-row flex-wrap justify-center">
+          <div class="flex flex-row flex-wrap justify-center ">
             
               <div class="w-full md:w-[15rem] h-full md:h-[15rem] rounded-xl overflow-hidden m-4" style="background-image: url('/VT6.webp');background-size: cover; background-position: center;">
                 <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
@@ -230,7 +230,7 @@
     <section class="py-16 flex justify-center w-full bg-gray-100">
       <div class="flex flex-col md:flex-row justify-between transition-all duration-300 md:max-w-5xl w-full">
         <!-- Left Column: Text Content -->
-        <div class="w-full md:w-[36rem] flex flex-col justify-between bg-[#21409a] rounded-tl-xl rounded-bl-xl text-white">
+        <div class="w-full md:w-[36rem] flex flex-col justify-between bg-[#21409a] md:rounded-tl-xl md:rounded-bl-xl text-white">
           <div class="h-[8rem] px-6 flex items-end">
             <h1 class="text-4xl font-bold">Discover Our Learning Methods</h1>
           </div>
@@ -267,53 +267,48 @@
         </div>
     
         <!-- Right Column: Image -->
-        <div class="w-full md:w-[30rem] bg-white rounded-tr-xl rounded-br-xl flex items-center justify-center">
+        <div class="w-full md:w-[30rem] bg-white md:rounded-tr-xl md:rounded-br-xl flex items-center justify-center">
           <img src="/girl.webp" class="w-10/12 mx-auto max-h-[28rem] object-cover" loading="lazy" alt="Learning methods" />
         </div>
       </div>
     </section>
-
-    <section class=" bg-[#21409a]">
-      <div class="max-w-5xl mx-auto pb-8">
-        <div class="flex justify-between items-center mt-8 mb-12" in:fly={{ x: -50, duration: 800 }}>
-          <h2 class="text-3xl font-bold text-white px-6 py-2 ">Featured Courses</h2>
-          <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white  rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+    <section class="py-12 sm:py-16 bg-[#21409a]">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-12" in:fly={{ x: -50, duration: 800 }}>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">Featured Courses</h2>
+          <a href="/Courses/all-courses" sveltekit:prefetch class="inline-block px-4 py-2 sm:px-6 sm:py-3 bg-red-500 text-white rounded-full font-medium transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
             View All Courses
           </a>
         </div>
         {#if courses}
-          <div class="flex justify-center">
-            <div class="max-w-5xl flex flex-row">
-              {#each courses as course (course.id)}
-              <Card.Root class = 'w-[20rem] m-4 bg-white'>
-                <Card.Content class="p-0 ">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {#each courses as course (course.id)}
+              <Card.Root class="w-full bg-white">
+                <Card.Content class="p-0">
                   <a href="/Courses/all-courses/{course.id}" class="cursor-pointer">
                     <img
                       src={course.imageUrl || "/placeholder-image.jpg"}
                       alt={course.title}
-                    
-                      class="w-full h-[18rem] object-cover rounded-md"
+                      class="w-full h-48 sm:h-60 object-cover rounded-md"
                     />
                   </a>
                 </Card.Content>
                 <Card.Footer class="flex flex-col items-start p-4">
-                    <h3 class="text-lg font-semibold">{course.title}</h3>
-                    <p class="text-gray-600 text-xs mb-3 line-clamp-2">
-                      {@html course.description || "No description available."}
-                    </p>
-      
-                    <div class="flex flex-wrap gap-1 mb-2">
-                      <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
-                        Duration: {course.duration || "Not specified"}
-                      </span>
-                      <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
-                        Price: R{(course.price ?? 0).toFixed(2)}
-                      </span>
-                    </div>
-                  </Card.Footer>
-                </Card.Root>
-              {/each}
-            </div>
+                  <h3 class="text-base sm:text-lg font-semibold">{course.title}</h3>
+                  <p class="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
+                    {@html course.description || "No description available."}
+                  </p>
+                  <div class="flex flex-wrap gap-1 sm:gap-2 mb-2">
+                    <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                      Duration: {course.duration || "Not specified"}
+                    </span>
+                    <span class="inline-block px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                      Price: R{(course.price ?? 0).toFixed(2)}
+                    </span>
+                  </div>
+                </Card.Footer>
+              </Card.Root>
+            {/each}
           </div>
         {/if}
       </div>

@@ -75,64 +75,56 @@
 <div class="min-h-screen bg-white">
   <!-- Header Section with Background Image -->
 
-  <div class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-[#1a307a] to-[#21409a]">
+  <div class="min-h-[70vh] flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-[#1a307a] to-[#21409a]">
     <!-- Background Overlay -->
-    <div class="absolute inset-0 bg-black/20 z-0"></div>
+    <div class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <!-- Title and Description Section -->
+      <div class="relative z-10 text-center md:text-left max-w-lg md:max-w-xl mb-6 md:mb-0">
+        {#if loading}
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-200 animate-pulse drop-shadow-lg">
+            Loading...
+          </h1>
+        {:else if error}
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-red-400 drop-shadow-lg">
+            {error}
+          </h1>
+        {:else}
+          <h1
+            class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg"
+            in:fade={{ duration: 500 }}
+          >
+            {course.title}
+          </h1>
+          <p
+            class="mt-4 text-base sm:text-lg md:text-xl text-white max-w-3xl leading-relaxed opacity-90"
+            in:fly={{ y: 20, duration: 600, delay: 200 }}
+          >
+            {@html course.description || "No description available."}
+          </p>
+        {/if}
+      </div>
   
-    <!-- Title and Description Section -->
-    <div class="relative z-10 text-center px-6 py-12 max-w-4xl">
-      {#if loading}
-        <h1
-          class="text-4xl md:text-5xl font-bold text-indigo-200 animate-pulse drop-shadow-lg"
-        >
-          Loading...
-        </h1>
-      {:else if error}
-        <h1
-          class="text-4xl md:text-5xl font-bold text-red-400 drop-shadow-lg"
-        >
-          {error}
-        </h1>
-      {:else}
-        <h1
-          class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg"
-          in:fade={{ duration: 500 }}
-        >
-          {course.title}
-        </h1>
-        <p
-          class="mt-4 text-base md:text-lg text-white max-w-3xl leading-relaxed opacity-90"
-          in:fly={{ y: 20, duration: 600, delay: 200 }}
-        >
-          {@html course.description || "No description available."}
-        </p>
-      {/if}
-    </div>
-  
-    <!-- Image Section -->
-    
-  </div>
-  <div class="w-full flex items-center justify-center -mt-[6rem] md:-mt-[8rem]">
-    <div
-      class="relative w-full  md:w-2/3 h-[60vh] md:h-[80vh] flex items-center justify-center bg-white  rounded-2xl overflow-hidden shadow-xl"
-    >
-      {#if course && course.imageUrl}
-        <img
-          src={course.imageUrl}
-          alt={course.title || "Course Image"}
-          class="w-full h-full object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
-          on:error={handleImageError}
-          loading="eager"
-        />
-      {:else}
-        <div
-          class="w-full h-full flex items-center justify-center bg-gray-800/50 text-gray-400 text-lg"
-        >
-          No image available
+      <!-- Image Section -->
+      <div class="w-full md:w-1/2 flex items-center justify-center">
+        <div class="relative w-full max-w-md aspect-[4/3] bg-white rounded-2xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105">
+          {#if course && course.imageUrl}
+            <img
+              src={course.imageUrl}
+              alt={course.title || "Course Image"}
+              class="w-full h-full object-cover rounded-2xl"
+              on:error={handleImageError}
+              loading="eager"
+            />
+          {:else}
+            <div class="w-full h-full flex items-center justify-center bg-gray-800/50 text-gray-400 text-base sm:text-lg">
+              No image available
+            </div>
+          {/if}
         </div>
-      {/if}
+      </div>
     </div>
   </div>
+  
 
   <!-- Course Details Section -->
   {#if loading}
