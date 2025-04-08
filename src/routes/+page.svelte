@@ -177,7 +177,7 @@
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
               <div>
                 <p class="text-lg text-white font-medium leading-relaxed">
-                  Village Tech offers comprehensive, end-to-end training and skills development services tailored to meet the needs of corporates, individual clients, and the broader community. Our services cover the full learning journey-from skills gap assessments and customized training program design to practical facilitation, ongoing mentorship, and post-training support. Whether it's upskilling employees, empowering job seekers, or enabling community members to access new opportunities through technology, Village Tech is committed to delivering impactful, real-world learning that drives growth, development, and lasting change.
+                  Village Tech delivers tailoured training and skills development for corporates, individuals, and communities. From skills assessments and program design to hands-on facilitation, mentorship, and post-training support, we empower growth through impactful, real-world learning.
                 </p>
                
                 <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
