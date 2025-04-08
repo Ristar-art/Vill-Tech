@@ -67,7 +67,7 @@
                         <a href="/Courses/all-courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
-                        <a href="/fqa's" class="hover:text-vtRed"
+                        <a href="/fqas" class="hover:text-vtRed"
                             >FAQ’s</a
                         >
                     </li>
