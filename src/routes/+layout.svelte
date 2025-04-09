@@ -18,20 +18,20 @@
             <div>
                 <h3 class="text-xl  font-bold text-vtRed mx-2">Follow Us</h3>
                 <div class="flex flex-row">
-                    <a href="https://instagram.com" target="_blank" class="text-black hover:text-vtRed m-2">
+                    <a href="https://www.instagram.com/villagetech_za/" target="_blank" class="text-black hover:text-vtRed m-2">
                       <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg" class="w-6 h-6" style="filter: invert(100%)" />
                     </a>
                     
-                    <a href="https://facebook.com" target="_blank" class="text-black hover:text-vtRed m-2">
+                    <a href="https://www.facebook.com/villagetech.za/" target="_blank" class="text-black hover:text-vtRed m-2">
                       <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg" class="w-6 h-6" style="filter: invert(100%)" />
                     </a>
                     
-                    <a href="https://linkedin.com" target="_blank" class="text-white hover:text-vtRed m-2">
+                    <a href="https://www.linkedin.com/company/village-tech-za/" target="_blank" class="text-white hover:text-vtRed m-2">
                       <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" style="filter: invert(100%)" />
                     </a>
                   </div>
               </div>
-
+              
             <!-- Quick Links -->
             <div>
                 <h3 class="text-xl font-bold text-vtRed mb-4">Quick Links</h3>
