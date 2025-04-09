@@ -197,7 +197,7 @@
     <div class="w-full md:max-w-5xl">
         <h2 class="text-center text-4xl md:text-4xl font-bold mb-12">Operational Details</h2>
         <p>
-            Please complete the form to enquire about our learnerships or contact us on (087) 135 1313. Alternatively, click on the Chat Now tab to speak to one of our friendly customer service coordinators to start a Live Chat.
+            Please complete the form to enquire about our learnerships or contact us on (087) 135 1313. 
         </p>
     </div>
 </section>
