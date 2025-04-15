@@ -6,7 +6,7 @@
     let contact = '';
     let email = '';
     let phone = '';
-    let bookingType = 'Half-Day';
+    let bookingType = 'Training room hire';
     let attendees = 1;
     let startDate = '';
     let duration = 1;
@@ -214,10 +214,9 @@
               <div>
                 <label for="bookingType" class="block text-sm font-medium text-gray-700 mb-1">Booking Type</label>
                 <select bind:value={bookingType} class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                  <option>Half-Day</option>
-                  <option>Full-Day</option>
-                  <option>Hourly</option>
-                  <option>Multi-Day</option>
+                  <option >Training room hire</option>
+                  <option>Pearson Vue testing</option>
+                  <option>QCTO Assessment</option>
                 </select>
               </div>
               <div>

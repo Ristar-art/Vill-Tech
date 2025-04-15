@@ -56,14 +56,14 @@
                   
         },
         {
-            title: "Primary Focus",
+            title: "Learnership Management",
             text: "Live virtual sessions with complete flexibility. A cost-effective learning methodology which delegates can access from anywhere on any platform or device.",
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>`
         },
         {
-            title: "Skills development",
+            title: "Competency Development",
             text: "Live virtual sessions with complete flexibility. A cost-effective learning methodology which delegates can access from anywhere on any platform or device.",
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -79,7 +79,7 @@
 <div class="min-h-screen py-16 bg-[#21409A]">
 
 <div class="relative h-[60vh]  flex flex-col items-center justify-center pt-20 text-center text-white">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/8.webp');"></div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/Services.webp');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
     <div class="relative z-10 max-w-2xl px-6">
         <h1 class="text-4xl font-bold">Services</h1>
@@ -89,8 +89,8 @@
 </div>
 <section class="bg-[#21409a]  w-full min-h-[50vh] py-16 flex justify-center">
     <div class="flex flex-col md:flex-row rounded-xl transition-all duration-300 md:max-w-6xl w-full">
-        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem] p-6">
-            <div class="space-y-8">
+        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
+            <div class="">
                 <div class="flex flex-col">
                     <p class="text-lg text-gray-200">
                         We have partnered with a wide variety of subject matter experts from across many industries to design and develop suitable and quality training interventions that ensure that intended beneficiaries are equipped and empowered to contribute positively to any organisation, the economy and community at large.     
@@ -102,14 +102,14 @@
             </div>
         </div>
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
-            <div class="space-y-2 px-6">
+            <div class="px-6 pb-2">
                 {#each Methodology as details}
                 <div class="flex text-white flex-row rounded-lg items-center">
-                    <div class="p-4">
+                    <div class="pt-2">
                         {@html details.icon}
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold ">{details.title}</h3>
+                    <div class="pb-2">
+                        <h3 class="text-xl font-semibold px-4">{details.title}</h3>
                     </div>
                 </div>
                 {/each}

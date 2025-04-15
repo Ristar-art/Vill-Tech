@@ -68,10 +68,9 @@
 				<span class="text-4xl">About</span> <span class="text-white text-4xl ">Village</span>
 				<span class="text-red-500 text-4xl">Tech</span>
 				<p class="text-xl mt-5">
-					Village Tech offers fully accredited learnerships that
-					are diverse and can be customized and applied across
-					many different industries. Some of which include IT,
-					Sales & Marketing, Financial Services, and etc.
+Village Tech delivers fully accredited and adaptable training interventions, designed to
+meet the needs of various sectors such as Information Technology, Sales &
+Marketing, and Financial Services
 				</p>
 			</div>
 		</div>

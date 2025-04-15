@@ -6,6 +6,7 @@
   let formData = {
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   };
@@ -34,6 +35,7 @@
     // Reset form
     formData = {
       name: '',
+      phone: '',
       email: '',
       subject: '',
       message: ''
@@ -116,6 +118,17 @@
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
           />
         </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            bind:value={formData.phone}
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+        
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input

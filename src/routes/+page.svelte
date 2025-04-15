@@ -126,7 +126,7 @@
           {#each [
             { title: "Students", value: "1000+" },
             { title: "Courses", value: "22" },
-            { title: "Graduates", value: "5000+" },
+            { title: "Graduates", value: "1000+" },
             { title: "Success Rate", value: "95%" }
           ] as stat, i (stat.title)}
             <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
@@ -139,11 +139,7 @@
     </div>
   </section>
 
-    
-
-   
-
-    
+ 
     <section class="py-16 bg-white flex justify-center w-full">
       <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 bg-gradient-to-t from-red-900 to-red-500 md:max-w-5xl">
         <div class="w-full md:w-[36rem] flex flex-end transition-all duration-300">
@@ -177,7 +173,8 @@
             <div class="md:col-span-3 p-6 h-full flex flex-col justify-between">
               <div>
                 <p class="text-lg text-white font-medium leading-relaxed">
-                  Village Tech delivers tailoured training and skills development for corporates, individuals, and communities. From skills assessments and program design to hands-on facilitation, mentorship, and post-training support, we empower growth through impactful, real-world learning.
+                  Village Tech delivers tailoured training and skills development for corporates, individuals, and communities. We empower growth through end-to-end learning solutions - from skills
+                  assessments and programme design to practical facilitation, mentorship, and post-training support”
                 </p>
                
                 <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
@@ -206,7 +203,7 @@
                   `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>`
-                  <h2 class="text-xl font-bold mb-3 text-white">Primary Focus</h2>
+                  <h2 class="text-xl text-center font-bold mb-3 text-white">Learnership Management</h2>
               </div>
               </div>
               <div class="w-full md:w-[15rem] h-full md:h-[15rem]  rounded-full m-4 overflow-hidden" style="background-image: url('/Skills development.webp');background-size: cover; background-position: center;">
@@ -214,7 +211,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <h2 class="text-xl font-bold mb-3 text-white">Skills Development</h2>
+                  <h2 class="text-xl text-center font-bold mb-3 text-white">Competency Development</h2>
                 </div>
               </div>
               
