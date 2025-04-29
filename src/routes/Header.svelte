@@ -299,12 +299,12 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
           </button>
           {#if mobileDropdownState.isCoursesOpen}
             <div class="ml-8 flex flex-col space-y-2 mt-2">
-              <a href="/Courses" class="text-gray-600 hover:text-[#21409A]">Courses</a>
-              <a href="/seta-courses" class="text-gray-600 hover:text-[#21409A]">Seta Courses</a>
-              <a href="/international-courses" class="text-gray-600 hover:text-[#21409A]">International Courses</a>
-              <a href="/trade-courses" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
-              <a href="/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
-              <a href="/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
+              <a href="/Courses/all-courses" class="text-gray-600 hover:text-[#21409A]">Courses</a>
+              <a href="/Courses/seta" class="text-gray-600 hover:text-[#21409A]">Seta Courses</a>
+              <a href="/Courses/international" class="text-gray-600 hover:text-[#21409A]">International Courses</a>
+              <a href="/Courses/trades" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
+              <a href="/Courses/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
+              <a href="/Courses/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
             </div>
           {/if}
         </div>
