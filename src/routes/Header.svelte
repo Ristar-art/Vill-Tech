@@ -305,6 +305,7 @@ c-0.4-1.7-1.7-4.4-2.7-5.1C377.7,269.7,342,270.1,340.7,270.5"
               <a href="/Courses/trades" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
               <a href="/Courses/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
               <a href="/Courses/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
+              <a href="/Courses/non-accredited-skills-programmes" class="text-gray-600 hover:text-[#21409A]">Non Accredited Skills Programmes</a>
             </div>
           {/if}
         </div>
