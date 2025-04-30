@@ -280,7 +280,7 @@
           
         
         <!-- Post Content -->
-        <div class="prose prose-lg max-w-4xl mx-auto dark:prose-invert mb-12">
+        <div class="prose prose-lg w-full md:max-w-4xl mx-auto dark:prose-invert mb-12">
             <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
 
             {@html post.content}
