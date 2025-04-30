@@ -246,7 +246,7 @@
                 
             </div>
         {/if}
-        <div class="flex justify-between items-center mb-8 max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-8 w-full md:max-w-6xl mx-auto">
             <button
               on:click={goBack}
               class="bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm font-medium py-2 px-6 transition-colors duration-200"
@@ -276,7 +276,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+        </div>
           
         
         <!-- Post Content -->
