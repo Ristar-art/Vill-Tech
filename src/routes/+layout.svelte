@@ -19,15 +19,15 @@
                 <h3 class="text-xl  font-bold text-vtRed mx-2">Follow Us</h3>
                 <div class="flex flex-row">
                     <a href="https://www.instagram.com/villagetech_za/" target="_blank" class="text-black hover:text-vtRed m-2">
-                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg" class="w-6 h-6" alt="Instagram" style="filter: invert(100%)" />
                     </a>
                     
                     <a href="https://www.facebook.com/villagetech.za/" target="_blank" class="text-black hover:text-vtRed m-2">
-                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg" class="w-6 h-6" alt="Facebook" style="filter: invert(100%)" />
                     </a>
                     
                     <a href="https://www.linkedin.com/company/village-tech-za/" target="_blank" class="text-white hover:text-vtRed m-2">
-                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" style="filter: invert(100%)" />
+                      <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" alt="LinkedIn" style="filter: invert(100%)" />
                     </a>
                   </div>
               </div>

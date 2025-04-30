@@ -37,24 +37,24 @@
         </div>
         <!-- Duplicate set for seamless looping -->
         <div class="carousel-items ml-16">
-            <a href = "">
-                <img class="h-10" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
+            <a href = "https://www.sace.org.za/">
+                <img class="h-10 w-auto" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
 
             </a>
             <a href = "https://seta.org">
-                <img class="h-12" src="/MICT-SETA-logo.webp" loading="lazy" alt="Company 2" />
+                <img class="h-12 w-auto" src="/MICT-SETA-logo.webp" loading="lazy" alt="Company 2" />
 
             </a>
-            <a href = "">
-                <img class="h-10" src="/logoNetAcad-TwoColor.webp" loading="lazy" alt="Company 4" />
+            <a href = "https://www.netacad.com/">
+                <img class="h-10 w-auto" src="/logoNetAcad-TwoColor.webp" loading="lazy" alt="Company 4" />
 
             </a>
             <a href = "https://comptia.org">
-                <img class="h-10" src="/comptia-logo-large_png.webp" loading="lazy" alt="Company 5" />
+                <img class="h-10 w-auto" src="/comptia-logo-large_png.webp" loading="lazy" alt="Company 5" />
 
             </a>
             <a href = "https://qcto.org.za">
-                <img class="h-10" src="/QCTO-logo2.webp" loading="lazy" alt="Company 5" />
+                <img class="h-10 w-auto" src="/QCTO-logo2.webp" loading="lazy" alt="Company 5" />
 
             </a>
           
