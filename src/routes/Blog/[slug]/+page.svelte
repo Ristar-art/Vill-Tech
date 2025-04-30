@@ -255,28 +255,26 @@
               Back to Blog
             </button>
           
-              <div
-                class="flex items-center text-gray-700 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400 transition-colors duration-200"
-              >
-                <div class="max-w-4xl flex flex-row  gap-2">
-                  <div class="flex flex-row h-0.5 gap-2 mb-4">
-                    {#each post.categories as category}
-                      <span
-                        class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                        >{category}</span
-                      >
-                    {/each}
-                  </div>
-          
-                    <div>
-                        
-                      <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {formatDate(post.publishedAt)} • {post.readTime || 3} min read
-                      </p>
-                  </div>
-                </div>
+            <div
+              class="flex flex-col items-end text-gray-700 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400 transition-colors duration-200 max-w-4xl"
+            >
+              <!-- Categories row -->
+              <div class="flex flex-row gap-2 mb-2">
+                {#each post.categories as category}
+                  <span
+                    class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                    >{category}</span
+                  >
+                {/each}
               </div>
-        </div>
+          
+              <!-- Date and read time -->
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {formatDate(post.publishedAt)} • {post.readTime || 3} min read
+              </p>
+            </div>
+          </div>
+          
           
         
         <!-- Post Content -->
