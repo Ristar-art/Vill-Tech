@@ -280,11 +280,13 @@
           
         
         <!-- Post Content -->
-        <div class="prose prose-lg w-full md:max-w-4xl mx-auto dark:prose-invert mb-12">
-            <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
-
-            {@html post.content}
-        </div>
+        <div class="w-full max-w-4xl mx-auto mb-12 px-4 md:px-0">
+            <div class="prose prose-lg dark:prose-invert">
+              <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+              {@html post.content}
+            </div>
+          </div>
+          
 
         <!-- Tags -->
         {#if post.tags && post.tags.length > 0}
