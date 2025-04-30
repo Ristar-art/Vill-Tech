@@ -135,11 +135,11 @@
 
         <div class="mt-8 text-center">
             <p>
-             <a href="#" class="hover:text-vtRed"
+             <a href="privacy-policy" class="hover:text-vtRed"
                     >Privacy Policy</a
                 >
-                |
-                <a href="#" class="hover:text-vtRed">Terms & Conditions</a>
+                <!-- |
+                <a href="#" class="hover:text-vtRed">Terms & Conditions</a> -->
                 
             </p>
         </div>
