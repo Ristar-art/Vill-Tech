@@ -171,11 +171,11 @@
     // }
 
     function navigateToPost(slug: string) {
-        goto(`/blog/${slug}`);
+        goto(`/Blog/${slug}`);
     }
 
     function goBack() {
-        goto('/blog');
+        goto('/Blog');
     }
 </script>
 

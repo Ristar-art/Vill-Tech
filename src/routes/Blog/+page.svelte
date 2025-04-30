@@ -87,7 +87,7 @@
   }
 
   function navigateToPost(slug: string) {
-      goto(`/blog/${slug}`);
+      goto(`/Blog/${slug}`);
   }
 
   function filterByCategory(category: string) {
