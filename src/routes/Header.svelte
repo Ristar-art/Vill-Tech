@@ -257,7 +257,7 @@
         <span>Learnerships</span>
       </a>
 
-      <a href="/blog" class="{$page.url.pathname === '/blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/Blog" class="{$page.url.pathname === '/Blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Blog</span>
       </a>
 
@@ -338,7 +338,7 @@
           {/if}
         </div>
 
-        <a href="/blog" class="{$page.url.pathname === '/blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/Blog" class="{$page.url.pathname === '/Blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <span>Blog</span>
         </a>
 
