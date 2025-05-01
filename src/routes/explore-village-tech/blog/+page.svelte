@@ -194,12 +194,12 @@
                                           class="w-10 h-10 rounded-full mr-3 object-cover"
                                       >
                                   {:else}
-                                      <div class="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                      <!-- <div class="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                                           <span class="text-gray-500 dark:text-gray-400">{featuredPost.author?.name?.charAt(0) || 'A'}</span>
-                                      </div>
+                                      </div> -->
                                   {/if}
                                   <div>
-                                      <p class="font-semibold">{featuredPost.author?.name || 'Anonymous'}</p>
+                                      <p class="font-semibold text-red-500">{featuredPost.author?.name || 'by Vllage Tech'}</p>
                                       <p class="text-sm text-gray-500 dark:text-gray-400">
                                           {formatDate(featuredPost.publishedAt)} • {featuredPost.readTime || 3} min read
                                       </p>
@@ -247,12 +247,12 @@
                                   class="w-8 h-8 rounded-full mr-2 object-cover"
                               >
                           {:else}
-                              <div class="w-8 h-8 rounded-full mr-2 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                              <!-- <div class="w-8 h-8 rounded-full mr-2 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                                   <span class="text-gray-500 dark:text-gray-400">{post.author?.name?.charAt(0) || 'A'}</span>
-                              </div>
+                              </div> -->
                           {/if}
                           <div>
-                              <p class="text-sm font-semibold">{post.author?.name || 'Anonymous'}</p>
+                              <p class="text-sm font-semibold text-red-500">{post.author?.name || 'by Village Tech'}</p>
                               <p class="text-xs text-gray-500 dark:text-gray-400">
                                   {formatDate(post.publishedAt)} • {post.readTime || 3} min read
                               </p>
