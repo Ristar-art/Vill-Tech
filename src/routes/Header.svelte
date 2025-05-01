@@ -224,18 +224,18 @@
 
       <!-- Courses Dropdown -->
       <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isCoursesOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isCoursesOpen")}>
-        <a class="{$page.url.pathname.startsWith('/Courses') ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a class="{$page.url.pathname.startsWith('/courses') ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <span>Courses</span>
         </a>
         {#if desktopDropdownState.isCoursesOpen}
           <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
-            <a href="/Courses/all-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">All Courses</a>
-            <a href="/Courses/seta" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Seta Courses</a>
-            <a href="/Courses/international" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">International Courses</a>
-            <a href="/Courses/trades" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Trades Courses</a>
-            <a href="/Courses/educator-training" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Educator Training</a>
-            <a href="/Courses/short-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Short Courses</a>
-            <a href="/Courses/non-accredited-skills-programmes" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Non Accredited Skills Programmes</a>
+            <a href="/courses/all-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">All Courses</a>
+            <a href="/courses/seta" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Seta Courses</a>
+            <a href="/courses/international" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">International Courses</a>
+            <a href="/courses/trades" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Trades Courses</a>
+            <a href="/courses/educator-training" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Educator Training</a>
+            <a href="/courses/short-courses" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Short Courses</a>
+            <a href="/courses/non-accredited-skills-programmes" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Non Accredited Skills Programmes</a>
           </div>
         {/if}
       </div>
@@ -280,14 +280,7 @@
         </div>
       {/if}
       </div>
-      <a
-        href="/documents/2021-Course-Prospectus-v1.docx"
-        download
-        class="text-gray-700 flex items-center space-x-2 hover:text-[#21409A] transition duration-300"
-      >
-        <FileText class="h-5 w-5" />
-        <span>Prospectus</span>
-      </a>
+      
 
       <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="text-red-500 flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Student Login</span>

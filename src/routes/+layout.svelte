@@ -42,7 +42,7 @@
                         >
                     </li>
                     <li>
-                        <a href="/Courses/all-courses" class="hover:text-vtRed">Courses</a>
+                        <a href="/courses/all-courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
                         <a href="/explore-village-tech/faqs" class="hover:text-vtRed"
