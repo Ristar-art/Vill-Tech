@@ -139,14 +139,14 @@
       <!-- Category Filter -->
       <div class="flex flex-wrap gap-2 mb-8">
           <button
-              class={`px-4 py-2 rounded-full text-sm font-medium ${currentCategory === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
+              class={`px-4 py-2 rounded-full text-sm font-medium ${currentCategory === 'all' ? 'bg-red-500 hover:bg-gray-300 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
               on:click={() => filterByCategory('all')}
           >
               All
           </button>
           {#each categories as category}
               <button
-                  class={`px-4 py-2 rounded-full text-sm font-medium ${currentCategory === category ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
+                  class={`px-4 py-2 rounded-full text-sm font-medium ${currentCategory === category ? 'bg-red-500 hover:bg-gray-300 text-white' : 'bg-gray-200 hover:bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
                   on:click={() => filterByCategory(category)}
               >
                   {category}
