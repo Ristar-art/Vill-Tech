@@ -20,7 +20,7 @@
     if (!id) {
       error = "No course ID provided";
       loading = false;
-      goto("/Courses");
+      goto("/courses/all-courses");
       return;
     }
     await fetchCourseDetails();
@@ -37,7 +37,7 @@
       } else {
         error = "Course not found";
         console.log("Course not found for ID:", id);
-        goto("/Courses");
+        goto("/courses/all-courses");
       }
     } catch (err) {
       console.error("Error fetching course details:", err);
@@ -142,7 +142,7 @@
     <div class="max-w-5xl mx-auto px-6 pb-20 text-center">
       <p class="text-red-400 text-lg">{error}</p>
       <a
-        href="/Courses"
+        href="/courses/all-courses"
         class="mt-6 inline-block text-indigo-300 hover:text-indigo-200 transition-colors duration-200 underline"
       >
         Back to Courses
@@ -226,7 +226,7 @@
 
           <!-- Back Button -->
           <a
-            href="/Courses"
+            href="/courses/all-courses"
             class="inline-block text-[#21409A] hover:text-indigo-200 transition-colors duration-200 underline"
           >
             Back to Courses

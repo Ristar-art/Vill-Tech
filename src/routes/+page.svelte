@@ -103,7 +103,7 @@
       <p class="text-xl mb-8 max-w-2xl mx-auto text-white">
         Discover a world of knowledge at your fingertips. Learn from industry experts and advance your career with our cutting-edge online courses.
       </p>
-      <a href="/Courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
+      <a href="/courses/all-courses" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
         Explore Courses
       </a>
     </div>
@@ -268,7 +268,7 @@
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-12" in:fly={{ x: -50, duration: 800 }}>
           <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">Featured Courses</h2>
-          <a href="/Courses/all-courses" sveltekit:prefetch class="inline-block px-4 py-2 sm:px-6 sm:py-3 bg-red-500 text-white rounded-full font-medium transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+          <a href="/courses/all-courses" sveltekit:prefetch class="inline-block px-4 py-2 sm:px-6 sm:py-3 bg-red-500 text-white rounded-full font-medium transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
             View All Courses
           </a>
         </div>
@@ -277,7 +277,7 @@
             {#each courses as course (course.id)}
               <Card.Root class="w-full bg-white">
                 <Card.Content class="p-0">
-                  <a href="/Courses/all-courses/{course.id}" class="cursor-pointer">
+                  <a href="/courses/all-courses/{course.id}" class="cursor-pointer">
                     <img
                       src={course.imageUrl || "/placeholder-image.jpg"}
                       alt={course.title}

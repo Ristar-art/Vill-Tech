@@ -127,7 +127,7 @@
       {#each filteredCourses as course}
         <Card.Root class="w-[20rem] m-4 bg-white rounded-md">
           <Card.Content class="p-0">
-            <a href="/Courses/{currentCourseType}/{course.id}" class="cursor-pointer">
+            <a href="/courses/{currentCourseType}/{course.id}" class="cursor-pointer">
               <img
                 src={course.imageUrl || "/placeholder-image.jpg"}
                 alt={course.title}

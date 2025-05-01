@@ -314,13 +314,13 @@
           </button>
           {#if mobileDropdownState.isCoursesOpen}
             <div class="ml-8 flex flex-col space-y-2 mt-2">
-              <a href="/Courses/all-courses" class="text-gray-600 hover:text-[#21409A]">All Courses</a>
-              <a href="/Courses/seta" class="text-gray-600 hover:text-[#21409A]">Seta Courses</a>
-              <a href="/Courses/international" class="text-gray-600 hover:text-[#21409A]">International Courses</a>
-              <a href="/Courses/trades" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
-              <a href="/Courses/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
-              <a href="/Courses/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
-              <a href="/Courses/non-accredited-skills-programmes" class="text-gray-600 hover:text-[#21409A]">Non Accredited Skills Programmes</a>
+              <a href="/courses/all-courses" class="text-gray-600 hover:text-[#21409A]">All Courses</a>
+              <a href="/courses/seta" class="text-gray-600 hover:text-[#21409A]">Seta Courses</a>
+              <a href="/courses/international" class="text-gray-600 hover:text-[#21409A]">International Courses</a>
+              <a href="/courses/trades" class="text-gray-600 hover:text-[#21409A]">Trades Courses</a>
+              <a href="/courses/educator-training" class="text-gray-600 hover:text-[#21409A]">Educator Training</a>
+              <a href="/courses/short-courses" class="text-gray-600 hover:text-[#21409A]">Short Courses</a>
+              <a href="/courses/non-accredited-skills-programmes" class="text-gray-600 hover:text-[#21409A]">Non Accredited Skills Programmes</a>
             </div>
           {/if}
         </div>
