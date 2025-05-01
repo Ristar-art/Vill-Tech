@@ -36,12 +36,14 @@
     isBookingsOpen: false,
     isExploreOpen: false,
     timeoutId: null,
+    isExploreOpen: false,
   };
 
   // Mobile Dropdown States
   let mobileDropdownState = {
     isCoursesOpen: false,
     isBookingsOpen: false,
+    isExploreOpen: false,
   };
 
   function toggleDesktopDropdown(menu, show) {
@@ -257,15 +259,27 @@
         <span>Learnerships</span>
       </a>
 
-      <a href="/Blog" class="{$page.url.pathname === '/Blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-        <span>Blog</span>
-      </a>
+      <!-- <a href="/blog" class="{$page.url.pathname === '/blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <span>blog</span>
+      </a> -->
 
       <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Contact</span>
       </a>
-
-      <!-- Prospectus Link -->
+      <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
+        <div class="{$page.url.pathname === '/explore-village-tech' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+          <span>Explore Village Tech</span>
+        </div>
+      {#if desktopDropdownState.isExploreOpen}
+        <div class="dropdown-content absolute bg-white shadow-lg rounded-md min-w-[200px] z-50">
+          <a href="/explore-village-tech/blog" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Blog</a>
+          <a href="/explore-village-tech/our-accreditations" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Our Accreditations</a>
+          <a href="/explore-village-tech/privacy-policy" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Our Privacy Policy</a>
+          <a href="/explore-village-tech/terms-and-conditions" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Our Terms and conditions</a>
+          <a href="/explore-village-tech/faqs" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">FAQ's</a>
+        </div>
+      {/if}
+      </div>
       <a
         href="/documents/2021-Course-Prospectus-v1.docx"
         download
@@ -324,7 +338,7 @@
         </a>
 
         <!-- Bookings Mobile Dropdown -->
-        <div class="flex flex-col">
+        <!-- <div class="flex flex-col">
           <button on:click={() => toggleMobileDropdown("isBookingsOpen")} class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A]">
             <span>Bookings</span>
           </button>
@@ -336,21 +350,24 @@
               <a href="/qcto-exam-bookings" class="text-gray-600 hover:text-[#21409A]">QCTO Exam Bookings</a>
             </div>
           {/if}
-        </div>
+        </div> -->
 
-        <a href="/Blog" class="{$page.url.pathname === '/Blog' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
-          <span>Blog</span>
-        </a>
+        <div class="flex flex-col">
+          <button on:click={() => toggleMobileDropdown("isExploreOpen")} class="flex items-center space-x-2 text-gray-700 hover:text-[#21409A]">
+            <span>Explore Village</span>
+          </button>
+          {#if mobileDropdownState.isExploreOpen}
+            <div class="ml-8 flex flex-col space-y-2 mt-2">
+              <a href="/bookings" class="text-gray-600 hover:text-[#21409A]">Bookings</a>
+              <a href="/pearson-vue-exam-bookings" class="text-gray-600 hover:text-[#21409A]">Pearson Vue Exam Bookings</a>
+              <a href="/training-room-bookings" class="text-gray-600 hover:text-[#21409A]">Training Room Bookings</a>
+              <a href="/qcto-exam-bookings" class="text-gray-600 hover:text-[#21409A]">QCTO Exam Bookings</a>
+            </div>
+          {/if}
+        </div> 
 
         <!-- Prospectus Link (Mobile) -->
-        <a
-          href="/documents/2021-Course-Prospectus-v1.docx"
-          download
-          class="text-gray-700 flex items-center space-x-2 hover:text-[#21409A] transition duration-300"
-        >
-          <FileText class="h-5 w-5" />
-          <span>Prospectus</span>
-        </a>
+       
 
         <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <MessageCircle class="h-5 w-5" />

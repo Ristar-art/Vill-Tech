@@ -37,7 +37,7 @@
                 <h3 class="text-xl font-bold text-vtRed mb-4">Quick Links</h3>
                 <ul>
                     <li>
-                        <a href="/our-accreditations" class="hover:text-vtRed"
+                        <a href="/explore-village-tech/our-accreditations" class="hover:text-vtRed"
                             >Accreditations</a
                         >
                     </li>
@@ -45,7 +45,7 @@
                         <a href="/Courses/all-courses" class="hover:text-vtRed">Courses</a>
                     </li>
                     <li>
-                        <a href="/fqas" class="hover:text-vtRed"
+                        <a href="/explore-village-tech/faqs" class="hover:text-vtRed"
                             >FAQ’s</a
                         >
                     </li>
@@ -55,17 +55,7 @@
                             class="hover:text-vtRed">Payment Terms & Methods</a
                         >
                     </li>
-                    <!-- <li>
-                        <a
-                            href="#"
-                            class="hover:text-vtRed">Payment Terms</a
-                        >
-                    </li> -->
-                    <!-- <li>
-                        <a href="#" class="hover:text-vtRed"
-                            >Prospectus</a
-                        >
-                    </li> -->
+                   
                 </ul>
             </div>
 
@@ -79,7 +69,7 @@
                 <p>
                     Email: <a
                         href="mailto:info@villagetech.co.za"
-                        class="hover:text-vtRed">info@villagetech.co.za</a
+                        class="">info@villagetech.co.za</a
                     >
                 </p>
             </div>
@@ -135,11 +125,11 @@
 
         <div class="mt-8 text-center">
             <p>
-             <a href="privacy-policy" class="hover:text-vtRed"
+             <a href="/explore-village-tech/privacy-policy" class="hover:text-vtRed"
                     >Privacy Policy</a
                 >
-                <!-- |
-                <a href="#" class="hover:text-vtRed">Terms & Conditions</a> -->
+                |
+                <a href="/terms-and-conditions" class="hover:text-vtRed">Terms & Conditions</a>
                 
             </p>
         </div>
