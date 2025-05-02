@@ -208,8 +208,8 @@
     font-weight: 500;
     border: 2px solid transparent;
     border-radius: 9999px;
-    background: #f3f4f6;
-    color: #374151;
+    background: red;
+    color: white;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -221,7 +221,7 @@
   }
 
   .filter-active {
-    background: red;
+    background: #f3f4f6;
     color: #ffffff;
     box-shadow: 0px 6px 12px rgba(7, 40, 64, 0.5); /* Match bg color */
   }

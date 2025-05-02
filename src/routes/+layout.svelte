@@ -129,7 +129,7 @@
                     >Privacy Policy</a
                 >
                 |
-                <a href="/terms-and-conditions" class="hover:text-vtRed">Terms & Conditions</a>
+                <a href="/explore-village-tech/terms-and-conditions" class="hover:text-vtRed">Terms & Conditions</a>
                 
             </p>
         </div>
