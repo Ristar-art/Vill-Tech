@@ -50,7 +50,7 @@
               document.body.removeChild(link);
             }}
           >
-          download Prospectus
+          Download Prospectus
           </button>
           <!-- General Questions -->
           <div class="bg-white/10 rounded-2xl p-6">
