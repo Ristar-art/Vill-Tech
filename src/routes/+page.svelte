@@ -174,7 +174,7 @@
               <div>
                 <p class="text-lg text-white font-medium leading-relaxed">
                   Village Tech delivers tailoured training and skills development for corporates, individuals, and communities. We empower growth through end-to-end learning solutions - from skills
-                  assessments and programme design to practical facilitation, mentorship, and post-training support”
+                  assessments and programme design to practical facilitation, mentorship, and post-training support.
                 </p>
                
                 <a href="/services" sveltekit:prefetch class="px-6 py-2 bg-red-500 text-white mt-16 rounded-full font-medium transform transition-all duration-300 hover:scale-105 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 inline-block text-center">
