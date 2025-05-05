@@ -373,7 +373,7 @@
               <a href="/explore-village-tech/our-accreditations" class="text-gray-600 hover:text-[#21409A]">Our Accreditations</a>
               <a href="/explore-village-tech/privacy-policy" class="text-gray-600 hover:text-[#21409A]">Our Privacy Policy</a>
               <a href="/explore-village-tech/terms-and-conditions" class="text-gray-600 hover:text-[#21409A]">Our Terms and Conditions</a>
-              <a href="/explore-village-tech/faqs" class="text-gray-600 hover:text-[#21409A]">FAQs</a>
+              <a href="/explore-village-tech/faqs" class="text-gray-600 hover:text-[#21409A]">FAQ's</a>
             </div>
           {/if}
         </div>
