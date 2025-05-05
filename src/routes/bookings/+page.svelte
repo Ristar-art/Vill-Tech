@@ -14,7 +14,7 @@
     let message = '';
   
     async function handleSubmit() {
-      const data = { organization, contact, email, phone, bookingType, startDate, durationUnit, message };
+      const data = { organization, contact, email, phone, bookingType, attendees, startDate, duration, durationUnit, message };
       // Send to API or email service
       console.log('Form submitted:', data);
     }
@@ -219,7 +219,7 @@
                   <option>QCTO Assessment</option>
                 </select>
               </div>
-              <!-- <div>
+              <div>
                 <label for="attendees" class="block text-sm font-medium text-gray-700 mb-1">Attendees</label>
                 <input
                   type="number"
@@ -229,7 +229,7 @@
                   required
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-              </div> -->
+              </div>
               <div>
                 <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                 <input
@@ -240,7 +240,7 @@
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
-              <!-- <div>
+              <div>
                 <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                 <div class="flex space-x-2">
                   <input
@@ -255,7 +255,7 @@
                     <option>Hours</option>
                     <option>Days</option>
                   </select>
-                </div> -->
+                </div>
               </div>
               <div>
                 <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
