@@ -217,13 +217,13 @@
 
     <!-- Desktop Navigation -->
     <nav class="hidden lg:flex space-x-6 items-center">
-      <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Home</span>
       </a>
 
       <!-- Courses Dropdown -->
       <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isCoursesOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isCoursesOpen")}>
-        <a class="{$page.url.pathname.startsWith('/courses') ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a class="{$page.url.pathname.startsWith('/courses') ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <span>Courses</span>
         </a>
         {#if desktopDropdownState.isCoursesOpen}
@@ -241,30 +241,30 @@
 
       <!-- About Us -->
       <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isAboutOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isAboutOpen")}>
-        <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <span>About Us</span>
         </a>
       </div>
 
-      <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Services</span>
       </a>
 
-      <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/bookings" class="{$page.url.pathname === '/bookings' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Bookings</span>
       </a>
 
-      <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Learnerships</span>
       </a>
 
-      <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
         <span>Contact</span>
       </a>
 
       <!-- Explore Village Tech Dropdown -->
       <div class="relative" on:mouseenter={() => toggleDesktopDropdown("isExploreOpen", true)} on:mouseleave={(e) => handleButtonMouseLeave(e, "isExploreOpen")}>
-        <div class="{$page.url.pathname.startsWith('/explore-village-tech') ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <div class="{$page.url.pathname.startsWith('/explore-village-tech') ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <span>Explore Village Tech</span>
         </div>
         {#if desktopDropdownState.isExploreOpen}
@@ -278,7 +278,7 @@
         {/if}
       </div>
 
-      <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="text-red-500 flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+      <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="filter-btn">
         <span>Student Login</span>
       </a>
     </nav>
@@ -297,7 +297,7 @@
   {#if mobileMenuOpen}
     <div class="lg:hidden bg-gray-50 px-6 py-4">
       <nav class="flex flex-col space-y-4">
-        <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/" class="{$page.url.pathname === '/' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <Home class="h-5 w-5" />
           <span>Home</span>
         </a>
@@ -322,13 +322,13 @@
         </div>
 
         <!-- About Us -->
-        <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/about" class="{$page.url.pathname === '/about' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <Info class="h-5 w-5" />
           <span>About Us</span>
         </a>
 
         <!-- Services -->
-        <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/services" class="{$page.url.pathname === '/services' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <Briefcase class="h-5 w-5" />
           <span>Services</span>
         </a>
@@ -350,13 +350,13 @@
         </div>
 
         <!-- Learnerships -->
-        <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/learnerships" class="{$page.url.pathname === '/learnerships' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <Users class="h-5 w-5" />
           <span>Learnerships</span>
         </a>
 
         <!-- Contact -->
-        <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="/contact" class="{$page.url.pathname === '/contact' ? 'text-[#21409A] border-b-2 border-[#21409A]' : 'text-gray-700'} flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
           <MessageCircle class="h-5 w-5" />
           <span>Contact</span>
         </a>
@@ -379,7 +379,7 @@
         </div>
 
         <!-- Student Login -->
-        <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="text-red-500 flex items-center space-x-2 hover:text-[#21409A] transition duration-300">
+        <a href="https://villagetech.moodlecloud.com/login/index.php?loginredirect=1" class="filter-btn">
           <span>Student Login</span>
         </a>
       </nav>
@@ -406,5 +406,33 @@
     font-display: swap;
     font-weight: 400;
     src: url("$lib/font/barlow-semi-condensed-latin-100-italic.ttf");
+  }
+  .filter-btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background: red;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .filter-btn:hover {
+    background: #e5e7eb;
+    transform: scale(1.05);
+  }
+
+  .filter-active {
+    background: #f3f4f6;
+    color: #ffffff;
+    box-shadow: 0px 6px 12px rgba(7, 40, 64, 0.5); /* Match bg color */
+  }
+
+  .filter-active:hover {
+    transform: scale(1.1);
   }
 </style>
