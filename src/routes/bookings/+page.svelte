@@ -7,14 +7,14 @@
     let email = '';
     let phone = '';
     let bookingType = 'Training room hire';
-    // let attendees = 1;
+    let attendees = 1;
     let startDate = '';
-    // let duration = 1;
+    let duration = 1;
     let durationUnit = 'Hours';
     let message = '';
   
     async function handleSubmit() {
-      const data = { organization, contact, email, phone, bookingType, startDate, duration, message };
+      const data = { organization, contact, email, phone, bookingType, startDate, durationUnit, message };
       // Send to API or email service
       console.log('Form submitted:', data);
     }
@@ -229,8 +229,8 @@
                   required
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-              </div>
-              <div> -->
+              </div> -->
+              <div>
                 <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                 <input
                   id="startDate"
@@ -255,8 +255,8 @@
                     <option>Hours</option>
                     <option>Days</option>
                   </select>
-                </div>
-              </div> -->
+                </div> -->
+              </div>
               <div>
                 <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
                 <textarea
