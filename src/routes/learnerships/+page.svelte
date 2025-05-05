@@ -189,7 +189,7 @@
                 {/each}
             </div>
         </div>
-        <div class="w-full md:w-[36rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('/VT8.webp');"></div>
+        <div class="w-full md:w-[36rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('/45.webp');"></div>
     </div>
 </section>
 
