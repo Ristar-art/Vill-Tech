@@ -138,7 +138,7 @@
                 <h2 class="text-xl font-bold mb-3 text-red-400">{card.title}</h2>
             </div>
             <div class="absolute inset-0 flex flex-col justify-center items-start bg-gradient-to-t from-red-900 to-red-500 text-white p-6 opacity-0 transition-all duration-500 group-hover:opacity-100 overflow-y-auto">
-                <h2 class="text-xl font-bold mb-3 text-red-400">{card.title}</h2>
+                <h2 class="text-xl font-bold mb-3 text-white">{card.title}</h2>
                 <ul class="text-sm leading-relaxed space-y-2">
                     {#each Object.values(card.content) as item}
                         <li class="transform translate-y-4 transition-all duration-300 group-hover:translate-y-0">{item}</li>

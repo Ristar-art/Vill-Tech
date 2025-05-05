@@ -32,7 +32,7 @@
             image:'/10.webp'
         },
         {
-            title: "New Venture Creation",
+            title: "Accredited and Certifiable Qualifications t",
             content: {
                 1: "Accredited and certifiable qualifications that lead to some form of certification",
                 2: "Maximum BEE points gained at low cost due to incentives such as tax rebates(section 12H and ETI)",
@@ -87,21 +87,29 @@
             Village Tech offers end to end training and skills development services to corporates, clients and the community at large. We specialize in the implementation and project management of small to large scale training interventions with a strong focus on facilitation, assessment moderation and training material development.        </p>
     </div>
 </div>
-<section class="bg-[#21409a]  w-full min-h-[50vh] py-16 flex justify-center">
-    <div class="flex flex-col md:flex-row rounded-xl transition-all duration-300 md:max-w-6xl w-full">
+<section class="bg-[#21409a]  w-full min-h-[30vh] py-16 flex justify-center">
+    <div class="flex flex-col md:flex-row rounded-xl transition-all duration-300 md:max-w-6xl w-full gap-4">
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
             <div class="">
                 <div class="flex flex-col">
                     <p class="text-lg text-gray-200">
                         We have partnered with a wide variety of subject matter experts from across many industries to design and develop suitable and quality training interventions that ensure that intended beneficiaries are equipped and empowered to contribute positively to any organisation, the economy and community at large.     
                     </p>
-                    <p class="text-lg text-gray-200 mt-4">
+                   
+                </div>
+            </div>
+        </div>
+        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
+            <div class="">
+                <div class="flex flex-col">
+                   
+                    <p class="text-lg text-gray-200 ">
                         Our inclusive learning approach and project management principles are professionally implemented and seamlessly structured for conducting on-site, off site or virtual distance learning, adhering to all SAQA, QCTO Occupational Qualifications and ETQA guidelines and qualification stipulations.              
                     </p>
                 </div>
             </div>
         </div>
-        <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
+        <!-- <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[36rem]">
             <div class="px-6 pb-2">
                 {#each Methodology as details}
                 <div class="flex text-white flex-row rounded-lg items-center">
@@ -114,7 +122,8 @@
                 </div>
                 {/each}
             </div>
-        </div>    </div>
+        </div>   -->
+      </div>
 </section>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2 md:px-8 max-w-6xl mx-auto py-12">
@@ -126,10 +135,10 @@
         >
             <div class="flex flex-col justify-center items-center h-full bg-blue-900/50 text-white p-6">
                 <!-- {@html card.icon} -->
-                <!-- <h2 class="text-xl font-bold mb-3 text-red-400">{card.title}</h2> -->
+                <h2 class="text-xl font-bold mb-3 text-red-400">{card.title}</h2>
             </div>
             <div class="absolute inset-0 flex flex-col justify-center items-start bg-gradient-to-t from-red-900 to-red-500 text-white p-6 opacity-0 transition-all duration-500 group-hover:opacity-100 overflow-y-auto">
-                <!-- <h2 class="text-xl font-bold mb-3 text-red-400">{card.title}</h2> -->
+                <h2 class="text-xl font-bold mb-3 text-white">{card.title}</h2>
                 <ul class="text-sm leading-relaxed space-y-2">
                     {#each Object.values(card.content) as item}
                         <li class="transform translate-y-4 transition-all duration-300 group-hover:translate-y-0">{item}</li>
