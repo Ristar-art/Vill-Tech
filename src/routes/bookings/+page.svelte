@@ -7,14 +7,14 @@
     let email = '';
     let phone = '';
     let bookingType = 'Training room hire';
-    let attendees = 1;
+    // let attendees = 1;
     let startDate = '';
-    let duration = 1;
+    // let duration = 1;
     let durationUnit = 'Hours';
     let message = '';
   
     async function handleSubmit() {
-      const data = { organization, contact, email, phone, bookingType, attendees, startDate, duration, durationUnit, message };
+      const data = { organization, contact, email, phone, bookingType, startDate, duration, message };
       // Send to API or email service
       console.log('Form submitted:', data);
     }
@@ -219,7 +219,7 @@
                   <option>QCTO Assessment</option>
                 </select>
               </div>
-              <div>
+              <!-- <div>
                 <label for="attendees" class="block text-sm font-medium text-gray-700 mb-1">Attendees</label>
                 <input
                   type="number"
@@ -230,8 +230,8 @@
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
-              <div>
-                <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+              <div> -->
+                <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                 <input
                   id="startDate"
                   type="date"
@@ -240,7 +240,7 @@
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
-              <div>
+              <!-- <div>
                 <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                 <div class="flex space-x-2">
                   <input
@@ -256,7 +256,7 @@
                     <option>Days</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
               <div>
                 <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
                 <textarea
