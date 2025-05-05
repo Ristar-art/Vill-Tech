@@ -32,7 +32,7 @@
             image:'/10.webp'
         },
         {
-            title: "Accredited and Certifiable Qualifications t",
+            title: "Accredited and Certifiable Qualifications",
             content: {
                 1: "Accredited and certifiable qualifications that lead to some form of certification",
                 2: "Maximum BEE points gained at low cost due to incentives such as tax rebates(section 12H and ETI)",
