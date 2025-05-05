@@ -127,7 +127,7 @@
             { title: "Students", value: "1000+" },
             { title: "Courses", value: "22" },
             { title: "Graduates", value: "1000+" },
-            { title: "Success Rate", value: "95%" }
+            { title: "Success Rate", value: "99%" }
           ] as stat, i (stat.title)}
             <div class="text-center min-w-[140px]" in:fly={{ y: 50, duration: 800, delay: 500 + i * 100 }}>
               <h3 class="text-4xl font-bold text-red-500 mb-1">{stat.value}</h3>
