@@ -17,7 +17,7 @@
       <!-- Social Media -->
       <div>
         <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
-        <div class="flex flex-row pb-10">
+        <div class="flex flex-row pb-8">
           <a
             href="https://www.instagram.com/villagetech_za/"
             target="_blank"
