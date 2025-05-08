@@ -30,7 +30,24 @@
                       <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg" class="w-6 h-6" alt="LinkedIn" style="filter: invert(100%)" />
                     </a>
                   </div>
+
               </div>
+              <!-- <button
+              href="/Village Tech ~ Course Prospectus.pdf"
+              class="filter-btn"
+              download
+              on:click={() => {
+                // Handle download action
+                const link = document.createElement('a');
+                link.href = '/Village Tech ~ Course Prospectus.pdf';
+                link.download = 'Village Tech Course Prospectus.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            >
+            Download Prospectus
+            </button> -->
               
             <!-- Quick Links -->
             <div>
@@ -171,4 +188,31 @@
             padding: 12px 0;
         }
     }
+    .filter-btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background: red;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-btn:hover {
+    background: #e5e7eb;
+    transform: scale(1.05);
+  }
+
+  .filter-active {
+    background: #f3f4f6;
+    color: #ffffff;
+    box-shadow: 0px 6px 12px rgba(7, 40, 64, 0.5); /* Match bg color */
+  }
+
+  .filter-active:hover {
+    transform: scale(1.1);
+  }
 </style>

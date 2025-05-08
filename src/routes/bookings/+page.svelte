@@ -1,39 +1,88 @@
 <script>
-    import { fade, fly } from 'svelte/transition';
-    import { onMount } from 'svelte';
-  
-    let organization = '';
-    let contact = '';
-    let email = '';
-    let phone = '';
-    let bookingType = 'Training room hire';
-    let attendees = 1;
-    let startDate = '';
-    let duration = 1;
-    let durationUnit = 'Hours';
-    let message = '';
-  
-    async function handleSubmit() {
-      const data = { organization, contact, email, phone, bookingType, startDate, durationUnit, message };
-      // Send to API or email service
-      console.log('Form submitted:', data);
+  import { fade, fly } from 'svelte/transition';
+  import { onMount } from 'svelte';
+
+  let organization = '';
+  let contact = '';
+  let email = '';
+  let phone = '';
+  let bookingType = 'Training room hire';
+  let startDate = '';
+  let message = '';
+
+  let isSubmitting = false;
+  let submitStatus = null;
+  let visible = false;
+
+  onMount(() => {
+    visible = true;
+    // Initialize OpenStreetMap (if needed in the future)
+  });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    isSubmitting = true;
+    submitStatus = null; // Reset previous status
+
+    const formData = {
+      organization: organization,
+      contact: contact,
+      email: email,
+      phone: phone,
+      bookingType: bookingType,
+      startDate: startDate,
+      message: message
+    };
+
+    try {
+      const response = await fetch('https://formspree.io/f/xvgarlqo', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        submitStatus = 'success';
+        // Reset form fields
+        organization = '';
+        contact = '';
+        email = '';
+        phone = '';
+        bookingType = 'Training room hire';
+        startDate = '';
+        message = '';
+        setTimeout(() => {
+          submitStatus = null;
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        console.error('Form submission failed:', errorData);
+        submitStatus = 'error';
+        setTimeout(() => {
+          submitStatus = null;
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('There was an error submitting the form:', error);
+      submitStatus = 'error';
+      setTimeout(() => {
+        submitStatus = null;
+      }, 3000);
+    } finally {
+      isSubmitting = false;
     }
-    let isSubmitting = false;
-    let submitStatus = null;
-    let visible = false;
-  
-    onMount(() => {
-      visible = true;
-      // Initialize OpenStreetMap (if needed in the future)
-    });
-  </script>
-  
-  <svelte:head>
-    <title>Bookings - Village Tech</title>
-    <meta name="description" content="Book your Pearson VUE exams, training rooms, or QCTO assessments with Village Tech." />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  </svelte:head>
+  }
+</script>
+
+<svelte:head>
+  <title>Bookings - Village Tech</title>
+  <meta name="description" content="Book your Pearson VUE exams, training rooms, or QCTO assessments with Village Tech." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</svelte:head>
+
   
   <div class="min-h-screen py-16 bg-[#21409A]">
     {#if visible}
@@ -136,7 +185,6 @@
       <!-- Contact Section -->
       <section class="min-h-screen p-14 flex items-center justify-center">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Contact Information -->
           <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
             <div class="bg-white/10 rounded-2xl p-6 text-white">
               <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
@@ -168,7 +216,6 @@
             </div>
           </div>
   
-          <!-- Contact Form -->
           <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-2xl p-6 shadow-xl">
             <form on:submit|preventDefault={handleSubmit} class="space-y-4">
               <div>
@@ -214,22 +261,11 @@
               <div>
                 <label for="bookingType" class="block text-sm font-medium text-gray-700 mb-1">Booking Type</label>
                 <select bind:value={bookingType} class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                  <option >Training room hire</option>
-                  <option>Pearson Vue testing</option>
-                  <option>QCTO Assessment</option>
+                  <option value="Training room hire">Training room hire</option>
+                  <option value="Pearson Vue testing">Pearson Vue testing</option>
+                  <option value="QCTO Assessment">QCTO Assessment</option>
                 </select>
               </div>
-              <!-- <div>
-                <label for="attendees" class="block text-sm font-medium text-gray-700 mb-1">Attendees</label>
-                <input
-                  type="number"
-                  id="attendees"
-                  bind:value={attendees}
-                  min="1"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div> -->
               <div>
                 <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                 <input
@@ -239,23 +275,6 @@
                   required
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-              </div>
-              <div>
-                <!-- <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label> -->
-                <div class="flex space-x-2">
-                  <!-- <input
-                    id="duration"
-                    type="number"
-                    bind:value={duration}
-                    min="1"
-                    required
-                    class="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  /> -->
-                  <select bind:value={durationUnit} class="w-1/2 px-4 py-2 border border-gray-300 rounded-lg">
-                    <option>Hours</option>
-                    <option>Days</option>
-                  </select>
-                </div>
               </div>
               <div>
                 <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
@@ -274,10 +293,15 @@
               >
                 {#if isSubmitting} Sending... {:else} Send Message {/if}
               </button>
-              {#if submitStatus === 'success'}
-                <div class="text-green-600 text-center" in:fade>
-                  Message sent successfully!
+              {#if submitStatus === 'error'}
+                <div class="text-red-600 text-center" in:fade>
+                  There was an error sending your message. Please try again.
                 </div>
+              {/if}
+              {#if submitStatus === 'success'}
+              <div class="text-green-600 text-center" in:fade>
+                Booking request sent successfully! We will be in touch shortly.
+              </div>
               {/if}
             </form>
           </div>

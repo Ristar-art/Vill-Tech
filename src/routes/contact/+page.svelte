@@ -25,26 +25,46 @@
   const handleSubmit = async (e) => {
     e.preventDefault();
     isSubmitting = true;
+    submitStatus = null; // Reset previous status
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('https://formspree.io/f/xwpooljn', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-    submitStatus = 'success';
-    isSubmitting = false;
-
-    // Reset form
-    formData = {
-      name: '',
-      phone: '',
-      email: '',
-      subject: '',
-      message: ''
-    };
-
-    // Clear success message after 3 seconds
-    setTimeout(() => {
-      submitStatus = null;
-    }, 3000);
+      if (response.ok) {
+        submitStatus = 'success';
+        formData = {
+          name: '',
+          phone: '',
+          email: '',
+          subject: '',
+          message: ''
+        };
+        setTimeout(() => {
+          submitStatus = null;
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        console.error('Form submission failed:', errorData);
+        submitStatus = 'error';
+        setTimeout(() => {
+          submitStatus = null;
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('There was an error submitting the form:', error);
+      submitStatus = 'error';
+      setTimeout(() => {
+        submitStatus = null;
+      }, 3000);
+    } finally {
+      isSubmitting = false;
+    }
   };
 </script>
 
@@ -57,7 +77,6 @@
 
 <div class="min-h-screen py-16 bg-[#21409A]">
   {#if visible}
-    <!-- Hero Section -->
     <div class="relative h-[60vh] flex flex-col items-center justify-center pt-20 text-center text-white">
       <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/10.webp');"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-black-50 opacity-90"></div>
@@ -70,10 +89,8 @@
   </div>
     
 
-    <!-- Contact Section -->
     <section class="min-h-screen py-16 bg-[#21409A] flex items-center justify-center ">
       <div class="grid grid-cols-1  md:grid-cols-2 gap-8">
-    <!-- Contact Information -->
     <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
       <div class="bg-white/10 rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
@@ -104,8 +121,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Contact Form -->
     <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-2xl p-6 shadow-xl">
       <form on:submit={handleSubmit} class="space-y-4">
         <div>
@@ -171,14 +186,17 @@
             Message sent successfully!
           </div>
         {/if}
+        {#if submitStatus === 'error'}
+          <div class="text-red-600 text-center" in:fade>
+            Failed to send message. Please try again later.
+          </div>
+        {/if}
       </form>
     </div>
   </div>
 </section>      
      
 
-      <!-- Map Section -->
-    
       <section class="py-12 ">
         <div class="container mx-auto px-4">
           <h2 class="text-3xl font-bold text-white text-center py-8">Find Us on the Map</h2>

@@ -13,7 +13,7 @@
       <div class="carousel-track" class:reverse={direction === 'right'} style="--speed: {speed}s">
         <!-- First set of items -->
         <div class="carousel-items">
-            <a href = "">
+            <a href = "https://www.sace.org.za/">
                 <img class="h-10" src="/sace_26950_Sace.webp" loading="lazy" alt="Company 1" />
 
             </a>
@@ -21,7 +21,7 @@
                 <img class="h-12" src="/MICT-SETA-logo.webp" loading="lazy" alt="Company 2" />
 
             </a>
-            <a href = "">
+            <a href = "https://www.netacad.com/">
                 <img class="h-10" src="/logoNetAcad-TwoColor.webp" loading="lazy" alt="Company 4" />
 
             </a>

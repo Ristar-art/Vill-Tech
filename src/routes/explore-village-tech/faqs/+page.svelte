@@ -36,22 +36,7 @@
       <!-- FAQ Section -->
       <section class="p-14 text-white">
         <div class="max-w-5xl mx-auto space-y-6">
-          <button
-            href="/Village Tech ~ Course Prospectus.pdf"
-            class="filter-btn"
-            download
-            on:click={() => {
-              // Handle download action
-              const link = document.createElement('a');
-              link.href = '/Village Tech ~ Course Prospectus.pdf';
-              link.download = 'Village Tech Course Prospectus.pdf';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            }}
-          >
-          Download Prospectus
-          </button>
+         
           <!-- General Questions -->
           <div class="bg-white/10 rounded-2xl p-6">
             <button
