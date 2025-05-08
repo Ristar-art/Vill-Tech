@@ -7,7 +7,17 @@ const config = {
 		adapter: adapter({
 			// Specify the output directory as 'public'
 			outDir: 'public'
-		}),
+		})
+		// adapter: adapter({
+		// 	// default options are shown. On some platforms
+		// 	// these options are set automatically — see below
+		// 	pages: 'build',
+		// 	assets: 'build',
+		// 	fallback: 'index.html',
+		// 	precompress: false,
+		// 	strict: true
+		// })
+		,
 		// Add the prerender configuration for handleHttpError
 		prerender: {
 			handleHttpError: ({ status, path, referrer, message }) => {
