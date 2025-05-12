@@ -3,7 +3,7 @@
 
     let cards = [
         {
-            title: "Technology",
+            title: "Integrated Skills Development & Accreditation Support Services",
             content: {
                 1: "Skills development facilitation (blended learning)",
                 2: "Assessment and moderation services",
@@ -12,13 +12,14 @@
                 5: "WSP completion and submissions",
 
             },
+
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>`,
             image:'/VT5.webp'
         },
         {
-            title: "New Venture Creation",
+            title: "Strategic Skills Development Solutions & B-BBEE Compliance Services",
             content: {
                 1: "Seta grant applications",
                 2: "Learnerships and skills programmes implementation and project management",
@@ -32,7 +33,7 @@
             image:'/10.webp'
         },
         {
-            title: "Accredited and Certifiable Qualifications",
+            title: "Accredited Qualifications with B-BBEE, Tax Incentive, & SETA Funding Benefits",
             content: {
                 1: "Accredited and certifiable qualifications that lead to some form of certification",
                 2: "Maximum BEE points gained at low cost due to incentives such as tax rebates(section 12H and ETI)",
