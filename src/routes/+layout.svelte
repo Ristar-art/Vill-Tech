@@ -16,50 +16,11 @@
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- Social Media -->
       <div>
-        <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
-        <div class="flex flex-row pb-8">
-          <a
-            href="https://www.instagram.com/villagetech_za/"
-            target="_blank"
-            class="text-black hover:text-vtRed m-2"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg"
-              class="w-6 h-6"
-              alt="Instagram"
-              style="filter: invert(100%)"
-            />
-          </a>
-
-          <a
-            href="https://www.facebook.com/villagetech.za/"
-            target="_blank"
-            class="text-black hover:text-vtRed m-2"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg"
-              class="w-6 h-6"
-              alt="Facebook"
-              style="filter: invert(100%)"
-            />
-          </a>
-
-          <a
-            href="https://www.linkedin.com/company/village-tech-za/"
-            target="_blank"
-            class="text-white hover:text-vtRed m-2"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg"
-              class="w-6 h-6"
-              alt="LinkedIn"
-              style="filter: invert(100%)"
-            />
-          </a>
-        </div>
+        <!-- <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3> -->
+       
         <button
           href="/Village Tech ~ Course Prospectus.pdf"
-          class="filter-btn"
+          class="filter-btn mt-2"
           download
           on:click={() => {
             // Handle download action
@@ -164,7 +125,66 @@
                     </div>
                 </div>
             </div> -->
-    </div>
+            <div>
+                <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
+                <div class="flex flex-row pb-8">
+                  <a
+                    href="https://www.instagram.com/villagetech_za/"
+                    target="_blank"
+                    class="text-black hover:text-vtRed m-2"
+                  >
+                    <img
+                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg"
+                      class="w-6 h-6"
+                      alt="Instagram"
+                      style="filter: invert(100%)"
+                    />
+                  </a>
+        
+                  <a
+                    href="https://www.facebook.com/villagetech.za/"
+                    target="_blank"
+                    class="text-black hover:text-vtRed m-2"
+                  >
+                    <img
+                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg"
+                      class="w-6 h-6"
+                      alt="Facebook"
+                      style="filter: invert(100%)"
+                    />
+                  </a>
+        
+                  <a
+                    href="https://www.linkedin.com/company/village-tech-za/"
+                    target="_blank"
+                    class="text-white hover:text-vtRed m-2"
+                  >
+                    <img
+                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg"
+                      class="w-6 h-6"
+                      alt="LinkedIn"
+                      style="filter: invert(100%)"
+                    />
+                  </a>
+                </div>
+                <!-- <button
+                  href="/Village Tech ~ Course Prospectus.pdf"
+                  class="filter-btn"
+                  download
+                  on:click={() => {
+                    // Handle download action
+                    const link = document.createElement("a");
+                    link.href = "/Village Tech ~ Course Prospectus.pdf";
+                    link.download = "Village Tech Course Prospectus.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                >
+                  Download Prospectus
+                </button> -->
+              </div>
+        </div>
 
     <div class="mt-8 text-center">
       <p>
