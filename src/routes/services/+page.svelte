@@ -16,7 +16,7 @@
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>`,
-            image:'/VT5.webp'
+            image:'/villtech1.webp'
         },
         {
             title: "Strategic Skills Development Solutions & B-BBEE Compliance Services",
@@ -30,7 +30,7 @@
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>` ,
-            image:'/Tech.webp'
+            image:'/villtech2.webp'
         },
         {
             title: "Accredited Qualifications with B-BBEE, Tax Incentive, & SETA Funding Benefits",
@@ -43,7 +43,7 @@
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>` ,
-            image:'/VT8.webp'
+            image:'/villtech3.webp'
         },
     ];
 
