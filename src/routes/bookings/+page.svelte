@@ -189,7 +189,7 @@
             <div class="bg-white/10 rounded-2xl p-6 text-white">
               <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
               <div class="space-y-4">
-                <div class="                                         items-center space-x-4">
+                <div class="flex items-center space-x-4">
                   <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -197,8 +197,8 @@
                     </svg>
                   </div>
                   <div>
-                    <p class="font-medium">Email Us</p>
-                    <p class="text-white/80">Reach out at <a href="mailto:info@villagetech.co.za" class="underline">info@villagetech.co.za</a></p>
+                    <p class="font-medium">Email</p>
+                    <p class="text-white/80">info@villagetech.co.za</p>
                   </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -208,8 +208,8 @@
                     </svg>
                   </div>
                   <div>
-                    <p class="font-medium">Call Us</p>
-                    <p class="text-white/80">Contact us at <strong>087 135 1313</strong> for immediate assistance.</p>
+                    <p class="font-medium">Location</p>
+                    <p class="text-white/80">85 Main Street Groundfloor, Marshalltown, Johannesburg, 2107</p>
                   </div>
                 </div>
               </div>
