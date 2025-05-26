@@ -151,7 +151,7 @@
 
 <section class="bg-[#21409a] min-h-[50vh] py-16 flex justify-center w-full">
     <div class="flex flex-col md:flex-row justify-between rounded-xl transition-all duration-300 md:max-w-6xl">
-        <div class="w-full md:w-[34rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('VT6.webp');"></div>
+        <div class="w-full md:w-[34rem] flex flex-end items-end transition-all duration-300 rounded-2xl bg-cover bg-center" style="background-image: url('VT ~ Site Benefits_Img42.webp');"></div>
         <div class="rounded-tl-xl rounded-bl-xl w-full md:w-[34rem]">
             <h2 class="text-start px-6 text-4xl md:text-4xl font-bold text-white mb-6">Benefits of Village Tech’s Learnerships:</h2>
             <div class="space-y-8 px-6">
