@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
 
@@ -14,7 +14,54 @@
   let isSubmitting = false;
   let submitStatus = null;
   let map;
+  // let formData = {
+  //   name: '',
+  //   email: '',
+  //   message: ''
+  // };
+  
+  let submitMessage = '';
+  let submitSuccess = false;
 
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
+    
+    if (isSubmitting) return;
+    
+    isSubmitting = true;
+    submitMessage = '';
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        submitSuccess = true;
+        submitMessage = result.message;
+        // Reset form
+        formData = { name: '', email: '', message: '' };
+      } else {
+        submitSuccess = false;
+        submitMessage = result.message || 'An error occurred. Please try again.';
+        if (result.errors) {
+          submitMessage += ' ' + result.errors.join(' ');
+        }
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      submitSuccess = false;
+      submitMessage = 'Network error. Please check your connection and try again.';
+    } finally {
+      isSubmitting = false;
+    }
+  }
   onMount(() => {
     visible = true;
 
@@ -22,50 +69,7 @@
    
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    isSubmitting = true;
-    submitStatus = null; // Reset previous status
 
-    try {
-      const response = await fetch('https://formspree.io/f/xwpooljn', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        submitStatus = 'success';
-        formData = {
-          name: '',
-          phone: '',
-          email: '',
-          subject: '',
-          message: ''
-        };
-        setTimeout(() => {
-          submitStatus = null;
-        }, 3000);
-      } else {
-        const errorData = await response.json();
-        console.error('Form submission failed:', errorData);
-        submitStatus = 'error';
-        setTimeout(() => {
-          submitStatus = null;
-        }, 3000);
-      }
-    } catch (error) {
-      console.error('There was an error submitting the form:', error);
-      submitStatus = 'error';
-      setTimeout(() => {
-        submitStatus = null;
-      }, 3000);
-    } finally {
-      isSubmitting = false;
-    }
-  };
 </script>
 
 <svelte:head>

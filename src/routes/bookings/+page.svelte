@@ -24,7 +24,7 @@
     isSubmitting = true;
     submitStatus = null; // Reset previous status
 
-    const formData = {
+    let formData = {
       organization: organization,
       contact: contact,
       email: email,
@@ -35,41 +35,29 @@
     };
 
     try {
-      const response = await fetch('https://formspree.io/f/xvgarlqo', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        body: JSON.stringify(formData),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
       });
-
-      if (response.ok) {
-        submitStatus = 'success';
-        // Reset form fields
-        organization = '';
-        contact = '';
-        email = '';
-        phone = '';
-        bookingType = 'Training room hire';
-        startDate = '';
-        message = '';
-        setTimeout(() => {
-          submitStatus = null;
-        }, 3000);
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        submitMessage = result.message;
+        // Reset form
+        formData = { name: '', email: '', message: '',phone: '', bookingType: 'Training room hire', startDate: '' };
       } else {
-        const errorData = await response.json();
-        console.error('Form submission failed:', errorData);
-        submitStatus = 'error';
-        setTimeout(() => {
-          submitStatus = null;
-        }, 3000);
+        submitMessage = result.message || 'An error occurred. Please try again.';
+        if (result.errors) {
+          submitMessage += ' ' + result.errors.join(' ');
+        }
       }
     } catch (error) {
-      console.error('There was an error submitting the form:', error);
-      submitStatus = 'error';
-      setTimeout(() => {
-        submitStatus = null;
-      }, 3000);
+      console.error('Form submission error:', error);
+      submitMessage = 'Network error. Please check your connection and try again.';
     } finally {
       isSubmitting = false;
     }
@@ -101,121 +89,6 @@
       <!-- Booking Information Section -->
       <section class="p-14 text-white">
         <div class="max-w-5xl mx-auto space-y-12">
-          <!-- Pearson VUE Exams -->
-          <div class="bg-white/10 rounded-2xl p-6">
-            <h2 class="text-2xl font-bold mb-4">Pearson VUE Exam Booking Services</h2>
-            <p class="text-white/80 mb-4">
-              Village Tech is an authorized Pearson VUE test center, providing a secure and professional environment for globally recognized certification exams in IT, business, healthcare, and more.
-            </p>
-            <h3 class="text-lg font-semibold mb-2">Why Choose Us?</h3>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>Accredited Test Centre – Officially authorized by Pearson VUE.</li>
-              <li>Secure & Comfortable Environment – Quiet, distraction-free spaces.</li>
-              <li>Professional Proctoring – Trained staff ensure compliance.</li>
-              <li>Flexible Scheduling – Book at your convenience.</li>
-              <li>Technical Support – On-site assistance for test-day needs.</li>
-            </ul>
-            <h3 class="text-lg font-semibold mt-4 mb-2">How to Book</h3>
-            <ol class="list-decimal pl-5 space-y-2">
-              <li>Visit <a href="http://www.pearsonvue.com" class="underline">www.pearsonvue.com</a> and log in.</li>
-              <li>Select your exam and choose Village Technologies as your test centre.</li>
-              <li>Pick a date and time, then confirm with payment.</li>
-              <li>Arrive with valid ID on exam day.</li>
-            </ol>
-            <p class="mt-4">Exams offered include CompTIA (A+, Network+, Security+), Cisco (CCNA, CCNP), Microsoft (Azure, M365), AWS, VMware, and more. Call <strong>087 135 1313</strong> or email <a href="mailto:info@villagetech.co.za" class="underline">info@villagetech.co.za</a> for assistance.</p>
-          </div>
-  
-          <!-- Training Room Bookings -->
-          <div class="bg-white/10 rounded-2xl p-6">
-            <h2 class="text-2xl font-bold mb-4">Training Room Bookings</h2>
-            <p class="text-white/80 mb-4">
-              Host your next workshop, seminar, or corporate training in our modern, fully equipped training rooms designed for a professional and comfortable learning experience.
-            </p>
-            <h3 class="text-lg font-semibold mb-2">Room Features</h3>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>High-Speed Internet & Wi-Fi – Seamless online connectivity.</li>
-              <li>Audio-Visual Equipment – Projectors and sound systems included.</li>
-              <li>Comfortable Seating & Workstations – Ergonomic setup.</li>
-              <li>IT & Technical Support – On-site help available.</li>
-              <li>Breakout Areas & Refreshments – Relax during breaks.</li>
-            </ul>
-            <h3 class="text-lg font-semibold mt-4 mb-2">Booking Options</h3>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>Half-day or full-day rentals</li>
-              <li>Hourly bookings for short sessions</li>
-              <li>Custom packages for multi-day training</li>
-            </ul>
-            <p class="mt-4">Perfect for corporate training, workshops, ICT skills programs, and educator development. Contact us at <strong>087 135 1313</strong> to check availability and pricing.</p>
-          </div>
-  
-          <!-- QCTO Exam Bookings -->
-          <div class="bg-white/10 rounded-2xl p-6">
-            <h2 class="text-2xl font-bold mb-4">QCTO Exam Booking Services</h2>
-            <p class="text-white/80 mb-4">
-              As an accredited QCTO assessment centre, Village Tech offers a compliant and structured environment for your External Integrated Summative Assessment (EISA) to earn occupational qualifications.
-            </p>
-            <h3 class="text-lg font-semibold mb-2">Qualifications We Assess</h3>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>Computer Technician (NQF Level 5, SAQA ID: 101408)</li>
-              <li>Software Developer (NQF Level 5, SAQA ID: 118707)</li>
-              <li>Data Science Practitioner (NQF Level 5, SAQA ID: 118708)</li>
-              <li>Cybersecurity Analyst (NQF Level 5, SAQA ID: 118986)</li>
-              <li>Software Tester (NQF Level 5, SAQA ID: 119438)</li>
-            </ul>
-            <h3 class="text-lg font-semibold mt-4 mb-2">Why Choose Us?</h3>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>Accredited QCTO Centre – Meets national standards.</li>
-              <li>Secure Testing Environment – Optimized for focus.</li>
-              <li>Qualified Assessors – Fair and guideline-compliant.</li>
-              <li>Flexible Scheduling – Fits your timeline.</li>
-              <li>Pre-Exam Support – Registration and prep assistance.</li>
-            </ul>
-            <h3 class="text-lg font-semibold mt-4 mb-2">How to Book</h3>
-            <ol class="list-decimal pl-5 space-y-2">
-              <li>Confirm eligibility with your training provider.</li>
-              <li>Register via your provider for assessment scheduling.</li>
-              <li>Select Village Tech as your centre and preferred date.</li>
-              <li>Receive your exam confirmation and arrive prepared.</li>
-            </ol>
-            <p class="mt-4">For inquiries, reach out at <strong>087 135 1313</strong> or <a href="mailto:info@villagetech.co.za" class="underline">info@villagetech.co.za</a>.</p>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Contact Section -->
-      <section class="min-h-screen p-14 flex items-center justify-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div in:fly={{ x: -50, duration: 800 }} class="space-y-8">
-            <div class="bg-white/10 rounded-2xl p-6 text-white">
-              <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
-              <div class="space-y-4">
-                <div class="flex items-center space-x-4">
-                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="font-medium">Email</p>
-                    <p class="text-white/80">info@villagetech.co.za</p>
-                  </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="font-medium">Location</p>
-                    <p class="text-white/80">85 Main Street Groundfloor, Marshalltown, Johannesburg, 2107</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
           <div in:fly={{ x: 50, duration: 800 }} class="bg-white rounded-2xl p-6 shadow-xl">
             <form on:submit|preventDefault={handleSubmit} class="space-y-4">
               <div>
@@ -305,6 +178,122 @@
               {/if}
             </form>
           </div>
+          <!-- Pearson VUE Exams -->
+          <div class="bg-white/10 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-4">Pearson VUE Exam Booking Services</h2>
+            <p class="text-white/80 mb-4">
+              Village Tech is an authorized Pearson VUE test center, providing a secure and professional environment for globally recognized certification exams in IT, business, healthcare, and more.
+            </p>
+            <h3 class="text-lg font-semibold mb-2">Why Choose Us?</h3>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>Accredited Test Centre – Officially authorized by Pearson VUE.</li>
+              <li>Secure & Comfortable Environment – Quiet, distraction-free spaces.</li>
+              <li>Professional Proctoring – Trained staff ensure compliance.</li>
+              <li>Flexible Scheduling – Book at your convenience.</li>
+              <li>Technical Support – On-site assistance for test-day needs.</li>
+            </ul>
+            <h3 class="text-lg font-semibold mt-4 mb-2">How to Book</h3>
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>Visit <a href="http://www.pearsonvue.com" class="underline">www.pearsonvue.com</a> and log in.</li>
+              <li>Select your exam and choose Village Technologies as your test centre.</li>
+              <li>Pick a date and time, then confirm with payment.</li>
+              <li>Arrive with valid ID on exam day.</li>
+            </ol>
+            <p class="mt-4">Exams offered include CompTIA (A+, Network+, Security+), Cisco (CCNA, CCNP), Microsoft (Azure, M365), AWS, VMware, and more. Call <strong>087 135 1313</strong> or email <a href="mailto:info@villagetech.co.za" class="underline">info@villagetech.co.za</a> for assistance.</p>
+          </div>
+         
+          <!-- Training Room Bookings -->
+          <div class="bg-white/10 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-4">Training Room Bookings</h2>
+            <p class="text-white/80 mb-4">
+              Host your next workshop, seminar, or corporate training in our modern, fully equipped training rooms designed for a professional and comfortable learning experience.
+            </p>
+            <h3 class="text-lg font-semibold mb-2">Room Features</h3>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>High-Speed Internet & Wi-Fi – Seamless online connectivity.</li>
+              <li>Audio-Visual Equipment – Projectors and sound systems included.</li>
+              <li>Comfortable Seating & Workstations – Ergonomic setup.</li>
+              <li>IT & Technical Support – On-site help available.</li>
+              <li>Breakout Areas & Refreshments – Relax during breaks.</li>
+            </ul>
+            <h3 class="text-lg font-semibold mt-4 mb-2">Booking Options</h3>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>Half-day or full-day rentals</li>
+              <li>Hourly bookings for short sessions</li>
+              <li>Custom packages for multi-day training</li>
+            </ul>
+            <p class="mt-4">Perfect for corporate training, workshops, ICT skills programs, and educator development. Contact us at <strong>087 135 1313</strong> to check availability and pricing.</p>
+          </div>
+  
+          <!-- QCTO Exam Bookings -->
+          <div class="bg-white/10 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-4">QCTO Exam Booking Services</h2>
+            <p class="text-white/80 mb-4">
+              As an accredited QCTO assessment centre, Village Tech offers a compliant and structured environment for your External Integrated Summative Assessment (EISA) to earn occupational qualifications.
+            </p>
+            <h3 class="text-lg font-semibold mb-2">Qualifications We Assess</h3>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>Computer Technician (NQF Level 5, SAQA ID: 101408)</li>
+              <li>Software Developer (NQF Level 5, SAQA ID: 118707)</li>
+              <li>Data Science Practitioner (NQF Level 5, SAQA ID: 118708)</li>
+              <li>Cybersecurity Analyst (NQF Level 5, SAQA ID: 118986)</li>
+              <li>Software Tester (NQF Level 5, SAQA ID: 119438)</li>
+            </ul>
+            <h3 class="text-lg font-semibold mt-4 mb-2">Why Choose Us?</h3>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>Accredited QCTO Centre – Meets national standards.</li>
+              <li>Secure Testing Environment – Optimized for focus.</li>
+              <li>Qualified Assessors – Fair and guideline-compliant.</li>
+              <li>Flexible Scheduling – Fits your timeline.</li>
+              <li>Pre-Exam Support – Registration and prep assistance.</li>
+            </ul>
+            <h3 class="text-lg font-semibold mt-4 mb-2">How to Book</h3>
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>Confirm eligibility with your training provider.</li>
+              <li>Register via your provider for assessment scheduling.</li>
+              <li>Select Village Tech as your centre and preferred date.</li>
+              <li>Receive your exam confirmation and arrive prepared.</li>
+            </ol>
+            <p class="mt-4">For inquiries, reach out at <strong>087 135 1313</strong> or <a href="mailto:info@villagetech.co.za" class="underline">info@villagetech.co.za</a>.</p>
+          </div>
+        </div>
+      </section>
+  
+      <!-- Contact Section -->
+      <section class="min-h-screen  flex items-center justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div in:fly={{ x: -50, duration: 800 }} class="">
+            <div class="bg-white/10 rounded-2xl p-6 text-white">
+              <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium">Email</p>
+                    <p class="text-white/80">info@villagetech.co.za</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium">Location</p>
+                    <p class="text-white/80">85 Main Street Groundfloor, Marshalltown, Johannesburg, 2107</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+         
         </div>
       </section>
     {/if}
