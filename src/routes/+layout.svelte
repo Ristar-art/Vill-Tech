@@ -2,6 +2,7 @@
   import Header from "./Header.svelte";
   import "../app.css";
   import Carousel from "./Carousel.svelte";
+  import Chatbot from "./Chatbot.svelte"; // Import the new chatbot component
 </script>
 
 <div class="app">
@@ -11,6 +12,9 @@
     <slot />
   </main>
   <Carousel speed={20} direction="left" />
+
+  <!-- Add the chatbot component here -->
+  <Chatbot />
 
   <footer class="bg-[#21409A] text-white p-8">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -51,7 +55,7 @@
           </li>
           <li>
             <a href="/explore-village-tech/faqs" class="hover:text-vtRed"
-              >FAQ’s</a
+              >FAQ's</a
             >
           </li>
           <li>
@@ -78,113 +82,51 @@
         </p>
       </div>
 
-      <!-- Enabling Partners -->
-      <!-- <div>
-                <h3 class="text-xl font-bold text-vtRed mb-4">
-                    Our Enabling Partners
-                </h3>
-                <div class="flex flex-wrap gap-4">
-                    <div
-                        class="flex flex-col items-center justify-start space-x-4 mt-4"
-                    >
-                        <a href="https://seta.org" alt="seta"
-                            ><img
-                                src="/MICT-SETA-logo.webp"
-                                alt="SETA"
-                                class=" h-5"
-                            /></a
-                        >
-                        <p>seta</p>
-                    </div>
-                    <div
-                        class="flex flex-col items-center justify-start space-x-4 mt-4"
-                    >
-                        <a href="https://comptia.org" alt="comptia"
-                            >
-                            <img
-                                src="/comptia-logo-large_png.webp"
-                                alt="CompTIA"
-                                class=" h-5"
-                            />
-                            </a
-                        >
-                        <p>CompTIA</p>
-                    </div>
+      <!-- Social Media Links -->
+      <div>
+        <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
+        <div class="flex flex-row pb-8">
+          <a
+            href="https://www.instagram.com/villagetech_za/"
+            target="_blank"
+            class="text-black hover:text-vtRed m-2"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg"
+              class="w-6 h-6"
+              alt="Instagram"
+              style="filter: invert(100%)"
+            />
+          </a>
 
-                    <div
-                        class="flex flex-col items-center justify-start space-x-4 mt-4"
-                    >
-                        <a href="https://qcto.org.za" alt="qcto"
-                            ><img
-                                src="/QCTO-logo2.webp"
-                                alt="QCTO"
-                                class=" h-5"
-                            /></a
-                        >
-                        <p>QCTO</p>
-                    </div>
-                </div>
-            </div> -->
-            <div>
-                <h3 class="text-xl font-bold text-vtRed mx-2">Follow Us</h3>
-                <div class="flex flex-row pb-8">
-                  <a
-                    href="https://www.instagram.com/villagetech_za/"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <img
-                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/instagram.svg"
-                      class="w-6 h-6"
-                      alt="Instagram"
-                      style="filter: invert(100%)"
-                    />
-                  </a>
-        
-                  <a
-                    href="https://www.facebook.com/villagetech.za/"
-                    target="_blank"
-                    class="text-black hover:text-vtRed m-2"
-                  >
-                    <img
-                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg"
-                      class="w-6 h-6"
-                      alt="Facebook"
-                      style="filter: invert(100%)"
-                    />
-                  </a>
-        
-                  <a
-                    href="https://www.linkedin.com/company/village-tech-za/"
-                    target="_blank"
-                    class="text-white hover:text-vtRed m-2"
-                  >
-                    <img
-                      src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg"
-                      class="w-6 h-6"
-                      alt="LinkedIn"
-                      style="filter: invert(100%)"
-                    />
-                  </a>
-                </div>
-                <!-- <button
-                  href="/Village Tech ~ Course Prospectus.pdf"
-                  class="filter-btn"
-                  download
-                  on:click={() => {
-                    // Handle download action
-                    const link = document.createElement("a");
-                    link.href = "/Village Tech ~ Course Prospectus.pdf";
-                    link.download = "Village Tech Course Prospectus.pdf";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
-                >
-                  Download Prospectus
-                </button> -->
-              </div>
+          <a
+            href="https://www.facebook.com/villagetech.za/"
+            target="_blank"
+            class="text-black hover:text-vtRed m-2"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/facebook.svg"
+              class="w-6 h-6"
+              alt="Facebook"
+              style="filter: invert(100%)"
+            />
+          </a>
+
+          <a
+            href="https://www.linkedin.com/company/village-tech-za/"
+            target="_blank"
+            class="text-white hover:text-vtRed m-2"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/linkedin.svg"
+              class="w-6 h-6"
+              alt="LinkedIn"
+              style="filter: invert(100%)"
+            />
+          </a>
         </div>
+      </div>
+    </div>
 
     <div class="mt-8 text-center">
       <p>
@@ -257,7 +199,7 @@
   .filter-active {
     background: #f3f4f6;
     color: #ffffff;
-    box-shadow: 0px 6px 12px rgba(7, 40, 64, 0.5); /* Match bg color */
+    box-shadow: 0px 6px 12px rgba(7, 40, 64, 0.5);
   }
 
   .filter-active:hover {
