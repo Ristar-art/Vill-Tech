@@ -132,7 +132,7 @@
         
         courses: [
           "Village Tech offers 22+ comprehensive ICT courses! We specialize in skills training, learnership management, and competency development. Our programs are SAQA, QCTO, and MICT-SETA accredited. Would you like to know about specific courses or our delivery methods?",
-          "We have an amazing range of ICT training programs designed for both individuals and corporations! With on-site, virtual, and off-site delivery options, we make learning flexible. For detailed course information, I'd recommend visiting villagetech.co.za or calling 087 135 1313.",
+          "We have an amazing range of ICT training programs designed for both individuals and corporations! With on-site, virtual, and off-site delivery options, we make learning flexible. For detailed course information, I'd recommend visiting villagetech.co.za/courses or calling 087 135 1313.",
           "Our 22+ courses cover everything from basic ICT skills to advanced competency development. We're proud to be accredited by SAQA, QCTO, and MICT-SETA, ensuring top-quality education that employers recognize!"
         ],
         
@@ -538,7 +538,7 @@
 .chat-toggle-button {
     width: 50px;
     height: 50px;
-    background: #21409A;
+    background: #ef4444;
     color: white;
     border: none;
     border-radius: 50%;
@@ -577,6 +577,7 @@
 
 .chat-toggle-button.open::before {
     display: none;
+    
 }
 
 @keyframes pulse {
