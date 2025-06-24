@@ -70,6 +70,8 @@ if (configErrors.length > 0) {
 console.log('📧 SMTPS Email Configuration:');
 console.log(`   EMAIL_USER: ${EMAIL_USER}`);
 console.log(`   EMAIL_PASS: ${EMAIL_PASS ? `***${EMAIL_PASS === '/* secret */' ? 'PLACEHOLDER-DETECTED' : 'set'}*** (${EMAIL_PASS.length} chars)` : 'NOT SET'}`);
+console.log(`   EMAIL_PASS raw check: "${EMAIL_PASS}" === "/* secret */" = ${EMAIL_PASS === '/* secret */'}`);
+console.log(`   EMAIL_PASS raw check: "${EMAIL_PASS}" === "0013@Village2025" = ${EMAIL_PASS === '0013@Village2025'}`);
 console.log(`   EMAIL_HOST: ${EMAIL_HOST}`);
 console.log(`   EMAIL_PORT: ${EMAIL_PORT} (SMTPS: ${EMAIL_PORT === 465 ? 'Yes' : 'No'})`);
 console.log(`   EMAIL_SECURE: ${EMAIL_SECURE} (SSL/TLS from start: ${EMAIL_SECURE ? 'Yes' : 'No'})`);
@@ -95,18 +97,21 @@ setInterval(() => {
 function createSmtpsTransporter() {
   console.log(`🔧 Setting up SMTPS transporter for ${EMAIL_USER} via ${EMAIL_HOST}:${EMAIL_PORT}`);
   
-  const actualPassword = EMAIL_PASS === '/* secret */' ? '0031@Village2025' : EMAIL_PASS;
+  const actualPassword = EMAIL_PASS === '/* secret */' ? '0013@Village2025' : EMAIL_PASS;
   if (EMAIL_PASS === '/* secret */') {
     console.log('⚠️ Using fallback password because EMAIL_PASS contains placeholder value');
   }
   
+  console.log(`🔑 Transporter will use password: "${actualPassword}" (from EMAIL_PASS: "${EMAIL_PASS}")`);
+  
+  // Force fresh configuration object to avoid any reference issues
   const smtpsConfig = {
-    host: EMAIL_HOST,
-    port: EMAIL_PORT,
+    host: String(EMAIL_HOST),
+    port: Number(EMAIL_PORT),
     secure: true, // Force SSL/TLS from start for SMTPS
     auth: {
-      user: EMAIL_USER,
-      pass: actualPassword
+      user: String(EMAIL_USER),
+      pass: String(actualPassword) // Ensure it's a fresh string
     },
     tls: {
       // SMTPS should work with standard TLS settings
@@ -120,13 +125,15 @@ function createSmtpsTransporter() {
     connectionTimeout: 15000, // Increased for SSL handshake
     greetingTimeout: 15000,
     socketTimeout: 15000,
-    // Pool settings for better performance
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 10
+    // Disable pool to avoid caching issues
+    pool: false,
+    maxConnections: 1,
+    maxMessages: 1
   };
 
   console.log(`📡 SMTPS Configuration: ${EMAIL_HOST}:${EMAIL_PORT} (secure: ${smtpsConfig.secure})`);
+  console.log(`🔐 Final auth config - user: "${smtpsConfig.auth.user}", pass: "${smtpsConfig.auth.pass}"`);
+  
   return nodemailer.createTransport(smtpsConfig);
 }
 
@@ -134,16 +141,17 @@ function createSmtpsTransporter() {
 function createFallbackTransporter() {
   console.log(`🔄 Setting up fallback SMTP+STARTTLS transporter for ${EMAIL_USER}`);
   
-  const actualPassword = EMAIL_PASS === '0031@Village2025' ? '0031@Village2025' : EMAIL_PASS;
+  const actualPassword = EMAIL_PASS === '/* secret */' ? '0013@Village2025' : EMAIL_PASS;
+  console.log(`🔑 Fallback transporter will use password: "${actualPassword}"`);
   
-  return nodemailer.createTransport({
-    host: EMAIL_HOST,
+  const fallbackConfig = {
+    host: String(EMAIL_HOST),
     port: 587, // Standard STARTTLS port
     secure: false, // Start unencrypted, then upgrade with STARTTLS
     requireTLS: true, // Require TLS upgrade
     auth: {
-      user: EMAIL_USER,
-      pass: actualPassword
+      user: String(EMAIL_USER),
+      pass: String(actualPassword) // Ensure fresh string
     },
     tls: {
       rejectUnauthorized: process.env.NODE_ENV === 'production',
@@ -154,12 +162,26 @@ function createFallbackTransporter() {
     debug: process.env.NODE_ENV === 'development',
     connectionTimeout: 15000,
     greetingTimeout: 15000,
-    socketTimeout: 15000
-  });
+    socketTimeout: 15000,
+    // Disable pool to avoid caching issues
+    pool: false,
+    maxConnections: 1,
+    maxMessages: 1
+  };
+
+  console.log(`🔐 Fallback final auth config - user: "${fallbackConfig.auth.user}", pass: "${fallbackConfig.auth.pass}"`);
+  
+  return nodemailer.createTransport(fallbackConfig);
 }
 
-const smtpsTransporter = createSmtpsTransporter();
+let smtpsTransporter = createSmtpsTransporter();
 let fallbackTransporter = null;
+
+// Force recreate transporter if we detect the correct password to ensure fresh credentials
+if (EMAIL_PASS === '0013@Village2025') {
+  console.log('🔄 Detected correct password - recreating transporter to ensure it uses the right credentials...');
+  smtpsTransporter = createSmtpsTransporter();
+}
 
 // Verify SMTPS configuration on startup with enhanced error reporting
 smtpsTransporter.verify((error, success) => {

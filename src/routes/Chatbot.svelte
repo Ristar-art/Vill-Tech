@@ -1,7 +1,6 @@
-<script >
+<script>
     import { onMount } from "svelte";
     import { fade, fly } from "svelte/transition";
-  
     let isOpen = false;
     let messages = [
       {
@@ -14,58 +13,7 @@
     let inputText = "";
     let messagesContainer;
     let isLoading = false;
-  
-    // Village Tech Knowledge Base (for reference, not used directly in responses)
-    // This object is not actively used by the getAIResponse function below,
-    // as the responses are hardcoded. It's kept here for context.
-    const villageTechInfo = {
-      company: {
-        name: "Village Tech Training Solutions",
-        address: "85 Main St, Groundfloor, Johannesburg, 2107",
-        phone: "087 135 1313",
-        email: "info@villagetech.co.za",
-        website: "villagetech.co.za",
-        socialMedia: {
-          instagram: "https://www.instagram.com/villagetech_za/",
-          facebook: "https://www.facebook.com/villagetech.za/",
-          linkedin: "https://www.linkedin.com/company/village-tech-za/"
-        }
-      },
-      services: {
-        main: [
-          "ICT Skills Training",
-          "Learnership Management", 
-          "Competency Development",
-          "Skills Development"
-        ],
-        delivery: [
-          "On-Site Training",
-          "Virtual Distance Learning",
-          "Off-Site Training"
-        ],
-        specialization: "Individual & Corporate Training"
-      },
-      accreditations: [
-        "SAQA (South African Qualifications Authority)",
-        "QCTO (Quality Council for Trades and Occupations)", 
-        "ETQA (Education and Training Quality Assurer)",
-        "MICT-SETA accredited"
-      ],
-      benefits: [
-        "Learn at your own pace",
-        "Access to expert instructors", 
-        "Diverse range of courses",
-        "Interactive learning experience",
-        "Certificates upon completion",
-        "Lifetime access to course materials"
-    ],
-      stats: {
-        students: "1000+",
-        courses: "22",
-        graduates: "1000+", 
-        successRate: "99%"
-      }
-    };
+   
   
     function toggleChat() {
       isOpen = !isOpen;
@@ -88,10 +36,11 @@
       inputText = "";
       isLoading = true;
       scrollToBottom();
-  
+//   console.log('🤖 Sending message:', messageToSend);
       try {
-        // Get AI response from the client-side rule-based system
-        const botResponse = await getAIResponse(messageToSend);
+        // Call the actual API endpoint
+        // console.log('🤖 Sending message to chat API...');
+        const botResponse = await callChatAPI(messageToSend);
         
         // Add bot response
         messages = [...messages, {
@@ -100,12 +49,26 @@
           sender: "bot",
           timestamp: new Date()
         }];
+        
+        console.log('✅ Chat response received successfully');
       } catch (error) {
-        console.error('Chatbot Error:', error.message);
-        // Fallback error message if something unexpected goes wrong in client-side logic
+        console.error('❌ Chat API Error:', error.message);
+        
+        // Handle different error types with appropriate user messages
+        let errorMessage = "I'm having trouble connecting right now. Please try again or contact us directly at info@villagetech.co.za.";
+        
+        if (error.message.includes('Rate limit')) {
+          errorMessage = "I'm receiving a lot of questions right now! Please wait a moment before sending another message.";
+        } else if (error.message.includes('temporarily unavailable')) {
+          errorMessage = "Our chat service is temporarily down for maintenance. Please try again in a few minutes or contact us at 087 135 1313.";
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = "It looks like there's a connection issue. Please check your internet and try again.";
+        }
+        
+        // Add error message as bot response
         messages = [...messages, {
           id: Date.now() + 1,
-          text: "Oops, something went wrong with my internal logic. Please try again or contact us directly at info@villagetech.co.za.",
+          text: errorMessage,
           sender: "bot",
           timestamp: new Date()
         }];
@@ -114,79 +77,59 @@
         scrollToBottom();
       }
     }
-  
-    // Client-side rule-based response system - NO API CALLS
-    async function getAIResponse(userMessage) {
-      // Simulate API delay for a more natural feel
-      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
-      
-      const message = userMessage.toLowerCase();
-      
-      // Keyword-based responses
-      const responses = {
-        greeting: [
-          "Hello! Welcome to Village Tech Training Solutions! I'm here to help you learn about our ICT training programs. What would you like to know?",
-          "Hi there! Great to meet you! I can tell you all about Village Tech's courses, accreditations, and how we can help advance your ICT skills.",
-          "Welcome! I'm excited to help you explore our training opportunities. What specific area interests you most?"
-        ],
+    const CHAT_API_URL = import.meta.env.VITE_CHAT_API_URL || 'http://localhost:3000/api/chat';
+
+    // Call the chat API endpoint
+    async function callChatAPI(message) {
+        // console.log('CHAT_API_URL:', CHAT_API_URL);
+      try {
+        const response = await fetch(CHAT_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: message
+          })
+        });
+
+        // Handle HTTP error statuses
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          
+          if (response.status === 429) {
+            throw new Error('Rate limit exceeded - please wait a moment');
+          } else if (response.status === 503) {
+            throw new Error('Service temporarily unavailable');
+          } else if (response.status >= 500) {
+            throw new Error('Server error - please try again later');
+          } else if (response.status === 400) {
+            throw new Error('Invalid message format');
+          } else {
+            throw new Error(`API error: ${response.status}`);
+          }
+        }
+
+        const data = await response.json();
         
-        courses: [
-          "Village Tech offers 22+ comprehensive ICT courses! We specialize in skills training, learnership management, and competency development. Our programs are SAQA, QCTO, and MICT-SETA accredited. Would you like to know about specific courses or our delivery methods?",
-          "We have an amazing range of ICT training programs designed for both individuals and corporations! With on-site, virtual, and off-site delivery options, we make learning flexible. For detailed course information, I'd recommend visiting villagetech.co.za/courses or calling 087 135 1313.",
-          "Our 22+ courses cover everything from basic ICT skills to advanced competency development. We're proud to be accredited by SAQA, QCTO, and MICT-SETA, ensuring top-quality education that employers recognize!"
-        ],
+        // Validate response format
+        if (!data || !data.success) {
+          throw new Error(data?.message || 'Invalid response from chat service');
+        }
+
+        if (!data.response) {
+          throw new Error('No response received from chat service');
+        }
+
+        return data.response;
         
-        pricing: [
-          "For the most accurate and up-to-date pricing information, I'd recommend contacting our team directly at 087 135 1313 or info@villagetech.co.za. They can provide detailed quotes based on your specific needs and preferred delivery method!",
-          "Pricing varies depending on the course and delivery method you choose. Our team can create a customized quote for you! Give us a call at 087 135 1313 or email info@villagetech.co.za for specific pricing details.",
-          "I'd love to help with pricing details! Since costs depend on your chosen courses and delivery preferences, our team at 087 135 1313 can provide you with a personalized quote that fits your budget and goals."
-        ],
-        
-        contact: [
-          "You can reach Village Tech Training Solutions at:\n📞 **087 135 1313**\n📧 **info@villagetech.co.za**\n📍 85 Main St, Groundfloor, Johannesburg, 2107\n🌐 **villagetech.co.za**\n\nWe're also on social media **@villagetech_za**!",
-          "Here's how to get in touch:\n• Phone: **087 135 1313**\n• Email: **info@villagetech.co.za**\n• Address: 85 Main St, Groundfloor, Johannesburg, 2107\n• Website: **villagetech.co.za**\n\nFollow us on Instagram, Facebook, and LinkedIn **@villagetech_za** for updates!",
-          "Contact Village Tech:\n**087 135 1313** | **info@villagetech.co.za**\n85 Main St, Groundfloor, Johannesburg, 2107\n**villagetech.co.za**\n\nConnect with us on social media **@villagetech_za** for the latest updates and success stories!"
-        ],
-        
-        accreditation: [
-          "Village Tech is fully accredited by **SAQA** (South African Qualifications Authority), **QCTO** (Quality Council for Trades and Occupations), **ETQA** (Education and Training Quality Assurer), and **MICT-SETA**! This means our qualifications are recognized nationwide and meet industry standards.",
-          "We're proud to hold accreditations from all the major bodies: **SAQA, QCTO, ETQA, and MICT-SETA**. This ensures that your qualification will be recognized by employers and meets the highest educational standards in South Africa.",
-          "Our accreditations include **SAQA, QCTO, ETQA, and MICT-SETA** - that's comprehensive recognition ensuring your training meets national standards and is valued by employers across South Africa!"
-        ],
-        
-        benefits: [
-          "With Village Tech, you get to learn at your own pace with expert instructors, enjoy interactive learning experiences, and receive certificates upon completion. Plus, you get lifetime access to course materials! We've trained 1000+ students with a 99% success rate.",
-          "Benefits include flexible learning pace, access to expert instructors, diverse course range, interactive experiences, certificates, and lifetime material access. Join our 1000+ graduates who've achieved success in their ICT careers!",
-          "We offer flexible scheduling, expert instruction, interactive learning, completion certificates, and lifetime access to materials. With 1000+ successful graduates and a 99% success rate, we're committed to your success!"
-        ],
-        
-        default: [
-          "That's a great question! While I can provide general information about Village Tech, for detailed answers I'd recommend contacting our team at **087 135 1313** or **info@villagetech.co.za**. They're the experts and can give you personalized guidance!",
-          "I'd love to help you with that! For the most accurate and detailed information, our team at Village Tech would be best to assist you. You can reach them at **087 135 1313** or visit **villagetech.co.za**.",
-          "Thanks for asking! While I can share general information about our programs, our knowledgeable team can provide specific details tailored to your needs. Contact us at **info@villagetech.co.za** or **087 135 1313**!"
-        ]
-      };
-      
-      // Determine response category
-      let category = 'default';
-      
-      if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message.includes('good morning') || message.includes('good afternoon') || message.includes('good evening')) {
-        category = 'greeting';
-      } else if (message.includes('course') || message.includes('training') || message.includes('program') || message.includes('learn') || message.includes('study')) {
-        category = 'courses';
-      } else if (message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('money') || message.includes('much') || message.includes('affordable')) {
-        category = 'pricing';
-      } else if (message.includes('contact') || message.includes('phone') || message.includes('email') || message.includes('address') || message.includes('reach') || message.includes('call')) {
-        category = 'contact';
-      } else if (message.includes('accredit') || message.includes('certified') || message.includes('saqa') || message.includes('qcto') || message.includes('seta')) {
-        category = 'accreditation';
-      } else if (message.includes('benefit') || message.includes('advantage') || message.includes('why') || message.includes('special') || message.includes('what do you offer')) {
-        category = 'benefits';
+      } catch (error) {
+        // Re-throw with appropriate error message
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+          throw new Error('Network connection error');
+        }
+        throw error;
       }
-      
-      // Return random response from category
-      const categoryResponses = responses[category];
-      return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
     }
   
     function scrollToBottom() {
@@ -202,6 +145,18 @@
         event.preventDefault();
         sendMessage();
       }
+    }
+
+    // Auto-fill input with quick action text
+    function setQuickAction(text) {
+      inputText = text;
+      // Auto-focus the input after setting text
+      setTimeout(() => {
+        const inputElement = document.querySelector('.chat-input');
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }, 100);
     }
   
     onMount(() => {
@@ -221,7 +176,7 @@
           </div>
           <div>
             <h3 class="chat-title">Village Tech AI Assistant</h3>
-            <p class="chat-status">Online • Ready to Help</p>
+            <p class="chat-status">Online • Powered by AI</p>
           </div>
         </div>
         <button on:click={toggleChat} class="close-button">
@@ -235,7 +190,7 @@
         {#each messages as message (message.id)}
           <div class="message {message.sender === 'user' ? 'user-message' : 'bot-message'}" transition:fade={{ duration: 200 }}>
             <div class="message-content">
-              <p class="message-text">{message.text}</p>
+              <p class="message-text">{@html message.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
               <span class="message-time">
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
@@ -257,9 +212,10 @@
       </div>
   
       <div class="quick-actions">
-        <button class="quick-action" on:click={() => inputText = "Tell me about your courses"}>📚 Courses</button>
-        <button class="quick-action" on:click={() => inputText = "How much are the courses?"}>💰 Pricing</button>
-        <button class="quick-action" on:click={() => inputText = "How can I contact you?"}>📞 Contact</button>
+        <button class="quick-action" on:click={() => setQuickAction("Tell me about your courses")}>📚 Courses</button>
+        <button class="quick-action" on:click={() => setQuickAction("How much are the courses?")}>💰 Pricing</button>
+        <button class="quick-action" on:click={() => setQuickAction("How can I contact you?")}>📞 Contact</button>
+        <button class="quick-action" on:click={() => setQuickAction("What are your accreditations?")}>🎓 Accredited</button>
       </div>
   
       <div class="chat-input-container">
@@ -268,7 +224,7 @@
             type="text"
             bind:value={inputText}
             on:keypress={handleKeyPress}
-            placeholder="Ask about courses, pricing, or anything else..."
+            placeholder="Ask about courses, pricing, accreditations, or anything else..."
             class="chat-input"
             disabled={isLoading}
           />
@@ -303,7 +259,7 @@
 </div>
 
 <style>
-/* Your existing CSS remains unchanged */
+/* Existing CSS remains the same */
 .chatbot-container {
     position: fixed;
     bottom: 20px;
@@ -413,6 +369,11 @@
     margin: 0 0 4px;
     line-height: 1.5;
     white-space: pre-line;
+}
+
+.message-text strong {
+    font-weight: 600;
+    color: #21409A;
 }
 
 .message-time {
@@ -577,7 +538,6 @@
 
 .chat-toggle-button.open::before {
     display: none;
-    
 }
 
 @keyframes pulse {

@@ -1,175 +1,3 @@
-// test-email.js - Standalone email configuration test
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
-
-const config = {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS,
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT || '465'),
-  secure: process.env.EMAIL_SECURE === 'true'
-};
-
-console.log('🧪 Testing Email Configuration...\n');
-
-console.log('Configuration:');
-console.log(`  Host: ${config.host}`);
-console.log(`  Port: ${config.port}`);
-console.log(`  Secure: ${config.secure}`);
-console.log(`  User: ${config.user}`);
-console.log(`  Pass: ${config.pass ? `***SET*** (${config.pass.length} chars)` : 'NOT SET'}\n`);
-
-// Check for obvious issues
-const issues = [];
-if (!config.user) issues.push('EMAIL_USER not set');
-if (!config.pass) issues.push('EMAIL_PASS not set');
-if (!config.host) issues.push('EMAIL_HOST not set');
-if (config.pass && (config.pass.includes('secret') || config.pass.includes('/*') || config.pass === 'your_actual_password_here')) {
-  issues.push('EMAIL_PASS appears to be a placeholder');
-}
-
-if (issues.length > 0) {
-  console.error('❌ Configuration Issues:');
-  issues.forEach(issue => console.error(`   - ${issue}`));
-  console.error('\n💡 Please update your .env file with the correct values');
-  process.exit(1);
-}
-
-// Test multiple configurations
-const testConfigs = [
-  {
-    name: 'Primary (SSL/TLS Port 465)',
-    config: {
-      host: config.host,
-      port: config.port,
-      secure: config.secure,
-      auth: { user: config.user, pass: config.pass },
-      tls: { rejectUnauthorized: false }
-    }
-  },
-  {
-    name: 'Alternative (STARTTLS Port 587)',
-    config: {
-      host: config.host,
-      port: 587,
-      secure: false,
-      auth: { user: config.user, pass: config.pass },
-      tls: { rejectUnauthorized: false }
-    }
-  },
-  {
-    name: 'Alternative (Non-secure Port 25)',
-    config: {
-      host: config.host,
-      port: 25,
-      secure: false,
-      auth: { user: config.user, pass: config.pass },
-      tls: { rejectUnauthorized: false }
-    }
-  }
-];
-
-async function testConfiguration(name, transportConfig) {
-  console.log(`\n🔧 Testing: ${name}`);
-  
-  try {
-    const transporter = nodemailer.createTransporter({
-      ...transportConfig,
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      logger: false, // Disable verbose logging for test
-      debug: false
-    });
-
-    // Test connection only
-    console.log('   ⏳ Verifying connection...');
-    await transporter.verify();
-    console.log('   ✅ Connection successful!');
-
-    // Test sending email (commented out to avoid spam during testing)
-    // Uncomment the next section if you want to actually send test emails
-    /*
-    console.log('   ⏳ Sending test email...');
-    const testEmail = {
-      from: config.user,
-      to: config.user, // Send to self
-      subject: `Test Email - ${name} - ${new Date().toLocaleString()}`,
-      text: `This is a test email sent using ${name} configuration.\n\nTimestamp: ${new Date().toISOString()}`
-    };
-
-    const result = await transporter.sendMail(testEmail);
-    console.log(`   ✅ Email sent successfully! Message ID: ${result.messageId}`);
-    */
-    
-    return true;
-  } catch (error) {
-    console.log(`   ❌ Failed: ${error.message}`);
-    if (error.code === 'EAUTH') {
-      console.log('   💡 Authentication failed - check username/password');
-    } else if (error.code === 'ECONNECTION' || error.code === 'ETIMEDOUT') {
-      console.log('   💡 Connection failed - check host/port/firewall');
-    } else if (error.code === 'ESOCKET') {
-      console.log('   💡 Socket error - try different port/security settings');
-    }
-    return false;
-  }
-}
-
-async function runTests() {
-  console.log('🚀 Starting email configuration tests...');
-  
-  let successCount = 0;
-  
-  for (const { name, config: testConfig } of testConfigs) {
-    const success = await testConfiguration(name, testConfig);
-    if (success) successCount++;
-  }
-
-  console.log(`\n📊 Test Results: ${successCount}/${testConfigs.length} configurations successful`);
-  
-  if (successCount === 0) {
-    console.log('\n❌ All tests failed. Common solutions:');
-    console.log('   1. ✅ Verify EMAIL_PASS is the correct password');
-    console.log('   2. ✅ Check if your email provider requires app-specific passwords');
-    console.log('   3. ✅ Ensure SMTP access is enabled for your account');
-    console.log('   4. ✅ Try logging into webmail with the same credentials');
-    console.log('   5. ✅ Contact your hosting provider for SMTP settings');
-    console.log('\n🔍 Next steps:');
-    console.log('   - Log into https://webmail.villagetech.co.za with your credentials');
-    console.log('   - Check your hosting control panel for SMTP settings');
-    console.log('   - Contact your hosting provider (appears to be Xneelo/Hetzner)');
-    process.exit(1);
-  } else {
-    console.log('\n✅ At least one configuration works! Your email setup should be functional.');
-    console.log('\n🎯 Recommended configuration for your app:');
-    
-    // Find the working configuration
-    for (let i = 0; i < testConfigs.length; i++) {
-      if (i < successCount) {
-        const workingConfig = testConfigs[i];
-        console.log(`   EMAIL_HOST=${workingConfig.config.host}`);
-        console.log(`   EMAIL_PORT=${workingConfig.config.port}`);
-        console.log(`   EMAIL_SECURE=${workingConfig.config.secure}`);
-        break;
-      }
-    }
-  }
-}
-
-// Run the tests
-runTests().catch(error => {
-  console.error('\n💥 Unexpected error:', error.message);
-  process.exit(1);
-});
-
-
-
-
-
 import { json } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import * as nodemailer from 'nodemailer';
@@ -179,8 +7,8 @@ const EMAIL_USER = env.EMAIL_USER;
 const EMAIL_PASS = env.EMAIL_PASS;
 const OWNER_EMAIL = env.OWNER_EMAIL;
 const EMAIL_HOST = env.EMAIL_HOST;
-const EMAIL_PORT = parseInt(env.EMAIL_PORT || '465');
-const EMAIL_SECURE = env.EMAIL_SECURE === 'true';
+const EMAIL_PORT = parseInt(env.EMAIL_PORT || '465'); // Default to SMTPS port
+const EMAIL_SECURE = env.EMAIL_SECURE !== 'false'; // Default to true for SMTPS
 
 // Debug nodemailer import
 console.log('nodemailer import:', Object.keys(nodemailer));
@@ -193,11 +21,11 @@ function validateEmailConfig() {
     errors.push('EMAIL_USER is not set');
   }
   
-  // if (!EMAIL_PASS) {
-  //   errors.push('EMAIL_PASS is not set');
-  // } else if (EMAIL_PASS.includes('secret') || EMAIL_PASS.includes('/*') || EMAIL_PASS.includes('password') || EMAIL_PASS === 'your_password_here') {
-  //   errors.push(`EMAIL_PASS  ${EMAIL_PASS} appears to be a placeholder - update with actual password`);
-  // }
+  if (!EMAIL_PASS) {
+    errors.push('EMAIL_PASS is not set');
+  } else if (EMAIL_PASS.includes('secret') || EMAIL_PASS.includes('/*') || EMAIL_PASS.includes('password') || EMAIL_PASS === 'your_password_here' || EMAIL_PASS === '/* secret */') {
+    errors.push(`EMAIL_PASS contains placeholder value "${EMAIL_PASS}" - update with actual password`);
+  }
   
   if (!EMAIL_HOST) {
     errors.push('EMAIL_HOST is not set');
@@ -205,6 +33,11 @@ function validateEmailConfig() {
   
   if (!OWNER_EMAIL) {
     errors.push('OWNER_EMAIL is not set');
+  }
+
+  // Validate SMTPS configuration
+  if (EMAIL_PORT !== 465 && EMAIL_SECURE) {
+    errors.push(`Warning: Using secure=true with port ${EMAIL_PORT}. SMTPS typically uses port 465`);
   }
   
   return errors;
@@ -216,24 +49,32 @@ if (configErrors.length > 0) {
   console.error('❌ Email configuration errors:');
   configErrors.forEach(error => console.error(`   - ${error}`));
   console.error('\n📝 Please check your .env file and ensure all email variables are properly set.');
-  console.error('Example .env file:');
+  console.error('Example .env file for SMTPS:');
   console.error('EMAIL_USER=info@villagetech.co.za');
   console.error('EMAIL_PASS=your_actual_email_password');
   console.error('EMAIL_HOST=mail.villagetech.co.za');
   console.error('EMAIL_PORT=465');
   console.error('EMAIL_SECURE=true');
   console.error('OWNER_EMAIL=info@villagetech.co.za');
-  throw new Error('Email configuration is incomplete. Please set EMAIL_USER, EMAIL_PASS, EMAIL_HOST, EMAIL_PORT, and EMAIL_SECURE in your .env file.');
+  
+  // Only throw error for critical missing configs
+  const criticalErrors = configErrors.filter(error => 
+    !error.includes('Warning') && !error.includes('placeholder')
+  );
+  if (criticalErrors.length > 0) {
+    throw new Error('Critical email configuration is incomplete. Please set EMAIL_USER, EMAIL_PASS, EMAIL_HOST, and OWNER_EMAIL in your .env file.');
+  }
 }
 
 // Debug environment variables (safely)
-console.log('📧 Email Configuration:');
+console.log('📧 SMTPS Email Configuration:');
 console.log(`   EMAIL_USER: ${EMAIL_USER}`);
-console.log(`   EMAIL_PASS: ${EMAIL_PASS ? `***set*** (${EMAIL_PASS.length} chars)` : 'NOT SET'}`);
-// console.log(`   EMAIL_PASS raw value: ${EMAIL_PASS === '/* secret */' ? 'Invalid placeholder detected' : 'Valid password set'}`);
+console.log(`   EMAIL_PASS: ${EMAIL_PASS ? `***${EMAIL_PASS === '/* secret */' ? 'PLACEHOLDER-DETECTED' : 'set'}*** (${EMAIL_PASS.length} chars)` : 'NOT SET'}`);
+console.log(`   EMAIL_PASS raw check: "${EMAIL_PASS}" === "/* secret */" = ${EMAIL_PASS === '/* secret */'}`);
+console.log(`   EMAIL_PASS raw check: "${EMAIL_PASS}" === "0013@Village2025" = ${EMAIL_PASS === '0013@Village2025'}`);
 console.log(`   EMAIL_HOST: ${EMAIL_HOST}`);
-console.log(`   EMAIL_PORT: ${EMAIL_PORT}`);
-console.log(`   EMAIL_SECURE: ${EMAIL_SECURE}`);
+console.log(`   EMAIL_PORT: ${EMAIL_PORT} (SMTPS: ${EMAIL_PORT === 465 ? 'Yes' : 'No'})`);
+console.log(`   EMAIL_SECURE: ${EMAIL_SECURE} (SSL/TLS from start: ${EMAIL_SECURE ? 'Yes' : 'No'})`);
 console.log(`   OWNER_EMAIL: ${OWNER_EMAIL}`);
 
 // Rate limiting storage (in production, use Redis or database)
@@ -252,61 +93,89 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
-// Create multiple transporter configurations for fallback
-function createSmtpTransporter() {
+// Create SMTPS transporter (SSL/TLS from the start)
+function createSmtpsTransporter() {
   console.log(`🔧 Setting up SMTPS transporter for ${EMAIL_USER} via ${EMAIL_HOST}:${EMAIL_PORT}`);
   
-  const primaryConfig = {
+  const actualPassword = EMAIL_PASS === '/* secret */' ? '0013@Village2025' : EMAIL_PASS;
+  if (EMAIL_PASS === '/* secret */') {
+    console.log('⚠️ Using fallback password because EMAIL_PASS contains placeholder value');
+  }
+  
+  console.log(`🔑 Transporter will use password: "${actualPassword}" (from EMAIL_PASS: "${EMAIL_PASS}")`);
+  
+  const smtpsConfig = {
     host: EMAIL_HOST,
     port: EMAIL_PORT,
-    secure: EMAIL_SECURE,
+    secure: true, // Force SSL/TLS from start for SMTPS
     auth: {
       user: EMAIL_USER,
-      pass: '0031@Village2025'
+      pass: actualPassword
     },
     tls: {
-      rejectUnauthorized: process.env.NODE_ENV !== 'production' ? false : true
+      // SMTPS should work with standard TLS settings
+      rejectUnauthorized: process.env.NODE_ENV === 'production',
+      // Additional TLS options for better compatibility
+      ciphers: 'SSLv3',
+      secureProtocol: 'TLSv1_2_method'
     },
     logger: true,
     debug: process.env.NODE_ENV === 'development',
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000
+    connectionTimeout: 15000, // Increased for SSL handshake
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+    // Pool settings for better performance
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 10
   };
 
-  return nodemailer.createTransport(primaryConfig);
+  console.log(`📡 SMTPS Configuration: ${EMAIL_HOST}:${EMAIL_PORT} (secure: ${smtpsConfig.secure})`);
+  return nodemailer.createTransport(smtpsConfig);
 }
 
-// Create fallback transporter for alternative configurations
+// Create fallback transporter using SMTP with STARTTLS (port 587)
 function createFallbackTransporter() {
-  console.log(`🔄 Setting up fallback SMTP transporter (STARTTLS) for ${EMAIL_USER}`);
+  console.log(`🔄 Setting up fallback SMTP+STARTTLS transporter for ${EMAIL_USER}`);
+  
+  const actualPassword = EMAIL_PASS === '/* secret */' ? '0013@Village2025' : EMAIL_PASS;
+  console.log(`🔑 Fallback transporter will use password: "${actualPassword}"`);
   
   return nodemailer.createTransport({
     host: EMAIL_HOST,
-    port: 587,
-    secure: false,
+    port: 587, // Standard STARTTLS port
+    secure: false, // Start unencrypted, then upgrade with STARTTLS
+    requireTLS: true, // Require TLS upgrade
     auth: {
       user: EMAIL_USER,
-      pass: EMAIL_PASS
+      pass: actualPassword
     },
     tls: {
-      rejectUnauthorized: process.env.NODE_ENV !== 'production' ? false : true
+      rejectUnauthorized: process.env.NODE_ENV === 'production',
+      // Force TLS version for compatibility
+      minVersion: 'TLSv1.2'
     },
     logger: true,
     debug: process.env.NODE_ENV === 'development',
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000
   });
 }
 
-const transporter = createSmtpTransporter();
+let smtpsTransporter = createSmtpsTransporter();
 let fallbackTransporter = null;
 
-// Verify SMTP configuration on startup with enhanced error reporting
-transporter.verify((error, success) => {
+// Force recreate transporter if we detect the correct password to ensure fresh credentials
+if (EMAIL_PASS === '0013@Village2025') {
+  console.log('🔄 Detected correct password - recreating transporter to ensure it uses the right credentials...');
+  smtpsTransporter = createSmtpsTransporter();
+}
+
+// Verify SMTPS configuration on startup with enhanced error reporting
+smtpsTransporter.verify((error, success) => {
   if (error) {
-    console.error('❌ Primary SMTP configuration error:', error.message);
+    console.error('❌ SMTPS configuration error:', error.message);
     console.error('Error details:', {
       code: error.code,
       response: error.response,
@@ -315,42 +184,44 @@ transporter.verify((error, success) => {
     
     // Provide specific troubleshooting based on error type
     if (error.code === 'EAUTH') {
-      console.error('\n🔐 Authentication Failed - Solutions:');
+      console.error('\n🔐 SMTPS Authentication Failed - Solutions:');
       console.error('   1. ✅ Verify EMAIL_USER and EMAIL_PASS in your .env file');
       console.error('   2. ✅ Ensure EMAIL_PASS is the actual password (not a placeholder)');
       console.error('   3. ✅ Try logging into webmail with these exact credentials');
       console.error('   4. ✅ Check if your email provider requires app-specific passwords');
-      console.error('   5. ✅ Verify SMTP access is enabled for this email account');
-      console.error('   6. ✅ Contact your hosting provider to confirm SMTP settings');
-      console.error(`\n   Current config: ${EMAIL_USER} → ${EMAIL_HOST}:${EMAIL_PORT} (secure: ${EMAIL_SECURE})`);
+      console.error('   5. ✅ Verify SMTPS access is enabled for this email account');
+      console.error('   6. ✅ Contact your hosting provider to confirm SMTPS settings');
+      console.error(`\n   Current config: ${EMAIL_USER} → ${EMAIL_HOST}:${EMAIL_PORT} (SMTPS: ${EMAIL_SECURE})`);
     } else if (error.code === 'ECONNECTION' || error.code === 'ETIMEDOUT') {
-      console.error('\n🌐 Connection Failed - Check:');
-      console.error(`   1. EMAIL_HOST (${EMAIL_HOST}) and EMAIL_PORT (${EMAIL_PORT}) are correct`);
-      console.error('   2. Firewall/network allows connections to the SMTP server');
-      console.error('   3. Server is not blocking your IP address');
+      console.error('\n🌐 SMTPS Connection Failed - Check:');
+      console.error(`   1. EMAIL_HOST (${EMAIL_HOST}) and EMAIL_PORT (${EMAIL_PORT}) are correct for SMTPS`);
+      console.error('   2. Port 465 is open and not blocked by firewall');
+      console.error('   3. Server supports SMTPS (SSL/TLS from start)');
       console.error('   4. DNS resolution is working for the email host');
-    } else if (error.code === 'ESOCKET') {
-      console.error('\n🔌 Socket Error - Try:');
-      console.error('   1. Different port (587 for STARTTLS, 465 for SSL)');
-      console.error('   2. Toggle EMAIL_SECURE setting');
-      console.error('   3. Check if the email server is online');
+      console.error('   5. Server SSL certificate is valid');
+    } else if (error.code === 'ESOCKET' || error.code === 'CERT_HAS_EXPIRED') {
+      console.error('\n🔌 SMTPS SSL/TLS Error - Try:');
+      console.error('   1. Check if server SSL certificate is valid and not expired');
+      console.error('   2. Verify SMTPS is properly configured on mail server');
+      console.error('   3. Try fallback SMTP+STARTTLS configuration');
+      console.error('   4. Contact hosting provider about SSL certificate issues');
     }
     
     // Try to set up fallback transporter
-    console.log('\n🔄 Attempting to set up fallback configuration...');
+    console.log('\n🔄 Attempting to set up SMTP+STARTTLS fallback configuration...');
     fallbackTransporter = createFallbackTransporter();
     
     fallbackTransporter.verify((fallbackError, fallbackSuccess) => {
       if (fallbackError) {
-        console.error('❌ Fallback configuration also failed:', fallbackError.message);
-        console.error('\n⚠️ Email functionality will be limited. Please fix configuration before production.');
+        console.error('❌ Fallback SMTP+STARTTLS configuration also failed:', fallbackError.message);
+        console.error('\n⚠️ Email functionality will be limited. Please fix SMTPS configuration before production.');
       } else {
-        console.log('✅ Fallback SMTP configuration successful - will use STARTTLS on port 587');
+        console.log('✅ Fallback SMTP+STARTTLS configuration successful - will use port 587');
       }
     });
     
   } else {
-    console.log(`✅ Primary SMTPS server for ${EMAIL_USER} is ready to send messages`);
+    console.log(`✅ SMTPS server for ${EMAIL_USER} is ready to send messages securely`);
   }
 });
 
@@ -385,14 +256,14 @@ function validateInput(name, email, phone, subject, message) {
     }
   }
   
-  // // Phone validation (optional but if provided, should be valid)
-  // if (phone && typeof phone === 'string' && phone.trim().length > 0) {
-  //   const phoneRegex = /^[\+]?[0-9\s\-\(\)]{7,20}$/;
-  //   const trimmedPhone = phone.trim电池
-  //   if (!phoneRegex.test(trimmedPhone)) {
-  //     errors.push('Please provide a valid phone number');
-  //   }
-  // }
+  // Phone validation (optional but if provided, should be valid)
+  if (phone && typeof phone === 'string' && phone.trim().length > 0) {
+    const phoneRegex = /^[\+]?[0-9\s\-\(\)]{7,20}$/;
+    const trimmedPhone = phone.trim();
+    if (!phoneRegex.test(trimmedPhone)) {
+      errors.push('Please provide a valid phone number');
+    }
+  }
   
   // Subject validation (optional)
   if (subject && typeof subject === 'string') {
@@ -442,37 +313,37 @@ function checkRateLimit(clientIP) {
 function sanitizeHtml(text) {
   if (!text) return '';
   return text
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
-    .replace(/'/g, '"')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
     .replace(/\n/g, '<br>');
 }
 
-// Enhanced email sending function with fallback
+// Enhanced email sending function with SMTPS and fallback
 async function sendEmailWithFallback(mailOptions) {
   let lastError = null;
   
-  // Try primary transporter first
+  // Try SMTPS transporter first
   try {
-    console.log('📧 Attempting to send email with primary configuration...');
-    const result = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully with primary configuration');
+    console.log('📧 Attempting to send email with SMTPS...');
+    const result = await smtpsTransporter.sendMail(mailOptions);
+    console.log('✅ Email sent successfully with SMTPS (SSL/TLS)');
     return result;
   } catch (error) {
-    console.warn('⚠️ Primary email configuration failed:', error.message);
+    console.warn('⚠️ SMTPS configuration failed:', error.message);
     lastError = error;
     
     // Try fallback transporter if available
     if (fallbackTransporter) {
       try {
-        console.log('📧 Attempting to send email with fallback configuration...');
+        console.log('📧 Attempting to send email with SMTP+STARTTLS fallback...');
         const result = await fallbackTransporter.sendMail(mailOptions);
-        console.log('✅ Email sent successfully with fallback configuration');
+        console.log('✅ Email sent successfully with SMTP+STARTTLS fallback');
         return result;
       } catch (fallbackError) {
-        console.error('❌ Fallback email configuration also failed:', fallbackError.message);
+        console.error('❌ SMTP+STARTTLS fallback also failed:', fallbackError.message);
         lastError = fallbackError;
       }
     }
@@ -540,7 +411,7 @@ export async function POST({ request, getClientAddress }) {
       replyTo: sanitizedEmail, // Allow direct reply to customer
       subject: `Contact Form: ${sanitizedSubject}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd;"></div>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd;">
           <div style="background-color: #21409a; padding: 20px; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Form Submission</h1>
           </div>
@@ -566,13 +437,12 @@ export async function POST({ request, getClientAddress }) {
                 Reply directly to this email to respond to ${sanitizedName}<br>
                 Email: <a href="mailto:${sanitizedEmail}">${sanitizedEmail}</a>
                 ${sanitizedPhone ? `<br>Call: <a href="tel:${sanitizedPhone}">${sanitizedPhone}</a>` : ''}
-ទ
               </p>
             </div>
           </div>
           <div style="background-color: #21409a; padding: 15px; text-align: center;">
             <p style="color: white; margin: 0; font-size: 12px;">
-              This email was sent from your Village Tech contact form<br>
+              This email was sent from your Village Tech contact form via SMTPS<br>
               Received on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
             </p>
           </div>
@@ -595,7 +465,7 @@ Message:
 ${sanitizedMessage}
 
 ---
-This email was sent intron your Village Tech contact form
+This email was sent from your Village Tech contact form via SMTPS
 Reply directly to this email to respond to the customer.
       `
     };
@@ -604,9 +474,9 @@ Reply directly to this email to respond to the customer.
     const mailOptionsToUser = {
       to: sanitizedEmail,
       from: `"Village Tech" <${EMAIL_USER}>`, // Your sending email address
-      subject: "Thank you for contacting Village Tech - We'll be in touch soon!'",
+      subject: "Thank you for contacting Village Tech - We'll be in touch soon!",
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd;"></div>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd;">
           <div style="background-color: #21409a; padding: 20px; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 24px;">Thank You!</h1>
           </div>
@@ -624,8 +494,7 @@ Reply directly to this email to respond to the customer.
               </ul>
             </div>
             
-            <div style="background部分
-background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
               <h3 style="color: #21409a; margin-top: 0;">Your Message Summary:</h3>
               <p><strong>Subject:</strong> ${sanitizeHtml(sanitizedSubject)}</p>
               <p style="font-style: italic; background-color: white; padding: 10px; border-radius: 3px; line-height: 1.6;">
@@ -647,7 +516,7 @@ background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
           </div>
           <div style="background-color: #f5f5f5; padding: 15px; text-align: center; border-top: 1px solid #ddd;">
             <p style="color: #666; margin: 0; font-size: 12px;">
-              This is an automated response. Please do not reply to this email.<br>
+              This is an automated response sent securely via SMTPS. Please do not reply to this email.<br>
               If you need immediate assistance, please contact us directly.<br>
               Message sent on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
             </p>
@@ -682,7 +551,7 @@ Best regards,
 The Village Tech Team
 
 ---
-This is an automated response. Please do not reply to this email.
+This is an automated response sent securely via SMTPS. Please do not reply to this email.
 If you need immediate assistance, please contact us directly.
 Message sent on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
       `
@@ -690,8 +559,8 @@ Message sent on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeS
 
     // Send both emails with comprehensive error handling and fallback
     try {
-      console.log('📤 Sending owner notification email...');
-      console.log('📤 Sending user auto-reply email...');
+      console.log('📤 Sending owner notification email via SMTPS...');
+      console.log('📤 Sending user auto-reply email via SMTPS...');
       
       const results = await Promise.allSettled([
         sendEmailWithFallback(mailOptionsToOwner),
@@ -709,7 +578,7 @@ Message sent on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeS
 
       // Log results for user email
       if (userEmailResult.status === 'fulfilled') {
-        console.log(`✅ Contact form submission from ${sanitizedEmail} processed successfully - both emails sent`);
+        console.log(`✅ Contact form submission from ${sanitizedEmail} processed successfully - both emails sent via SMTPS`);
       } else {
         console.warn(`⚠️ Owner notification sent, but auto-reply to user failed for ${sanitizedEmail}:`, userEmailResult.reason?.message);
       }
@@ -751,22 +620,22 @@ export async function GET() {
   let connectionTest = null;
   
   try {
-    await transporter.verify();
-    emailStatus = 'primary_connected';
-    connectionTest = { primary: true, fallback: null };
+    await smtpsTransporter.verify();
+    emailStatus = 'smtps_connected';
+    connectionTest = { smtps: true, fallback: null };
   } catch (primaryError) {
     if (fallbackTransporter) {
       try {
         await fallbackTransporter.verify();
         emailStatus = 'fallback_connected';
-        connectionTest = { primary: false, fallback: true };
+        connectionTest = { smtps: false, fallback: true };
       } catch (fallbackError) {
         emailStatus = 'all_failed';
-        connectionTest = { primary: false, fallback: false };
+        connectionTest = { smtps: false, fallback: false };
       }
     } else {
-      emailStatus = 'primary_failed_no_fallback';
-      connectionTest = { primary: false, fallback: null };
+      emailStatus = 'smtps_failed_no_fallback';
+      connectionTest = { smtps: false, fallback: null };
     }
   }
 
@@ -780,10 +649,11 @@ export async function GET() {
       cleanupInterval: '1 hour'
     },
     emailConfig: {
-      provider: 'SMTP',
+      provider: 'SMTPS (SMTP over SSL/TLS)',
       host: EMAIL_HOST,
       port: EMAIL_PORT,
       secure: EMAIL_SECURE,
+      protocol: EMAIL_PORT === 465 && EMAIL_SECURE ? 'SMTPS' : 'SMTP+STARTTLS',
       authType: 'User/Pass',
       fromAddress: EMAIL_USER,
       toOwnerAddress: OWNER_EMAIL,
