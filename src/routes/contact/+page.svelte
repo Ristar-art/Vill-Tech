@@ -22,6 +22,7 @@
   
   let submitMessage = '';
   let submitSuccess = false;
+  const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'http://localhost:3000/api/contact';
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
@@ -32,7 +33,7 @@
     submitMessage = '';
     
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(CONTACT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
