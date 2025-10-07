@@ -50,7 +50,7 @@
           timestamp: new Date()
         }];
         
-        console.log('✅ Chat response received successfully');
+        // console.log('✅ Chat response received successfully');
       } catch (error) {
         console.error('❌ Chat API Error:', error.message);
         

@@ -14,11 +14,7 @@
   let isSubmitting = false;
   let submitStatus = null;
   let map;
-  // let formData = {
-  //   name: '',
-  //   email: '',
-  //   message: ''
-  // };
+ 
   
   let submitMessage = '';
   let submitSuccess = false;
